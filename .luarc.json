@@ -1,0 +1,11 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "update_buffer",
+        "statusline"
+    ],
+    "diagnostics.disable": [
+        "unused-local",
+        "undefined-global"
+    ]
+}

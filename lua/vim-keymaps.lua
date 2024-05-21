@@ -1,0 +1,7 @@
+vim.keymap.set("n", "<C-s>", ":w<CR>")
+vim.keymap.set("n", "<C-q>", ":q<CR>")
+vim.keymap.set("n", "<CR>", "o<Esc>")
+vim.keymap.set("n", "<S-Enter>", "O<Esc>")
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.setqflist)
