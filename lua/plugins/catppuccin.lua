@@ -14,6 +14,6 @@ return {
 
 		vim.o.termguicolors = true
 		vim.o.background = "light"
-		vim.cmd.colorscheme("catppuccin")
+		vim.cmd.colorscheme("catppuccin-mocha")
 	end,
 }
