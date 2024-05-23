@@ -1,12 +1,292 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        tag = "0.1.7",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "mollerhoj/telescope-recent-files.nvim",
+            "nvim-telescope/telescope-project.nvim",
+            "nvim-telescope/telescope-file-browser.nvim",
+            "nvim-lua/plenary.nvimnvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-z.nvim",
+            "octarect/telescope-menu.nvim",
+            "jonarrien/telescope-cmdline.nvim",
+            "jvgrootveld/telescope-zoxide",
+            "tsakirist/telescope-lazy.nvim",
+            "fdschmidt93/telescope-egrepify.nvim",
+        },
+        keys = {},
         config = function()
+            local Layout = require("nui.layout")
+            local Popup = require("nui.popup")
+            local telescope = require("telescope")
+            local telescopeConfig = require("telescope.config")
             local builtin = require("telescope.builtin")
+            local action_layout = require("telescope.actions.layout")
+            local os_sep = require("plenary.path").sep
+            local action_state = require("telescope.actions.state")
+            local fb_actions = require("telescope").extensions.file_browser.actions
+            local z_utils = require("telescope._extensions.zoxide.utils")
+
+            -- Clone the default Telescope configuration
+            local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+            -- I want to search in hidden/dot files.
+            table.insert(vimgrep_arguments, "--hidden")
+            -- I don't want to search in the `.git` directory.
+            table.insert(vimgrep_arguments, "--glob")
+            table.insert(vimgrep_arguments, "!**/.git/*")
+
+            telescope.setup({
+                defaults = {
+                    -- `hidden = true` is not supported in text grep commands.
+                    vimgrep_arguments = {
+                        "rg",
+                        "--color=auto",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                        "--trim", -- add this value,
+                    },
+                },
+                pickers = {
+                    find_files = {
+                        -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+                        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+                    },
+                    mappings = {
+                        n = {
+                            ["<M-p>"] = action_layout.toggle_preview,
+                        },
+                        i = {
+                            ["<C-g>"] = function(prompt_bufnr)
+                                local action_set = require("telescope.actions.set")
+                                local action_state = require("telescope.actions.state")
+
+                                local picker = action_state.get_current_picker(prompt_bufnr)
+                                picker.get_selection_window = function(picker, entry)
+                                    local picked_window_id = require("window-picker").pick_window()
+                                        or vim.api.nvim_get_current_win()
+                                    picker.get_selection_window = nil
+                                    return picked_window_id
+                                end
+
+                                return action_set.edit(prompt_bufnr, "edit")
+                            end,
+                            ["<M-p>"] = action_layout.toggle_preview,
+                        },
+                    },
+                },
+
+                extensions = {
+                    file_browser = {
+                        theme = nil,
+                        on_input_filter_cb = function(prompt)
+                            if prompt:sub(-1, -1) == os_sep then
+                                local prompt_bufnr = vim.api.nvim_get_current_buf()
+                                if vim.bo[prompt_bufnr].filetype == "TelescopePrompt" then
+                                    local current_picker = action_state.get_current_picker(prompt_bufnr)
+                                    if current_picker.finder.files then
+                                        fb_actions.toggle_browser(prompt_bufnr, { reset_prompt = true })
+                                        current_picker:set_prompt(prompt:sub(1, -2))
+                                    end
+                                end
+                            end
+                        end,
+                    },
+                    project = {
+                        base_dirs = {
+                            "~/.config",
+                            "~/github",
+                        },
+                        hidden_files = true, -- default: false
+                        theme = "dropdown",
+                        order_by = "asc",
+                        search_by = "title",
+                        sync_with_nvim_tree = true, -- default false
+                        -- default for on_project_selected = find project files
+                        on_project_selected = function(prompt_bufnr)
+                            -- Do anything you want in here. For example:
+                            require("telescope._extensions.project.actions").change_working_directory(
+                                prompt_bufnr,
+                                false
+                            )
+                            require("harpoon.ui").nav_file(1)
+                        end,
+                    },
+                    menu = {
+                        filetype = {
+                            lua = {
+                                items = {
+                                    { "Format",                   "!stylua %" },
+                                    { "Open Luadev menu",         "Luadev" },
+                                    { "Execute a current buffer", "LuaRun" },
+                                },
+                            },
+                        },
+                        default = {
+                            items = {
+                                -- You can add an item of menu in the form of { "<display>", "<command>" }
+                                { "Checkhealth",                  "checkhealth" },
+                                { "Show LSP Info",                "LspInfo" },
+                                { "Files",                        "Telescope find_files" },
+
+                                -- The above examples are syntax-sugars of the following;
+                                { display = "Change colorscheme", value = "Telescope colorscheme" },
+                            },
+                        },
+                        editor = {
+                            items = {
+                                { "Split window vertically",   "vsplit" },
+                                { "Split window horizontally", "split" },
+                                { "Write",                     "w" },
+                            },
+                        },
+                    },
+                    cmdline = {
+                        picker = {
+                            layout_config = {
+                                width = 120,
+                                height = 25,
+                            },
+                        },
+                        mappings = {
+                            complete = "<Tab>",
+                            run_selection = "<C-CR>",
+                            run_input = "<CR>",
+                        },
+                    },
+                    zoxide = {
+                        prompt_title = "[ Zoxide List ]",
+
+                        -- Zoxide list command with score
+                        list_command = "zoxide query -ls",
+                        mappings = {
+                            default = {
+                                action = function(selection)
+                                    vim.cmd.edit(selection.path)
+                                end,
+                                after_action = function(selection)
+                                    print("Directory changed to " .. selection.path)
+                                end,
+                            },
+                            ["<C-s>"] = { action = z_utils.create_basic_command("split") },
+                            ["<C-v>"] = { action = z_utils.create_basic_command("vsplit") },
+                            ["<C-e>"] = { action = z_utils.create_basic_command("edit") },
+                            ["<C-b>"] = {
+                                keepinsert = true,
+                                action = function(selection)
+                                    builtin.file_browser({ cwd = selection.path })
+                                end,
+                            },
+                            ["<C-f>"] = {
+                                keepinsert = true,
+                                action = function(selection)
+                                    builtin.find_files({ cwd = selection.path })
+                                end,
+                            },
+                            ["<C-t>"] = {
+                                action = function(selection)
+                                    vim.cmd.tcd(selection.path)
+                                end,
+                            },
+                        },
+                    },
+                    lazy = {
+                        -- Optional theme (the extension doesn't set a default theme)
+                        theme = "ivy",
+                        -- Whether or not to show the icon in the first column
+                        show_icon = true,
+                        -- Mappings for the actions
+                        mappings = {
+                            open_in_browser = "<C-o>",
+                            open_in_file_browser = "<M-b>",
+                            open_in_find_files = "<C-f>",
+                            open_in_live_grep = "<C-g>",
+                            open_in_terminal = "<C-t>",
+                            open_plugins_picker = "<C-b>", -- Works only after having called first another action
+                            open_lazy_root_find_files = "<C-r>f",
+                            open_lazy_root_live_grep = "<C-r>g",
+                            change_cwd_to_plugin = "<C-c>d",
+                        },
+                        -- Extra configuration options for the actions
+                        actions_opts = {
+                            open_in_browser = {
+                                -- Close the telescope window after the action is executed
+                                auto_close = false,
+                            },
+                            change_cwd_to_plugin = {
+                                -- Close the telescope window after the action is executed
+                                auto_close = false,
+                            },
+                        },
+                        -- Configuration that will be passed to the window that hosts the terminal
+                        -- For more configuration options check 'nvim_open_win()'
+                        terminal_opts = {
+                            relative = "editor",
+                            style = "minimal",
+                            border = "rounded",
+                            title = "Telescope lazy",
+                            title_pos = "center",
+                            width = 0.5,
+                            height = 0.5,
+                        },
+                        -- Other telescope configuration options
+                    },
+                },
+            })
+            -- recent files extension
+            require("telescope").load_extension("recent-files")
+
+            vim.keymap.set("n", "<leader>f", function()
+                require("telescope").extensions["recent-files"].recent_files({})
+            end, { noremap = true, silent = true })
+
+            -- project extension
+            require("telescope").load_extension("project")
+
+            vim.keymap.set("n", "<leader>tp", function()
+                require("telescope").extensions.project.project({ display_type = "full" })
+            end, { noremap = true, silent = true })
+
+            -- telescope file browser extension
+            require("telescope").load_extension("file_browser")
+
+            vim.keymap.set("n", "<space>fb", function()
+                require("telescope").extensions.file_browser.file_browser()
+            end)
+
+            -- telescope z extensions
+            require("telescope").load_extension("z")
+
+            -- telescope menu
+            require("telescope").load_extension("menu")
+
+            -- cmdline extension
+            require("telescope").load_extension("cmdline")
+
+            vim.api.nvim_set_keymap("n", ":", ":Telescope cmdline<CR>", { noremap = true, desc = "Cmdline" })
+
+            -- telescope zoxide
+            telescope.load_extension("zoxide")
+
+            vim.keymap.set("n", "<leader>cd", telescope.extensions.zoxide.list)
+
+            -- telescope lazy extensions
+            require("telescope").load_extension("lazy")
+
+            -- egrepify extensions
+            require("telescope").load_extension("egrepify")
+
+            -- basic keybindings
+
             vim.keymap.set("n", "<C-p>", function()
                 require("telescope.builtin").find_files({ previewer = true })
+            end)
+            vim.keymap.set("n", "<leader>.", function()
+                builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
             end)
             vim.keymap.set("n", "<leader>fg", function()
                 require("telescope.builtin").live_grep({})
@@ -26,6 +306,15 @@ return {
             vim.keymap.set("n", "<leader>cb", function()
                 require("telescope.builtin").current_buffers_fuzzy_find({})
             end)
+
+            require("commander").setup({
+                integration = {
+                    telescope = {
+                        enable = true,
+                        theme = require("telescope.themes").commander,
+                    },
+                },
+            })
         end,
     },
     {
