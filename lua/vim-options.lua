@@ -34,6 +34,7 @@ vim.diagnostic.config({
 })
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.o.wrap = true
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
