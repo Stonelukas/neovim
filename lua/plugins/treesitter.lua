@@ -5,6 +5,7 @@ return {
 		local config = require("nvim-treesitter.configs")
 		config.setup({
 			auto_install = true,
+			ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
 			highlight = { enable = true },
 			incremental_selection = {
 				enable = true,

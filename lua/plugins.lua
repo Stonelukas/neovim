@@ -1,8 +1,7 @@
 return {
 	{
 		"echasnovski/mini.nvim",
-		version = false,
-		config = function() end,
+		-- version = false,
 	},
 	{
 		"chaoren/vim-wordmotion",
@@ -14,6 +13,7 @@ return {
 		"mbbill/undotree",
 	},
 	{
+
 		"jlanzarotta/bufexplorer",
 	},
 }
