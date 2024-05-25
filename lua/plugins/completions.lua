@@ -15,6 +15,9 @@ return {
 		"Shougo/deol.nvim",
 	},
 	{
+		"jmbuhr/otter.nvim",
+	},
+	{
 		"lukas-reineke/cmp-rg",
 	},
 	{
@@ -345,6 +348,7 @@ return {
 							cmp_git = "[Git]",
 							nvim_lsp_signature_help = "[Help]",
 							bufname = "[bufname]",
+							otter = "[otter]",
 						},
 					}),
 					fields = {
@@ -404,6 +408,7 @@ return {
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
+					{ name = "otter" },
 					{ name = "luasnip" }, -- For luasnip users.
 					{ name = "cmp_git" }, -- For luasnip users.
 					{ name = "nvim_lsp_signature_help" },

@@ -5,7 +5,7 @@ return {
 			auto_session_use_git_branch = true,
 			session_lens = {
 				buftypes_to_ignore = {},
-				load_on_setup = false,
+				load_on_setup = true,
 				theme_conf = { border = true },
 				previewer = true,
 			},
