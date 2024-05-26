@@ -1,12 +1,16 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
+	"folke/nvim-treesitter",
 	build = ":TSUpdate",
 	config = function()
 		local config = require("nvim-treesitter.configs")
 		config.setup({
+			ignore_install = {},
+			modules = {},
+			sync_install = true,
+			parser_install_dir = nil,
 			auto_install = true,
-			ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
-			highlight = { enable = true },
+			ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "rust", "toml" },
+			highlight = { enable = true, additional_vim_regex_highlighting = false },
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -17,6 +21,11 @@ return {
 				},
 			},
 			indent = { enable = true },
+			rainbow = {
+				enable = true,
+				extended_mode = true,
+				max_file_line = nil,
+			},
 			textobjects = {
 				select = {
 					enable = true,

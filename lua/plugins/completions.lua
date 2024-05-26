@@ -214,11 +214,183 @@ return {
 	},
 	{
 		"L3MON4D3/LuaSnip",
-		run = "make install_jsregexp",
+		build = "make install_jsregexp",
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
+		config = function()
+			local ls = require("luasnip")
+			-- some shorthands...
+			local s = ls.snippet
+			local sn = ls.snippet_node
+			local t = ls.text_node
+			local i = ls.insert_node
+			local f = ls.function_node
+			local c = ls.choice_node
+			local d = ls.dynamic_node
+			local r = ls.restore_node
+			local l = require("luasnip.extras").lambda
+			local rep = require("luasnip.extras").rep
+			local p = require("luasnip.extras").partial
+			local m = require("luasnip.extras").match
+			local n = require("luasnip.extras").nonempty
+			local dl = require("luasnip.extras").dynamic_lambda
+			local fmt = require("luasnip.extras.fmt").fmt
+			local fmta = require("luasnip.extras.fmt").fmta
+			local types = require("luasnip.util.types")
+			local conds = require("luasnip.extras.conditions")
+			local conds_expand = require("luasnip.extras.conditions.expand")
+
+			s(
+				"mfn",
+				c(1, {
+					fmt("function {}.{}({})\n  {}\nend", {
+						f(get_returned_mod_name, {}),
+						i(1),
+						i(2),
+						i(3),
+					}),
+					fmt("function {}:{}({})\n  {}\nend", {
+						f(get_returned_mod_name, {}),
+						i(1),
+						i(2),
+						i(3),
+					}),
+				})
+			)
+			local current_nsid = vim.api.nvim_create_namespace("LuaSnipChoiceListSelections")
+			local current_win = nil
+
+			local function window_for_choiceNode(choiceNode)
+				local buf = vim.api.nvim_create_buf(false, true)
+				local buf_text = {}
+				local row_selection = 0
+				local row_offset = 0
+				local text
+				for _, node in ipairs(choiceNode.choices) do
+					text = node:get_docstring()
+					-- find one that is currently showing
+					if node == choiceNode.active_choice then
+						-- current line is starter from buffer list which is length usually
+						row_selection = #buf_text
+						-- finding how many lines total within a choice selection
+						row_offset = #text
+					end
+					vim.list_extend(buf_text, text)
+				end
+
+				vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, buf_text)
+				local w, h = vim.lsp.util._make_floating_popup_size(buf_text)
+
+				-- adding highlight so we can see which one is been selected.
+				local extmark = vim.api.nvim_buf_set_extmark(
+					buf,
+					current_nsid,
+					row_selection,
+					0,
+					{ hl_group = "incsearch", end_line = row_selection + row_offset }
+				)
+
+				-- shows window at a beginning of choiceNode.
+				local win = vim.api.nvim_open_win(buf, false, {
+					relative = "win",
+					width = w,
+					height = h,
+					bufpos = choiceNode.mark:pos_begin_end(),
+					style = "minimal",
+					border = "rounded",
+				})
+
+				-- return with 3 main important so we can use them again
+				return { win_id = win, extmark = extmark, buf = buf }
+			end
+
+			function choice_popup(choiceNode)
+				-- build stack for nested choiceNodes.
+				if current_win then
+					vim.api.nvim_win_close(current_win.win_id, true)
+					vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
+				end
+				local create_win = window_for_choiceNode(choiceNode)
+				current_win = {
+					win_id = create_win.win_id,
+					prev = current_win,
+					node = choiceNode,
+					extmark = create_win.extmark,
+					buf = create_win.buf,
+				}
+			end
+
+			function update_choice_popup(choiceNode)
+				vim.api.nvim_win_close(current_win.win_id, true)
+				vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
+				local create_win = window_for_choiceNode(choiceNode)
+				current_win.win_id = create_win.win_id
+				current_win.extmark = create_win.extmark
+				current_win.buf = create_win.buf
+			end
+
+			function choice_popup_close()
+				vim.api.nvim_win_close(current_win.win_id, true)
+				vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
+				-- now we are checking if we still have previous choice we were in after exit nested choice
+				current_win = current_win.prev
+				if current_win then
+					-- reopen window further down in the stack.
+					local create_win = window_for_choiceNode(current_win.node)
+					current_win.win_id = create_win.win_id
+					current_win.extmark = create_win.extmark
+					current_win.buf = create_win.buf
+				end
+			end
+
+			vim.cmd([[
+            augroup choice_popup
+            au!
+            au User LuasnipChoiceNodeEnter lua choice_popup(require("luasnip").session.event_node)
+            au User LuasnipChoiceNodeLeave lua choice_popup_close()
+            au User LuasnipChangeChoice lua update_choice_popup(require("luasnip").session.event_node)
+            augroup END
+            ]])
+
+			-- feel free to change the keys to new ones, those are just my current mappings
+			vim.keymap.set("i", "<C-f>", function()
+				if ls.choice_active() then
+					return ls.change_choice(1)
+				else
+					return _G.dynamic_node_external_update(1) -- feel free to update to any index i
+				end
+			end, { noremap = true })
+			vim.keymap.set("s", "<C-f>", function()
+				if ls.choice_active() then
+					return ls.change_choice(1)
+				else
+					return _G.dynamic_node_external_update(1)
+				end
+			end, { noremap = true })
+			vim.keymap.set("i", "<C-d>", function()
+				if ls.choice_active() then
+					return ls.change_choice(-1)
+				else
+					return _G.dynamic_node_external_update(2)
+				end
+			end, { noremap = true })
+			vim.keymap.set("s", "<C-d>", function()
+				if ls.choice_active() then
+					return ls.change_choice(-1)
+				else
+					return _G.dynamic_node_external_update(2)
+				end
+			end, { noremap = true })
+
+			local ls = require("luasnip")
+			local s = ls.snippet
+			local r = ls.restore_node
+			local i = ls.insert_node
+			local t = ls.text_node
+			local c = ls.choice_node
+		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
@@ -309,6 +481,7 @@ return {
 					documentation = cmp.config.window.bordered(),
 				},
 				formatting = {
+					expandable_indicator = true,
 					format = lspkind.cmp_format({
 						mode = "symbol_text",
 						maxwidth = 60,
@@ -343,7 +516,7 @@ return {
 							nvim_lsp = "[LSP]",
 							luasnip = "[LuaSnip]",
 							nvim_lua = "[Lua]",
-							path = "[path]",
+							path = "🖫",
 							rg = "[RG]",
 							cmp_git = "[Git]",
 							nvim_lsp_signature_help = "[Help]",
@@ -352,9 +525,9 @@ return {
 						},
 					}),
 					fields = {
+						cmp.ItemField.Menu,
 						cmp.ItemField.Abbr,
 						cmp.ItemField.Kind,
-						cmp.ItemField.Menu,
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
@@ -517,33 +690,10 @@ return {
 			})
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline({
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping({
-						i = function(fallback)
-							if cmp.visible() and cmp.get_active_entry() then
-								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-							else
-								fallback()
-							end
-						end,
-						s = cmp.mapping.confirm({ select = true }),
-						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+					["<CR>"] = cmp.mapping.confirm({
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = false,
 					}),
-					-- cmp.mapping(function(fallback)
-					-- 	if cmp.visible() then
-					-- 		if luasnip.expandable() then
-					-- 			luasnip.expand()
-					-- 		else
-					-- 			cmp.confirm({
-					-- 				behavior = cmp.ConfirmBehavior.Replace,
-					-- 				select = true,
-					-- 			})
-					-- 		end
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()

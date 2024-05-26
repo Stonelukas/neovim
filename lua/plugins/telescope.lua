@@ -8,7 +8,7 @@ return {
 			"mollerhoj/telescope-recent-files.nvim",
 			"nvim-telescope/telescope-project.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
-			"nvim-lua/plenary.nvimnvim-lua/plenary.nvim",
+			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-z.nvim",
 			"octarect/telescope-menu.nvim",
 			"jonarrien/telescope-cmdline.nvim",
@@ -267,9 +267,9 @@ return {
 			require("telescope").load_extension("menu")
 
 			-- cmdline extension
-			require("telescope").load_extension("cmdline")
+			--[[ require("telescope").load_extension("cmdline")
 
-			vim.api.nvim_set_keymap("n", ":", ":Telescope cmdline<CR>", { noremap = true, desc = "Cmdline" })
+			vim.api.nvim_set_keymap("n", ":", ":Telescope cmdline<CR>", { noremap = true, desc = "Cmdline" }) ]]
 
 			-- telescope zoxide
 			telescope.load_extension("zoxide")
@@ -286,6 +286,9 @@ return {
 
 			-- scope extensions
 			require("telescope").load_extension("scope")
+
+			-- noice extension
+			require("telescope").load_extension("noice")
 
 			-- basic keybindings
 
