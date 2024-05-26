@@ -25,10 +25,10 @@ return {
 			local telescopeConfig = require("telescope.config")
 			local builtin = require("telescope.builtin")
 			local action_layout = require("telescope.actions.layout")
-			local os_sep = require("plenary.path").sep
 			local action_state = require("telescope.actions.state")
 			local fb_actions = require("telescope").extensions.file_browser.actions
 			local z_utils = require("telescope._extensions.zoxide.utils")
+			local open_with_trouble = require("trouble.sources.telescope").open
 
 			-- Clone the default Telescope configuration
 			local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
@@ -60,7 +60,8 @@ return {
 					},
 					mappings = {
 						n = {
-							["<M-p>"] = action_layout.toggle_preview,
+							["<leader>tp"] = action_layout.toggle_preview,
+							["<C-t>"] = open_with_trouble,
 						},
 						i = {
 							["<C-g>"] = function(prompt_bufnr)
@@ -77,46 +78,25 @@ return {
 
 								return action_set.edit(prompt_bufnr, "edit")
 							end,
-							["<M-p>"] = action_layout.toggle_preview,
+							["<A-p>"] = action_layout.toggle_preview,
 						},
 					},
 				},
 
 				extensions = {
-					file_browser = {
-						theme = nil,
-						on_input_filter_cb = function(prompt)
-							if prompt:sub(-1, -1) == os_sep then
-								local prompt_bufnr = vim.api.nvim_get_current_buf()
-								if vim.bo[prompt_bufnr].filetype == "TelescopePrompt" then
-									local current_picker = action_state.get_current_picker(prompt_bufnr)
-									if current_picker.finder.files then
-										fb_actions.toggle_browser(prompt_bufnr, { reset_prompt = true })
-										current_picker:set_prompt(prompt:sub(1, -2))
-									end
-								end
-							end
-						end,
-					},
 					project = {
 						base_dirs = {
 							"~/.config",
 							"~/github",
+							"~/.config/nvim/",
 						},
 						hidden_files = true, -- default: false
 						theme = "dropdown",
-						order_by = "asc",
+						order_by = "recent",
 						search_by = "title",
-						sync_with_nvim_tree = true, -- default false
+						sync_with_nvim_tree = false, -- default false
 						-- default for on_project_selected = find project files
-						on_project_selected = function(prompt_bufnr)
-							-- Do anything you want in here. For example:
-							require("telescope._extensions.project.actions").change_working_directory(
-								prompt_bufnr,
-								false
-							)
-							require("harpoon.ui").nav_file(1)
-						end,
+						on_project_selected = function(prompt_bufnr) end,
 					},
 					menu = {
 						filetype = {

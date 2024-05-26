@@ -232,6 +232,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 			})
 
 			local cmd = require("hydra.keymap-util").cmd
+			local open_with_trouble = require("trouble.sources.telescope").open
 
 			local telescope_hint = [[
                  _f_: files       _j_: Jumplist
@@ -262,7 +263,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 					},
 				},
 				mode = "n",
-				body = "<Leader>t",
+				body = "<Leader>ht",
 				heads = {
 					{ "f", cmd("Telescope find_files") },
 					{ "g", cmd("Telescope live_grep") },
@@ -279,6 +280,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 					{ ";", cmd("Telescope command_history"), { desc = "command-line history" } },
 					{ "c", cmd("Telescope commands"), { desc = "execute command" } },
 					{ "u", cmd("silent! %foldopen! | UndotreeToggle"), { desc = "undotree" } },
+
 					{
 						"<Enter>",
 						cmd("Telescope"),
