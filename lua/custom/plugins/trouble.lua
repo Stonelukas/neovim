@@ -39,7 +39,7 @@ return {
 			require("trouble").setup({
 				auto_close = true,
 				auto_jump = true,
-				auto_open = true,
+				auto_open = false,
 				auto_preview = true,
 				auto_refresh = true,
 				debug = true,

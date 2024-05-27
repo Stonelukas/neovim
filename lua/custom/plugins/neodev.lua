@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
 	{
 		"folke/neodev.nvim",
@@ -31,6 +32,31 @@ return {
 			lspconfig.lua_ls.setup({
 				settings = {
 					Lua = {
+						addonManager = {
+							enable = true,
+						},
+						diagnostics = {
+							groupFileStatus = {
+								ambiguity = "Any",
+								luadoc = "Any",
+								global = "Any",
+								workspaceEvent = "OnChange",
+							},
+							completion = {
+								callSnippet = "Both",
+								keywordSnippet = "Both",
+								displayContext = 10,
+								showWord = "Enable",
+							},
+							hint = {
+								enable = true,
+								semicolon = "All",
+							},
+							signatureHelp = {
+								enable = true,
+							},
+						},
+
 						completion = {
 							callSnippet = "Both",
 							keywordSnippet = "Both",

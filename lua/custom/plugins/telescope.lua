@@ -217,6 +217,13 @@ return {
 						},
 						-- Other telescope configuration options
 					},
+					aerial = {
+						show_nesting = {
+							["_"] = false,
+							json = true,
+							toml = true,
+						},
+					},
 				},
 			})
 			-- recent files extension
@@ -270,6 +277,9 @@ return {
 			-- noice extension
 			require("telescope").load_extension("noice")
 
+			-- aerial extension
+			require("telescope").load_extension("aerial")
+
 			-- basic keybindings
 
 			vim.keymap.set("n", "<C-p>", function()
@@ -299,6 +309,10 @@ return {
 
 			require("commander").setup({
 				integration = {
+					lazy = {
+						enable = false,
+						set_plugin_name_as_cat = true,
+					},
 					telescope = {
 						enable = true,
 						theme = require("telescope.themes").commander,

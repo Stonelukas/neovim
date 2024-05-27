@@ -40,9 +40,9 @@ return {
 					enabled = true, -- enables the Noice messages UI
 					view = "notify", -- default view for messages
 					view_error = "notify", -- view for errors
-					view_warn = "notify", -- view for warnings
+					view_warn = nil, -- view for warnings
 					view_history = "messages", -- view for :messages
-					view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+					view_search = false, -- view for search count messages. Set to `false` to disable
 				},
 				popupmenu = {
 					enabled = true, -- enables the Noice popupmenu UI
@@ -82,6 +82,10 @@ return {
 						-- options for the message history that you get with `:Noice`
 						view = "split",
 						opts = { enter = true, format = "details" },
+						filter_opts = {
+							history = true,
+							sort = true,
+						},
 						filter = {
 							any = {
 								{ event = "notify" },
@@ -149,7 +153,7 @@ return {
 						-- override the lsp markdown formatter with Noice
 						["vim.lsp.util.stylize_markdown"] = false,
 						-- override cmp documentation with Noice (needs the other options to work)
-						["cmp.entry.get_documentation"] = false,
+						["cmp.entry.get_documentation"] = true,
 					},
 					hover = {
 						enabled = true,
@@ -208,7 +212,7 @@ return {
 				},
 				smart_move = {
 					-- noice tries to move out of the way of existing floating windows.
-					enabled = true, -- you can disable this behaviour here
+					enabled = false, -- you can disable this behaviour here
 					-- add any filetypes here, that shouldn't trigger smart move.
 					excluded_filetypes = { "cmp_menu", "cmp_docs", "notify" },
 				},
@@ -220,13 +224,16 @@ return {
 					command_palette = false, -- position the cmdline and popupmenu together
 					long_message_to_split = false, -- long messages will be sent to a split
 					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = true, -- add a border to hover docs and signature help
+					lsp_doc_border = false, -- add a border to hover docs and signature help
 				},
 				throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 				---@type NoiceConfigViews
 				views = {}, ---@see section on views
 				---@type NoiceRouteConfig[]
-				routes = {}, --- @see section on routes
+				routes = {
+					view = "split",
+					filter = { event = "msg_show", min_height = 10 },
+				}, --- @see section on routes
 				---@type table<string, NoiceFilter>
 				status = {}, --- @see section on statusline components
 				---@type NoiceFormatOptions
