@@ -293,10 +293,6 @@ vim.snippet.jump = function(direction)
 	end
 end
 
-for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("/home/stonelukas/.config/nvim/lua/custom/snippets/*.lua", true)) do
-	loadfile(ft_path)()
-end
-
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath("config") .. "/lua/custom/snippets", [[v:val =~ '\.lua$']])) do
 	require("custom.snippets." .. file:gsub("%.lua$", ""))
 end

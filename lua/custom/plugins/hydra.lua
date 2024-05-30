@@ -10,7 +10,7 @@ return {
 			},
 			{
 				desc = "Exit git mode",
-				cmd = "<leader>g",
+				cmd = "<leader>hg",
 				keybindings = { "n", "<leader>g", { nowait = true } },
 				hydra_head_args = { exit = true },
 				category = "Git_Mode",

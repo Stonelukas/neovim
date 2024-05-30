@@ -1,3 +1,5 @@
+require("luasnip.session.snippet_collection").clear_snippets("snippets")
+
 local ls = require("luasnip")
 local types = require("luasnip.util.types")
 local s = ls.snippet
@@ -40,7 +42,7 @@ local same = function(index)
 end
 
 ls.add_snippets("all", {
-	s("sametest", fmt([[example: {}, function: {}]], { i(1), same(1) })),
+	s("sametest", fmt([[example: {}, function: {}]], { i(1), rep(1) })),
 	s("class", {
 		-- Choice: Switch between two different Nodes, first parameter is its position, second a list of nodes.
 		c(1, {

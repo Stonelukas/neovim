@@ -120,7 +120,6 @@ return {
                             newfile = "[New]", -- Text to show for newly created file before first write
                         },
                     }, ]]
-						require("auto-session.lib").current_session_name,
 					},
 					lualine_x = {
 						{
