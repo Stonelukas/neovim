@@ -276,51 +276,48 @@ return {
 
 			-- You will likely want to reduce updatetime which affects CursorHold
 			-- note: this setting is global and should be set only once
-			vim.o.updatetime = 250
-			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-				group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
-				callback = function()
-					vim.diagnostic.open_float(nil, { focus = false })
-				end,
-			})
-
-			on_attach = function(bufnr)
-				vim.api.nvim_create_autocmd("CursorHold", {
-					buffer = bufnr,
-					callback = function()
-						local opts = {
-							focusable = false,
-							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-							border = "rounded",
-							source = "always",
-							prefix = " ",
-							scope = "cursor",
-						}
-						vim.diagnostic.open_float(nil, opts)
-					end,
-				})
-			end
+			-- vim.o.updatetime = 250
+			-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+			-- 	group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+			-- 	callback = function()
+			-- 		vim.diagnostic.open_float(nil, { focus = false })
+			-- 	end,
+			-- })
+			--
+			-- on_attach = function(bufnr)
+			-- 	vim.api.nvim_create_autocmd("CursorHold", {
+			-- 		buffer = bufnr,
+			-- 		callback = function()
+			-- 			local opts = {
+			-- 				focusable = false,
+			-- 				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+			-- 				border = "rounded",
+			-- 				source = "always",
+			-- 				prefix = " ",
+			-- 				scope = "cursor",
+			-- 			}
+			-- 			vim.diagnostic.open_float(nil, opts)
+			-- 		end,
+			-- 	})
+			-- end
 
 			vim.diagnostic.config({
-				virtual_text = {
-					source = true,
-				},
-				signs = true,
+				-- signs = true,
 				underline = true,
 				update_in_insert = true,
 				severity_sort = true,
-				float = {
-					border = "rounded",
-					source = true,
-					header = "",
-					prefix = "",
-				},
+				-- float = {
+				-- 	border = "rounded",
+				-- 	source = true,
+				-- 	header = "",
+				-- 	prefix = "",
+				-- },
 			})
 
-			vim.cmd([[
-            set signcolumn=yes
-            autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-            ]])
+			-- vim.cmd([[
+			--          set signcolumn=yes
+			--          autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+			--          ]])
 
 			local function goto_definition(split_cmd)
 				local util = vim.lsp.util

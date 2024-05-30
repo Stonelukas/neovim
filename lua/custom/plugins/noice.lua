@@ -64,9 +64,7 @@ return {
 						style = "rounded",
 						padding = { 0, 1 },
 					},
-					win_options = {
-						winhighlight = { Normal = "Normal", FloatBoarder = "DiagnosticSignInfo" },
-					},
+					win_options = nil,
 				},
 				-- default options for require('noice').redirect
 				-- see the section on Command Redirection

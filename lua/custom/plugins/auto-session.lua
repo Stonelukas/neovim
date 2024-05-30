@@ -18,7 +18,7 @@ return {
 				auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
 				auto_restore_enable = false,
 				auto_save_enabled = true,
-				auto_session_use_git_branch = true,
+				auto_session_use_git_branch = false,
 				-- auto_session_suppress_dirs = { "~/", "~/.config/", "~/.config/nvim/" },
 				session_lens = {
 					buftypes_to_ignore = {},
