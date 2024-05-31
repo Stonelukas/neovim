@@ -1,6 +1,11 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		"nvim-treesitter/nvim-treesitter-context",
+		"nvim-treesitter/nvim-treesitter-refactor",
+	},
 	config = function()
 		local config = require("nvim-treesitter.configs")
 		config.setup({
@@ -9,7 +14,18 @@ return {
 			sync_install = true,
 			parser_install_dir = nil,
 			auto_install = true,
-			ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "rust", "toml" },
+			ensure_installed = {
+				"c",
+				"lua",
+				"vim",
+				"vimdoc",
+				"query",
+				"rust",
+				"toml",
+				"javascript",
+				"json",
+				"markdown",
+			},
 			highlight = { enable = true, additional_vim_regex_highlighting = false },
 			incremental_selection = {
 				enable = true,
@@ -27,6 +43,14 @@ return {
 				max_file_line = nil,
 			},
 			textobjects = {
+				lsp_interop = {
+					enable = true,
+					border = "rounded",
+					peek_definition_code = {
+						["<leader>df"] = "@function.outer",
+						["<leader>dF"] = "@class.outer",
+					},
+				},
 				select = {
 					enable = true,
 					lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -70,10 +94,32 @@ return {
 					},
 				},
 			},
+			refactor = {
+				highlight_definitions = {
+					enable = true,
+					highlight_current_scope = { enable = true },
+					smart_rename = {
+						enable = true,
+						keymaps = {
+							smart_rename = "grr",
+						},
+					},
+					navigation = {
+						enable = true,
+						-- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+						keymaps = {
+							goto_definition = "gmd",
+							list_definitions = "gmD",
+							list_definitions_toc = "gO",
+							goto_next_usage = "<a-*>",
+							roto_previous_usage = "<a-#>",
+						},
+					},
+					clear_on_cursor_move = true,
+				},
+			},
 		})
-		vim.diagnostic.config({
-			virtual_text = true,
-			update_in_insert = true,
-		})
+
+		require("treesitter-context").setup({})
 	end,
 }

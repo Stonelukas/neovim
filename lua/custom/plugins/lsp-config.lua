@@ -20,6 +20,15 @@ return {
 	-- 	end,
 	-- },
 	{
+		"maan2003/lsp_lines.nvim",
+		lazy = false,
+		enabled = false,
+		config = function()
+			require("lsp_lines").setup()
+			vim.keymap.set("", "<Leader>tl", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
+		end,
+	},
+	{
 		"williamboman/mason.nvim",
 		lazy = false,
 		config = function()
@@ -94,7 +103,7 @@ return {
 			-- LSP settings (for overriding per client)
 			local handlers = {
 				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+				-- ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 			}
 
 			-- To instead override globally
@@ -143,46 +152,70 @@ return {
 						codeLens = {
 							enable = true,
 						},
+						---@diagnostic disable-next-line: missing-fields
 						completion = {
-							callSnippet = true,
+							autoRequire = true,
+							callSnippet = "Both",
 							displayContext = 10,
 							keywordSnippet = "Both",
 							showWord = "Enable",
 						},
+						---@diagnostic disable-next-line: missing-fields
 						diagnostics = {
+
 							workspaceEvent = "OnChange",
 						},
+						---@diagnostic disable-next-line: missing-fields
 						doc = {},
 						format = {
 							enable = true,
 							defaultConfig = {},
 						},
+						---@diagnostic disable-next-line: missing-fields
 						hint = {
 							enable = true,
 							setType = true,
 						},
+						---@diagnostic disable-next-line: missing-fields
 						hover = {},
+						---@diagnostic disable-next-line: missing-fields
 						misc = {},
 						nameStyle = {
 							config = {},
 						},
+						---@diagnostic disable-next-line: missing-fields
 						runtime = {
+							special = {
+								include = require,
+							},
+							---@diagnostic disable-next-line: missing-fields
 							builtin = {
+								builtin = "enable",
+								io = "enable",
+								string = "enable",
 								basic = "enable",
 								utf8 = "enable",
 							},
 						},
+						---@diagnostic disable-next-line: missing-fields
 						semantic = {
 							enable = true,
 						},
 
-						signatureHelp = {},
+						signatureHelp = {
+							enable = false,
+						},
+						---@diagnostic disable-next-line: missing-fields
 						spell = {},
+						---@diagnostic disable-next-line: missing-fields
 						type = {},
 						typeFormat = {
+							---@diagnostic disable-next-line: missing-fields
 							config = {},
 						},
+						---@diagnostic disable-next-line: missing-fields
 						window = {},
+						---@diagnostic disable-next-line: missing-fields
 						workspace = {
 							checkThirdParty = true,
 						},
@@ -206,12 +239,13 @@ return {
 					})
 				end,
 			}) ]]
+			---@diagnostic disable-next-line: missing-fields
 			lspconfig.rust_analyzer.setup({
 				capabilities = capabilities,
 				handlers = {
 					["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 						-- Disable virtual_text
-						virtual_text = true,
+						virtual_text = false,
 					}),
 				},
 			})
@@ -306,12 +340,16 @@ return {
 				underline = true,
 				update_in_insert = true,
 				severity_sort = true,
-				-- float = {
-				-- 	border = "rounded",
-				-- 	source = true,
-				-- 	header = "",
-				-- 	prefix = "",
-				-- },
+				-- virtual_lines = true,
+				virtual_text = {
+					prefix = "",
+				},
+				float = {
+					border = "rounded",
+					source = true,
+					header = "",
+					prefix = "",
+				},
 			})
 
 			-- vim.cmd([[
@@ -377,7 +415,21 @@ return {
 
 			-- require("neodev").setup()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "tsserver" },
+				ensure_installed = {
+					"tsserver",
+					"lua_ls",
+					"bashls",
+					"jsonls",
+				},
+				handlers = {
+					function(server_name)
+						require("lspconfig")[server_name].setup({
+							on_attach = on_attach,
+							handlers = handlers,
+							capabilities = capabilities,
+						})
+					end,
+				},
 			})
 		end,
 	},

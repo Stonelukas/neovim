@@ -40,9 +40,9 @@ return {
 					enabled = true, -- enables the Noice messages UI
 					view = "notify", -- default view for messages
 					view_error = "notify", -- view for errors
-					view_warn = nil, -- view for warnings
+					view_warn = "notify", -- view for warnings
 					view_history = "messages", -- view for :messages
-					view_search = false, -- view for search count messages. Set to `false` to disable
+					view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
 				},
 				popupmenu = {
 					enabled = true, -- enables the Noice popupmenu UI
@@ -135,15 +135,17 @@ return {
 				},
 				lsp = {
 					progress = {
-						enabled = true,
+						enabled = false,
 						-- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
 						-- See the section on formatting for more details on how to customize.
 						--- @type NoiceFormat|string
-						format = "lsp_progress",
-						--- @type NoiceFormat|string
-						format_done = "lsp_progress_done",
-						throttle = 1000 / 30, -- frequency to update lsp progress message
-						view = "mini",
+						-- format = "{spinner}",
+						-- lsp_progress = "{spinner}",
+						-- lsp_progress_done = "{spinner}",
+						-- --- @type NoiceFormat|string
+						-- format_done = "{spinner}",
+						-- throttle = 1000 / 30, -- frequency to update lsp progress message
+						-- view = "notify",
 					},
 					override = {
 						-- override the default lsp markdown formatter with Noice
@@ -219,10 +221,10 @@ return {
 					-- you can enable a preset by setting it to true, or a table that will override the preset config
 					-- you can also add custom presets that you can enable/disable with enabled=true
 					bottom_search = false, -- use a classic bottom cmdline for search
-					command_palette = false, -- position the cmdline and popupmenu together
-					long_message_to_split = false, -- long messages will be sent to a split
-					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
+					command_palette = true, -- position the cmdline and popupmenu together
+					long_message_to_split = true, -- long messages will be sent to a split
+					inc_rename = true, -- enables an input dialog for inc-rename.nvim
+					lsp_doc_border = true, -- add a border to hover docs and signature help
 				},
 				throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 				---@type NoiceConfigViews
@@ -278,12 +280,30 @@ return {
 			vim.keymap.set("n", "<leader>nl", function()
 				require("noice").cmd("last")
 			end, { desc = "Last notification" })
+
 			vim.keymap.set("n", "<leader>nh", function()
 				require("noice").cmd("history")
 			end, { desc = "Notifications" })
+
+			vim.keymap.set("n", "<leader>na", function()
+				require("noice").cmd("all")
+			end, { desc = "All notifications" })
+
 			vim.keymap.set("c", "<S-Enter>", function()
 				require("noice").redirect(vim.fn.getcmdline())
 			end, { desc = "Redirect Cmdline" })
+
+			vim.keymap.set({ "n", "i", "s" }, "<c-f>", function()
+				if not require("noice.lsp").scroll(4) then
+					return "<c-f>"
+				end
+			end, { silent = true, expr = true })
+
+			vim.keymap.set({ "n", "i", "s" }, "<c-b>", function()
+				if not require("noice.lsp").scroll(-4) then
+					return "<c-b>"
+				end
+			end, { silent = true, expr = true })
 		end,
 	},
 }

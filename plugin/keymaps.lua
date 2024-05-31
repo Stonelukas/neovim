@@ -1,24 +1,26 @@
 local set = vim.keymap.set
 
-vim.keymap.set({ "i" }, "<C-x><C-f>", function()
+set({ "i" }, "<C-x><C-f>", function()
 	require("fzf-lua").complete_file({
 		cmd = "rg --files",
 		winopts = { preview = { hidden = "nohidden" } },
 	})
 end, { silent = true, desc = "Fuzzy complete file" })
 
-set("n", "<C-s>", ":w<CR>", { desc = "save" })
-set("n", "<C-q>", ":q<CR>", { desc = " quit" })
-set("n", "<CR>", "o<Esc>", { desc = "add new line" })
-set("n", "<S-Enter>", "O<Esc>", { desc = "add new line above" })
+-- Diagnostic
 set("n", "<leader>e", vim.diagnostic.open_float, { desc = "open diagnostic in float" })
+
+-- Executing/Sourcing
 set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })
 set("n", "<leader>xx", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
 -- General keymaps
-set("n", "<leader {>wq }", ":wq<CR>", { desc = "save and quit" }) -- save and quit
-set("n", "<leader>qq", ":q!<CR>", { desc = "quit without saving" }) -- quit without saving
-set("n", "<leader>ww", ":w<CR>", { desc = "save" }) -- save
+set("n", "<C-s>", ":w<CR>", { desc = "save" })
+set("n", "<C-q>", ":q<CR>", { desc = " quit" })
+set("n", "<CR>", "o<Esc>", { desc = "add new line" })
+set("n", "<S-Enter>", "O<Esc>", { desc = "add new line above" })
+set("n", "<leader>wq }", ":wq<CR>", { desc = "save and quit" }) -- save and quit
+set("n", "<leader>qq", ":qa!<CR>", { desc = "quit without saving" }) -- quit without saving
 set("n", "gx", ":!open <c-r><c-a><CR>", { desc = "open URL under cursor" }) -- open URL under cursor
 
 -- Split window management
@@ -72,6 +74,9 @@ set("n", "<Space>bn", "<Cmd>BufferOrderByName<CR>", { desc = "Order Buffer by Na
 set("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", { desc = "Order Buffer by Directory" })
 set("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", { desc = "Order Buffer by Language" })
 set("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", { desc = "Order Buffer by Window Number" })
+
+-- Noice
+set("n", "<leader>nn", "<Cmd>Noice dismiss<CR>", { desc = "Disable Noice" })
 
 set("n", "<leader>tt", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })

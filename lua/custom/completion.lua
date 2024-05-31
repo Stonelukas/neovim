@@ -14,30 +14,32 @@ require("luasnip.loaders.from_snipmate").lazy_load()
 
 cmp.setup({
 	sources = {
-		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp", priority = 1000 },
 		{ name = "luasnip" },
 		{ name = "nvim_lsp_signature_help" },
-		{ name = "path" },
-		{ name = "bufname" },
+		{ name = "path", trigger_characters = { "/" } },
+		{ name = "bufname", keyword_length = 3, priority = 2 },
 		{ name = "cmp_git" },
 		{ name = "zsh" },
 		{
 			name = "rg",
+			keyword_length = 6,
 			option = {
 				additional_arguments = "--hidden",
 			},
 		},
-		{
-			name = "buffer-lines",
-			option = {
-				words = true,
-				comments = false,
-				line_numbers = false,
-				line_number_separator = "|",
-			},
-		},
+		-- {
+		-- 	name = "buffer-lines",
+		-- 	option = {
+		-- 		words = true,
+		-- 		comments = false,
+		-- 		line_numbers = false,
+		-- 		line_number_separator = "|",
+		-- 	},
+		-- },
 		{
 			name = "buffer",
+			priority = 1,
 			option = {
 				keyword_pattern = [[\k\+]],
 				get_bufnrs = function()

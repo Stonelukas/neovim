@@ -3,6 +3,11 @@ return {
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.7",
 		dependencies = {
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+			},
+			"natecraddock/workspaces.nvim",
 			"nvim-telescope/telescope-symbols.nvim",
 			"nvim-lua/plenary.nvim",
 			"mollerhoj/telescope-recent-files.nvim",
@@ -16,6 +21,8 @@ return {
 			"tsakirist/telescope-lazy.nvim",
 			"fdschmidt93/telescope-egrepify.nvim",
 			"tiagovla/scope.nvim",
+			"LinArcX/telescope-env.nvim",
+			"zane-/cder.nvim",
 		},
 		keys = {},
 		config = function()
@@ -41,6 +48,18 @@ return {
 
 			telescope.setup({
 				defaults = {
+					layout_config = {
+						horizontal = {
+							preview_width = function(_, cols, _)
+								if cols > 200 then
+									return math.floor(cols * 0.4)
+								else
+									return math.floor(cols * 0.6)
+								end
+							end,
+						},
+					},
+					prompt_prefix = "> ",
 					-- `hidden = true` is not supported in text grep commands.
 					vimgrep_arguments = {
 						"rg",
@@ -57,6 +76,10 @@ return {
 					find_files = {
 						-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
 						find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+						buffers = {
+							show_all_buffers = true,
+							sort_lastused = true,
+						},
 					},
 					mappings = {
 						n = {
@@ -84,6 +107,27 @@ return {
 				},
 
 				extensions = {
+					cder = {
+						previewer = true,
+						theme = "ivy",
+						dir_command = { "fd", "--type=d", ".", os.getenv("HOME"), "--hidden", "--exclude", ".git" },
+						previewer_command = "exa "
+							.. "-a "
+							.. "--color=always "
+							.. "-T "
+							.. "--level=3 "
+							.. "--icons "
+							.. "--git-ignore "
+							.. "--long "
+							.. "--no-permissions "
+							.. "--no-user "
+							.. "--no-filesize "
+							.. "--git "
+							.. "--ignore-glob=.git",
+					},
+					workspaces = {
+						keep_insert = true,
+					},
 					project = {
 						base_dirs = {
 							"~/.config",
@@ -229,14 +273,14 @@ return {
 			-- recent files extension
 			require("telescope").load_extension("recent-files")
 
-			vim.keymap.set("n", "<leader>f", function()
+			vim.keymap.set("n", "<leader>f.", function()
 				require("telescope").extensions["recent-files"].recent_files({})
-			end, { noremap = true, silent = true })
+			end, { desc = "recent files", noremap = true, silent = true })
 
 			-- project extension
 			require("telescope").load_extension("project")
 
-			vim.keymap.set("n", "<leader>tp", function()
+			vim.keymap.set("n", "<leader>tsp", function()
 				require("telescope").extensions.project.project({ display_type = "full" })
 			end, { noremap = true, silent = true })
 
@@ -280,7 +324,60 @@ return {
 			-- aerial extension
 			require("telescope").load_extension("aerial")
 
+			-- workspaces extension
+			require("telescope").load_extension("workspaces")
+
+			-- cder extension
+			require("telescope").load_extension("cder")
+			vim.keymap.set("n", "<leader>cd", "<cmd>Telescope cder<CR>", { desc = "open cder to switch cwd" })
+
+			-- env extension
+			require("telescope").load_extension("env")
+
 			-- basic keybindings
+			vim.keymap.set("n", "<leader>/", function()
+				-- You can pass additional configuration to telescope to change theme, layout, etc.
+				require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+					theme = "ivy",
+					winblend = 10,
+					previewer = false,
+				}))
+			end, { desc = "[/] Fuzzily search in current buffer]" })
+
+			vim.keymap.set(
+				"n",
+				"<leader>sw",
+				require("telescope.builtin").grep_string,
+				{ desc = "[S]earch current [W]ord" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>sd",
+				require("telescope.builtin").diagnostics,
+				{ desc = "[S]earch [D]iagnostics" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>sS",
+				require("telescope.builtin").git_status,
+				{ desc = "[S]earch Git [S]tatus" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<Leader>sn",
+				"<CMD>lua require('telescope').extensions.notify.notify()<CR>",
+				{ desc = "[S]earch [N]otify", silent = true }
+			)
+
+			vim.api.nvim_set_keymap(
+				"n",
+				"<Leader><tab>",
+				"<Cmd>lua require('telescope.builtin').commands()<CR>",
+				{ desc = "Search [C]ommands", noremap = false }
+			)
 
 			-- vim.keymap.set("n", "<leader>fp", function()
 			-- 	require("telescope.builtin").find_files({ previewer = true })
@@ -302,9 +399,6 @@ return {
 			-- end)
 			-- vim.keymap.set("n", "<leader>bu", function()
 			-- 	require("telescope.builtin").buffers({ sort_lastused = true })
-			-- end)
-			-- vim.keymap.set("n", "<leader>cb", function()
-			-- 	require("telescope.builtin").current_buffers_fuzzy_find({})
 			-- end)
 
 			require("commander").setup({
@@ -342,5 +436,8 @@ return {
 		config = function()
 			require("telescope").load_extension("fzf")
 		end,
+	},
+	{
+		"zane-/cder.nvim",
 	},
 }

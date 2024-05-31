@@ -22,10 +22,6 @@ vim.keymap.set("n", "<leader>gc", function()
 	require("fzf-lua").git_commits()
 end, { silent = true, desc = "show git commits" })
 
-vim.keymap.set("n", "<leader>cb", function()
-	require("fzf-lua").current_buffers_fuzzy_find({ resume = true })
-end, { silent = true, desc = "Fuzzy find current Buffers" })
-
 vim.keymap.set("n", "<leader>bu", function()
 	require("fzf-lua").buffers({ resume = true })
 end, { silent = true, desc = "show current Buffers" })

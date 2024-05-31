@@ -1,35 +1,35 @@
 return {
 	{
 		"folke/trouble.nvim",
-		branch = "dev",
+		branch = "main",
 		keys = {
 			{
-				"<leader>xx",
+				"<leader>dt",
 				"<cmd>Trouble diagnostics toggle<cr>",
 				desc = "Diagnostics (Trouble)",
 			},
 			{
-				"<leader>xX",
+				"<leader>dT",
 				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 				desc = "Buffer Diagnostics (Trouble)",
 			},
 			{
-				"<leader>xs",
+				"<leader>st",
 				"<cmd>Trouble symbols toggle focus=false<cr>",
 				desc = "Symbols (Trouble)",
 			},
 			{
-				"<leader>xl",
+				"<leader>lt",
 				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 				desc = "LSP Definitions / references / ... (Trouble)",
 			},
 			{
-				"<leader>xL",
+				"<leader>Lt",
 				"<cmd>Trouble loclist toggle<cr>",
 				desc = "Location List (Trouble)",
 			},
 			{
-				"<leader>xQ",
+				"<leader>qt",
 				"<cmd>Trouble qflist toggle<cr>",
 				desc = "Quickfix List (Trouble)",
 			},
@@ -87,6 +87,19 @@ return {
 					zi = "fold_toggle_enable",
 				},
 			})
+
+			-- Diagnostic signs
+			-- https://github.com/folke/trouble.nvim/issues/52
+			local signs = {
+				Error = " ",
+				Warning = " ",
+				Hint = " ",
+				Information = " ",
+			}
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
 		end,
 	},
 }
