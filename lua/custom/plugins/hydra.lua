@@ -185,7 +185,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 					end,
 				},
 				mode = { "n", "x" },
-				body = "<leader>g",
+				body = "<leader>gh",
 				heads = {
 					{
 						"J",

@@ -26,6 +26,9 @@ return {
 	},
 	{
 		"mbbill/undotree",
+		config = function()
+			vim.keymap.set("n", "<leader>u", "<cmd>UndotreeShow<cr>", { desc = "Show undotree" })
+		end,
 	},
 	{
 		"jlanzarotta/bufexplorer",
@@ -48,6 +51,16 @@ return {
 		vim.keymap.set("n", "<leader>dd", "<Plug>SpeedDatingdate"),
 	},
 	{
+		"glacambre/firenvim",
+		lazy = not vim.g.started_by_firenvim,
+		build = function()
+			vim.fn["firenvim#install"](0)
+		end,
+		config = function()
+			vim.g.firenvim_config.localSettings[".*"] = { cmdline = "firenvim" }
+		end,
+	},
+	{
 		"tpope/vim-unimpaired",
 	},
 	{
@@ -66,12 +79,10 @@ return {
 		"svermeulen/vim-subversive",
 		config = function()
 			vim.keymap.set("n", "s", "<plug>SubversiveSubstitute")
-			vim.keymap.set("n", "ss", "<plug>SubversiveSubstituteLine")
 			vim.keymap.set("n", "S", "<plug>SubversiveSubstituteToEndOfLine")
 			vim.cmd([[ onoremap ie :exec "normal! ggVG"<cr> ]])
 			vim.cmd([[ onoremap iv :exec "normal! HVL"<cr> ]])
 			vim.keymap.set({ "n", "x" }, "<leader>s", "<plug>(SubversiveSubstituteRange)")
-			vim.keymap.set("n", "<leader>ss", "<plug>(SubversiveSubstituteWordRange)")
 		end,
 	},
 	{

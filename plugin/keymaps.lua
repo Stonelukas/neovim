@@ -15,13 +15,26 @@ set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })
 set("n", "<leader>xx", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
 -- General keymaps
+set("n", "j", "jzz", { silent = true })
+set("n", "k", "kzz", { silent = true })
+set("n", "n", "nzz", { desc = "Go to next search result" })
+set("n", "N", "Nzz", { desc = "Go to previous search result" })
 set("n", "<C-s>", ":w<CR>", { desc = "save" })
 set("n", "<C-q>", ":q<CR>", { desc = " quit" })
 set("n", "<CR>", "o<Esc>", { desc = "add new line" })
 set("n", "<S-Enter>", "O<Esc>", { desc = "add new line above" })
+set("n", "<leader>w", "<Cmd>update<CR>", { desc = "save file" })
+set("n", "<leader>W", "<Cmd>wall<CR>", { desc = "save all files" })
 set("n", "<leader>wq }", ":wq<CR>", { desc = "save and quit" }) -- save and quit
 set("n", "<leader>qq", ":qa!<CR>", { desc = "quit without saving" }) -- quit without saving
 set("n", "gx", ":!open <c-r><c-a><CR>", { desc = "open URL under cursor" }) -- open URL under cursor
+set("v", "J", ":move '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+set("v", "K", ":move '>-2<CR>gv=gv", { desc = "Move selected lines up" })
+
+-- Use operator pending mode to visually select the whole buffer
+-- e.g. dA = delete buffer ALL, yA = copy whole buffer ALL
+set("o", "A", ":<C-u>normal! mggVG<CR>`z", { desc = "Select the whole buffer" })
+set("x", "A", ":<C-u>normal! ggVG<CR>", { desc = "Select the whole buffer" })
 
 -- Split window management
 set("n", "<leader>sv", "<C-w>v", { desc = "split window vertically" }) -- split window vertically

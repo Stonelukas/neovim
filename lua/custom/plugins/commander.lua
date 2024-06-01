@@ -72,8 +72,7 @@ return {
 					desc = "Show document symbols",
 					cmd = "<CMD>Telescope lsp_document_symbols<CR>",
 					keys = {
-						{ "n", "<leader>ss", { noremap = true } },
-						{ "n", "<leader>ssd", { noremap = true } },
+						{ "n", "<leader>ds", { noremap = true } },
 					},
 				},
 				{

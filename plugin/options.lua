@@ -1,6 +1,7 @@
 ---- Interesting Options ----
 
 vim.opt.inccommand = "split"
+vim.opt.winbar = [[%=%m %f %y %r ]]
 
 -- Search
 vim.opt.smartcase = true
@@ -8,7 +9,6 @@ vim.opt.ignorecase = true
 
 vim.opt.relativenumber = true
 vim.opt.number = true
-vim.o.laststatus = 3
 vim.o.splitkeep = "screen"
 vim.opt.splitbelow = true
 vim.opt.splitright = true

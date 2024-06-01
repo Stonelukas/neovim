@@ -418,4 +418,12 @@ return {
 			"tpope/vim-fugitive",
 		},
 	},
+	{
+		"rmagatti/igs.nvim",
+		config = function()
+			require("igs").setup({
+				default_mappings = true,
+			})
+		end,
+	},
 }
