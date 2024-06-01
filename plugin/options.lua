@@ -3,9 +3,16 @@
 vim.opt.inccommand = "split"
 vim.opt.winbar = [[%=%m %f %y %r ]]
 
+---- Folding ----
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.foldenable = true
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+
 -- Search
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
+vim.opt.incsearch = true
 
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -31,7 +38,7 @@ vim.opt.smartindent = true
 vim.opt.showmatch = true
 vim.opt.title = true
 vim.opt.scrolloff = 2
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 vim.o.breakindent = true
 vim.opt.undofile = true
 vim.o.updatetime = 250
