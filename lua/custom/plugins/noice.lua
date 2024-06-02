@@ -130,7 +130,7 @@ return {
 					-- event is always "notify" and kind can be any log level as a string
 					-- The default routes will forward notifications to nvim-notify
 					-- Benefit of using Noice for this is the routing and consistent history view
-					enabled = true,
+					enabled = false,
 					view = "notify",
 				},
 				lsp = {
@@ -157,7 +157,7 @@ return {
 					},
 					hover = {
 						enabled = true,
-						silent = false, -- set to true to not show a message if hover is not available
+						silent = true, -- set to true to not show a message if hover is not available
 						view = nil, -- when nil, use defaults from documentation
 						---@type NoiceViewOptions
 						opts = {}, -- merged with defaults from documentation
@@ -176,7 +176,7 @@ return {
 					},
 					message = {
 						-- Messages shown by lsp servers
-						enabled = true,
+						enabled = false,
 						view = "notify",
 						opts = {},
 					},
@@ -243,39 +243,39 @@ return {
 			local null_ls_token = nil
 			local ltex_token = nil
 
-			vim.lsp.handlers["$/progress"] = function(_, result, ctx)
-				local value = result.value
-				if not value.kind then
-					return
-				end
-
-				local client_id = ctx.client_id
-				local name = vim.lsp.get_client_by_id(client_id).name
-
-				if name == "null-ls" then
-					if result.token == null_ls_token then
-						return
-					end
-					if value.title == "formatting" then
-						null_ls_token = result.token
-						return
-					end
-				end
-
-				if name == "ltex" then
-					if result.token == ltex_token then
-						return
-					end
-					if value.title == "Checking document" then
-						ltex_token = result.token
-						return
-					end
-				end
-
-				vim.notify(value.message, "info", {
-					title = value.title,
-				})
-			end
+			-- -- vim.lsp.handlers["$/progress"] = function(_, result, ctx)
+			-- -- 	local value = result.value
+			-- -- 	if not value.kind then
+			-- -- 		return
+			-- -- 	end
+			-- --
+			-- -- 	local client_id = ctx.client_id
+			-- -- 	local name = vim.lsp.get_client_by_id(client_id).name
+			-- --
+			-- -- 	if name == "null-ls" then
+			-- -- 		if result.token == null_ls_token then
+			-- -- 			return
+			-- -- 		end
+			-- -- 		if value.title == "formatting" then
+			-- -- 			null_ls_token = result.token
+			-- -- 			return
+			-- -- 		end
+			-- -- 	end
+			-- --
+			-- -- 	if name == "ltex" then
+			-- -- 		if result.token == ltex_token then
+			-- -- 			return
+			-- -- 		end
+			-- -- 		if value.title == "Checking document" then
+			-- -- 			ltex_token = result.token
+			-- -- 			return
+			-- -- 		end
+			-- -- 	end
+			--
+			-- 	vim.notify(value.message, "info", {
+			-- 		title = value.title,
+			-- 	})
+			-- end
 
 			vim.keymap.set("n", "<leader>nl", function()
 				require("noice").cmd("last")

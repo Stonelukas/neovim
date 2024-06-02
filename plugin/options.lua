@@ -9,6 +9,21 @@ vim.o.foldenable = true
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 
+---- Sessions ----
+-- vim.opt.sessionoptions = {
+-- 	"buffers",
+-- 	"curdir",
+-- 	"folds",
+-- 	"globals",
+-- 	"help",
+-- 	"tabpages",
+-- 	"winsize",
+-- 	"blank",
+-- 	"options",
+-- 	"terminal",
+-- 	"resize",
+-- }
+
 -- Search
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
