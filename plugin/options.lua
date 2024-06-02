@@ -2,6 +2,7 @@
 
 vim.opt.inccommand = "split"
 vim.opt.winbar = [[%=%m %f %y %r ]]
+-- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"
 
 ---- Folding ----
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -10,19 +11,24 @@ vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 
 ---- Sessions ----
--- vim.opt.sessionoptions = {
--- 	"buffers",
--- 	"curdir",
--- 	"folds",
--- 	"globals",
--- 	"help",
--- 	"tabpages",
--- 	"winsize",
--- 	"blank",
--- 	"options",
--- 	"terminal",
--- 	"resize",
--- }
+vim.opt.sessionoptions = {
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"resize",
+	"winpos",
+	"terminal",
+	"globals",
+	"folds",
+	"blank",
+	"help",
+	"winpos",
+}
+
+---- Mouse ----
+vim.opt.mouse = "a"
+vim.opt.mousemodel = "extend"
 
 -- Search
 vim.opt.smartcase = true
@@ -45,10 +51,10 @@ vim.opt.smarttab = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.mouse = "a"
 vim.opt.shiftround = true
 vim.opt.termguicolors = true
 vim.opt.cindent = true
+vim.opt.swapfile = false
 vim.opt.smartindent = true
 vim.opt.showmatch = true
 vim.opt.title = true

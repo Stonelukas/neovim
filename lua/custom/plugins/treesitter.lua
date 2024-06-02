@@ -9,6 +9,9 @@ return {
 	config = function()
 		local config = require("nvim-treesitter.configs")
 		config.setup({
+			matchup = {
+				enable = true,
+			},
 			ignore_install = {},
 			modules = {},
 			sync_install = true,
@@ -96,7 +99,7 @@ return {
 			},
 			refactor = {
 				highlight_definitions = {
-					enable = true,
+					enable = false,
 					highlight_current_scope = { enable = true },
 					smart_rename = {
 						enable = true,

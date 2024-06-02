@@ -428,4 +428,24 @@ return {
 			})
 		end,
 	},
+	{
+		"linrongbin16/gitlinker.nvim",
+		cmd = "GitLink",
+		keys = {
+			{ "<leader>gl", "<cmd>GitLink<cr>", mode = "n", desc = "Open git permlink" },
+			{ "<leader>gl", "<cmd>GitLink<cr>", mode = "v", desc = "Open git permlink" },
+			{ "<leader>gb", "<cmd>GitLink blame<cr>", mode = "n", desc = "Open git blame link" },
+			{ "<leader>gb", "<cmd>GitLink blame<cr>", mode = "v", desc = "Open git blame link" },
+		},
+		config = function()
+			require("gitlinker").setup({})
+			require("gitlinker").link({
+
+				action = function(url)
+					require("gitlinker.actions").system(url)
+					print("Opening URL:" .. vim.inspect(url))
+				end,
+			})
+		end,
+	},
 }

@@ -11,9 +11,17 @@ return {
 					require("statuscol").setup({
 						relculright = true,
 						segments = {
-							{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
 							{ text = { "%s" }, click = "v:lua.ScSa" },
-							{ text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+							{ text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+							{
+								text = { " ", builtin.foldfunc, "  " },
+								condition = { true, builtin.not_empty },
+								click = "v:lua.ScFa",
+							},
+							{
+								sign = { name = { "diagnostic" }, maxwidth = 2, auto = true },
+								click = "v:lua.scsa",
+							},
 						},
 					})
 				end,
@@ -91,6 +99,25 @@ return {
 				if not winid then
 					vim.lsp.buf.hover()
 				end
+			end)
+
+			local function nN(char)
+				local ok, winid = hlslens.nNPeekWithUFO(char)
+				if ok and winid then
+					-- Safe to override buffer scope keymaps remapped by ufo,
+					-- ufo will restore previous buffer keymaps before closing preview window
+					-- Type <CR> will switch to preview window and fire `trace` action
+					vim.keymap.set("n", "<CR>", function()
+						return "<Tab><CR>"
+					end, { buffer = true, remap = true, expr = true })
+				end
+			end
+
+			vim.keymap.set({ "n", "x" }, "n", function()
+				nN("n")
+			end)
+			vim.keymap.set({ "n", "x" }, "N", function()
+				nN("N")
 			end)
 		end,
 	},

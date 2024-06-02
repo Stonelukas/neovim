@@ -20,6 +20,7 @@ return {
 					cond = symbols.has,
 				})
 			end
+
 			local custom_fname = require("lualine.components.filename"):extend()
 			local colors = {
 				yellow = "#ECBE7B",
@@ -45,10 +46,12 @@ return {
 				end
 			end
 
+			local navic = require("nvim-navic")
+
 			local config = {
 				options = {
 					icons_enabled = true,
-					theme = "tokyonight",
+					theme = require("custom.transparent").theme(),
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 					disabled_filetypes = {
@@ -75,8 +78,20 @@ return {
 						},
 					},
 					lualine_b = {
-						"branch",
-						"diff",
+						{
+							"branch",
+							icon = "",
+							color = { fg = colors.green },
+						},
+						{
+							"diff",
+							symbols = {
+								added = " ",
+								modified = " ",
+								removed = " ",
+							},
+							color = { fg = colors.orange },
+						},
 						{
 							"diagnostics",
 							sources = { "nvim_diagnostic", "nvim_lsp" },
@@ -98,6 +113,8 @@ return {
 					lualine_c = {
 						{
 							"windows",
+							color = { fg = "#7e9cd8" },
+							colored = true,
 							show_filename_only = true,
 							show_modified_status = true,
 							filetype_names = {
@@ -127,11 +144,27 @@ return {
 							depth = -1,
 							colored = true,
 						},
-						"encoding",
-						"fileformat",
-						"filetype",
+						{
+							"encoding",
+							colored = true,
+							fmt = trunc(120, 20, nil, true),
+							color = { fg = colors.cyan },
+						},
+						{
+							"fileformat",
+						},
+						{
+							"filetype",
+							color = { fg = colors.blue },
+						},
 					},
-					lualine_y = { "progress" },
+					lualine_y = {
+						{
+							"progress",
+							require("lazy.status").progress,
+							color = { fg = colors.green },
+						},
+					},
 					lualine_z = { "location", "searchcount", "selectioncount" },
 				},
 				inactive_sections = {
@@ -146,10 +179,29 @@ return {
 				winbar = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = {},
+					lualine_c = {
+						{
+							function()
+								return navic.get_location()
+							end,
+							cond = function()
+								return navic.is_available()
+							end,
+						},
+					},
 					lualine_x = {},
-					lualine_y = {},
-					lualine_z = {},
+					lualine_y = {
+						{
+							require("lazy.status").updates,
+							cond = require("lazy.status").has_updates,
+						},
+					},
+					lualine_z = {
+						{
+							"filename",
+							path = 0,
+						},
+					},
 				},
 				inactive_winbar = {},
 				extensions = {
@@ -157,6 +209,7 @@ return {
 					"ctrlspace",
 					"fzf",
 					"lazy",
+					"fugitive",
 					"man",
 					"mason",
 					"neo-tree",

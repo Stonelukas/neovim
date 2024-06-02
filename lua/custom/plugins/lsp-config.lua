@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 return {
 	-- {
 	-- 	"folke/neodev.nvim",
@@ -248,6 +249,16 @@ return {
 						virtual_text = false,
 					}),
 				},
+			})
+
+			---- clangd ----
+			local navic = require("nvim-navic")
+
+			---@diagnostic disable-next-line: missing-fields
+			require("lspconfig").clangd.setup({
+				on_attach = function(client, bufnr)
+					navic.attach(client, bufnr)
+				end,
 			})
 
 			vim.api.nvim_create_autocmd("LspNotify", {
