@@ -15,8 +15,8 @@ set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })
 set("n", "<leader>xx", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
 -- General keymaps
-set("n", "j", "jzz", { silent = true })
-set("n", "k", "kzz", { silent = true })
+-- set("n", "j", "jzz", { silent = true })
+-- set("n", "k", "kzz", { silent = true })
 set("n", "n", "nzz", { desc = "Go to next search result" })
 set("n", "N", "Nzz", { desc = "Go to previous search result" })
 set("n", "<C-s>", ":w<CR>", { desc = "save" })

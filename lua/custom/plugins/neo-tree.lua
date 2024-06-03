@@ -62,7 +62,7 @@ return {
 				},
 				modified = {
 					symbol = "[+]",
-					highlight = "NeoTreeFileName",
+					highlight = "NeoTreeModified",
 				},
 				name = {
 					trailing_slash = false,

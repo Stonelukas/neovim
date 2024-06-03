@@ -5,6 +5,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		enabled = true,
 		config = function()
 			opts = function(_, opts)
 				local trouble = require("trouble")
@@ -69,7 +70,10 @@ return {
 				},
 				sections = {
 					lualine_a = {
-						{ "mode", fmt = trunc(80, 4, nil, true) },
+						{
+							"mode",
+							-- fmt = trunc(80, 4, nil, true),
+						},
 						{
 							function()
 								return require("lsp-status").status()
@@ -125,6 +129,14 @@ return {
 								alpha = "Alpha",
 							},
 							use_mode_colors = true,
+						},
+						-- Codeium
+						{
+							function()
+								return vim.fn["codeium#GetStatusString"]()
+							end,
+							fmt = trunc(120, 20, nil, true),
+							color = { fg = colors.cyan },
 						},
 						--[[ {
                         "filename",

@@ -31,16 +31,16 @@ return {
 					},
 					Search = {
 						text = { "-", "=" },
-						priority = 1,
+						priority = 100,
 						gui = nil,
 						color = colors.orange,
 						cterm = nil,
 						color_nr = nil, -- cterm
-						highlight = "Search",
+						highlight = "ScrollbarSearchMark",
 					},
 					Error = {
 						text = { "-", "=" },
-						priority = 2,
+						priority = 101,
 						gui = nil,
 						color = colors.error,
 						cterm = nil,
@@ -49,7 +49,7 @@ return {
 					},
 					Warn = {
 						text = { "-", "=" },
-						priority = 3,
+						priority = 102,
 						gui = nil,
 						color = colors.warning,
 						cterm = nil,
@@ -58,7 +58,7 @@ return {
 					},
 					Info = {
 						text = { "-", "=" },
-						priority = 4,
+						priority = 103,
 						gui = nil,
 						color = colors.info,
 						cterm = nil,
@@ -67,7 +67,7 @@ return {
 					},
 					Hint = {
 						text = { "-", "=" },
-						priority = 5,
+						priority = 104,
 						gui = nil,
 						color = colors.hint,
 						cterm = nil,
@@ -76,7 +76,7 @@ return {
 					},
 					Misc = {
 						text = { "-", "=" },
-						priority = 6,
+						priority = 105,
 						gui = nil,
 						color = colors.purple,
 						cterm = nil,

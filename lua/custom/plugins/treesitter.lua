@@ -3,12 +3,16 @@ return {
 	build = ":TSUpdate",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
+		"RRethy/nvim-treesitter-endwise",
 		"nvim-treesitter/nvim-treesitter-context",
 		"nvim-treesitter/nvim-treesitter-refactor",
 	},
 	config = function()
 		local config = require("nvim-treesitter.configs")
 		config.setup({
+			endwise = {
+				enable = true,
+			},
 			matchup = {
 				enable = true,
 			},

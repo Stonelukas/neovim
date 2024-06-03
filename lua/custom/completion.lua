@@ -14,11 +14,13 @@ require("luasnip.loaders.from_snipmate").lazy_load()
 
 cmp.setup({
 	sources = {
-		{ name = "nvim_lsp", priority = 1000 },
+		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
-		{ name = "nvim_lsp_signature_help" },
+		{ name = "nvim_lua" },
+		{ name = "codeium" },
+		-- { name = "nvim_lsp_signature_help" },
 		{ name = "path", trigger_characters = { "/" } },
-		{ name = "bufname", keyword_length = 3, priority = 2 },
+		{ name = "bufname", keyword_length = 5 },
 		{ name = "cmp_git" },
 		{ name = "zsh" },
 		{
@@ -68,7 +70,7 @@ cmp.setup({
 		entries = { name = "custom", selection_order = "top_down" },
 	},
 	window = {
-		completion = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered({}),
 		documentation = cmp.config.window.bordered(),
 	},
 	formatting = {
@@ -83,6 +85,7 @@ cmp.setup({
 				nvim_lsp = "[LSP]",
 				luasnip = "[luaSnip]",
 				nvim_lua = "[Lua]",
+				codeium = "",
 				path = "🖫",
 				rg = "[RG]",
 				cmp_git = "[Git]",

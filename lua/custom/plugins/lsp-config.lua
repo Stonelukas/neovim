@@ -74,12 +74,16 @@ return {
 		config = function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
+			capabilities.textDocument.completion.completionItem.resolveSupport = {
+				properties = { "documentation", "detail", "additionalTextEdits" },
+			}
 			local lspconfig = require("lspconfig")
 			local servers = {
 				"pyright",
 				"tsserver",
 				"biome",
 				"solargraph",
+
 				"html",
 				"lua_ls",
 				"jsonls",
@@ -256,6 +260,7 @@ return {
 
 			---@diagnostic disable-next-line: missing-fields
 			require("lspconfig").clangd.setup({
+				capabilities = capabilities,
 				on_attach = function(client, bufnr)
 					navic.attach(client, bufnr)
 				end,
@@ -441,6 +446,34 @@ return {
 						})
 					end,
 				},
+			})
+		end,
+	},
+	{
+		"ray-x/lsp_signature.nvim",
+		config = function()
+			require("lsp_signature").setup({
+				bind = true,
+				handler_opts = {
+					border = "rounded",
+				},
+			})
+
+			vim.keymap.set({ "n" }, "<C-k>", function()
+				require("lsp_signature").toggle_float_win()
+			end, { silent = true, noremap = true, desc = "toggle signature" })
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local bufnr = args.buf
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					if vim.tbl_contains({ "null-ls" }, client.name) then -- blacklist lsp
+						return
+					end
+					require("lsp_signature").on_attach({
+						-- ... setup options here ...
+					}, bufnr)
+				end,
 			})
 		end,
 	},

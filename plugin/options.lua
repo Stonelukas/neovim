@@ -2,6 +2,8 @@
 
 vim.opt.inccommand = "split"
 vim.opt.winbar = [[%=%m %f %y %r ]]
+vim.opt.statusline =
+	"▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"
 
 ---- Folding ----
@@ -12,6 +14,7 @@ vim.o.foldlevel = 99
 
 ---- Sessions ----
 vim.opt.sessionoptions = {
+	"folds",
 	"buffers",
 	"curdir",
 	"tabpages",
@@ -19,8 +22,6 @@ vim.opt.sessionoptions = {
 	"resize",
 	"winpos",
 	"terminal",
-	"folds",
-	"blank",
 	"help",
 	"winpos",
 }

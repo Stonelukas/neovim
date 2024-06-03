@@ -294,4 +294,29 @@ return {
 			})
 		end,
 	},
+	{
+		"rainbowhxch/accelerated-jk.nvim",
+		config = function()
+			require("accelerated-jk").setup()
+
+			vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
+			vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
+		end,
+	},
+	{
+		"mattn/calendar-vim",
+		config = function() end,
+	},
+	{
+		"ziontee113/icon-picker.nvim",
+		config = function()
+			require("icon-picker").setup({ disable_legacy_commands = true })
+
+			local opts = { noremap = true, silent = true }
+
+			vim.keymap.set("n", "<Leader><Leader>i", "<cmd>IconPickerNormal<cr>", opts)
+			vim.keymap.set("n", "<Leader><Leader>y", "<cmd>IconPickerYank<cr>", opts) --> Yank the selected icon into register
+			vim.keymap.set("i", "<C-i>", "<cmd>IconPickerInsert<cr>", opts)
+		end,
+	},
 }

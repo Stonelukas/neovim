@@ -53,7 +53,7 @@ return {
 								semicolon = "All",
 							},
 							signatureHelp = {
-								enable = true,
+								enable = false,
 							},
 						},
 
