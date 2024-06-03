@@ -7,6 +7,7 @@ return {
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
 			},
+			"debugloop/telescope-undo.nvim",
 			"natecraddock/workspaces.nvim",
 			"nvim-telescope/telescope-symbols.nvim",
 			"nvim-lua/plenary.nvim",
@@ -47,7 +48,7 @@ return {
 			table.insert(vimgrep_arguments, "!**/.git/*")
 
 			telescope.setup({
-				defaults = {
+				defaults = require("telescope.themes").get_ivy({
 					layout_config = {
 						horizontal = {
 							preview_width = function(_, cols, _)
@@ -71,7 +72,7 @@ return {
 						"--smart-case",
 						"--trim", -- add this value,
 					},
-				},
+				}),
 				pickers = {
 					find_files = {
 						-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
@@ -130,12 +131,10 @@ return {
 					},
 					project = {
 						base_dirs = {
-							"~/.config",
 							"~/github",
 							"~/.config/nvim/",
 						},
 						hidden_files = true, -- default: false
-						theme = "dropdown",
 						order_by = "recent",
 						search_by = "title",
 						sync_with_nvim_tree = false, -- default false
@@ -268,6 +267,7 @@ return {
 							toml = true,
 						},
 					},
+					persisted = {},
 				},
 			})
 			-- recent files extension
@@ -333,6 +333,12 @@ return {
 
 			-- env extension
 			require("telescope").load_extension("env")
+
+			-- persisted extension
+			require("telescope").load_extension("persisted")
+
+			-- text-case extension
+			require("telescope").load_extension("textcase")
 
 			-- basic keybindings
 			vim.keymap.set("n", "<leader>/", function()

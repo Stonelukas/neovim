@@ -19,7 +19,6 @@ vim.opt.sessionoptions = {
 	"resize",
 	"winpos",
 	"terminal",
-	"globals",
 	"folds",
 	"blank",
 	"help",

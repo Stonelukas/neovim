@@ -264,4 +264,34 @@ return {
 			vim.g.matchup_matchparen_enabled = 1
 		end,
 	},
+	{
+		"johmsalas/text-case.nvim",
+		config = function()
+			require("textcase").setup({})
+
+			vim.api.nvim_set_keymap("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+			vim.api.nvim_set_keymap("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+			vim.api.nvim_set_keymap(
+				"n",
+				"gaa",
+				"<cmd>TextCaseOpenTelescopeQuickChange<CR>",
+				{ desc = "Telescope Quick Change" }
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"gai",
+				"<cmd>TextCaseOpenTelescopeLSPChange<CR>",
+				{ desc = "Telescope LSP Change" }
+			)
+		end,
+	},
+	{
+		"danielhp95/tmpclone-nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("tmpclone").setup({
+				datadir = vim.fn.stdpath("data") .. "/tmpclone-data",
+			})
+		end,
+	},
 }
