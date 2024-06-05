@@ -1,5 +1,5 @@
 return {
-	{
+	--[[ {
 		"natecraddock/sessions.nvim",
 		config = function()
 			local sessions = require("sessions")
@@ -19,7 +19,7 @@ return {
 				sessions.load(".nvim/session/home.stonelukas..config.nvim.session", { autosave = true })
 			end)
 		end,
-	},
+	}, ]]
 	{
 		"olimorris/persisted.nvim",
 		priority = 1000,

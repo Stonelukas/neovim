@@ -200,6 +200,6 @@ return {
 				},
 			},
 		})
-		vim.keymap.set("n", "<leader>ä", ":Neotree float <CR>", { noremap = true, silent = true })
+		vim.keymap.set("n", "<leader>ä", ":Neotree <CR>", { noremap = true, silent = true })
 	end,
 }

@@ -3,6 +3,9 @@ local fzf = require("fzf")
 require("fzf-lua").setup({
 	"telescope",
 	winopts = { preview = { default = "bat" } },
+    lsp = {
+        async_or_timeout = 3000,
+    },
 })
 
 vim.api.nvim_create_autocmd("VimResized", {
