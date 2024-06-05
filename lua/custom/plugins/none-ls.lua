@@ -67,7 +67,7 @@ return {
 					null_ls.builtins.diagnostics.zsh,
 					null_ls.builtins.diagnostics.commitlint,
 					null_ls.builtins.diagnostics.gitlint,
-					null_ls.builtins.diagnostics.selene,
+					-- null_ls.builtins.diagnostics.selene,
 					null_ls.builtins.formatting.prettier,
 					null_ls.builtins.code_actions.gitrebase,
 					null_ls.builtins.code_actions.gitsigns,

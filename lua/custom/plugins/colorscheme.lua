@@ -1,4 +1,6 @@
 return {
+	-- {
+	-- },
 	{
 		"catppuccin/nvim",
 		lazy = false,
@@ -65,9 +67,6 @@ return {
 					end,
 				}),
 			})
-			vim.o.background = "dark"
-			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
-	{},
 }

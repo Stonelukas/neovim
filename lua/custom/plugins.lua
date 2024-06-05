@@ -319,4 +319,21 @@ return {
 			vim.keymap.set("i", "<C-i>", "<cmd>IconPickerInsert<cr>", opts)
 		end,
 	},
+	{
+		"lukas-reineke/virt-column.nvim", -- Use characters in the color column
+		opts = {
+			char = "│",
+			highlight = "VirtColumn",
+		},
+	},
+	{
+		"linrongbin16/colorbox.nvim",
+		priority = 1100,
+		config = function()
+			require("colorbox").setup({
+				policy = { seconds = 1, implement = "shuffle" },
+				timing = "interval",
+			})
+		end,
+	},
 }

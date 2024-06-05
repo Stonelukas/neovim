@@ -4,17 +4,17 @@ vim.opt.inccommand = "split"
 vim.opt.winbar = [[%=%m %f %y %r ]]
 vim.opt.laststatus = 3
 vim.opt.statusline =
-"▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
+	"▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"
 
 ---- Folding ----
 vim.opt.fillchars = {
-    fold = " ",
-    foldopen = "",
-    foldclose = "",
-    foldsep = " ",
-    diff = "╱",
-    eob = " ",
+	fold = " ",
+	foldopen = "",
+	foldclose = "",
+	foldsep = " ",
+	diff = "╱",
+	eob = " ",
 }
 vim.o.foldenable = true
 vim.o.foldcolumn = "1"
@@ -22,16 +22,16 @@ vim.o.foldlevel = 99
 
 ---- Sessions ----
 vim.opt.sessionoptions = {
-    "folds",
-    "buffers",
-    "curdir",
-    "tabpages",
-    "winsize",
-    "resize",
-    "winpos",
-    "terminal",
-    "help",
-    "winpos",
+	"folds",
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"resize",
+	"winpos",
+	"terminal",
+	"help",
+	"winpos",
 }
 
 ---- Mouse ----
@@ -43,6 +43,8 @@ vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.incsearch = true
 
+vim.o.background = "dark"
+vim.cmd([[colorscheme tokyonight]])
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.o.splitkeep = "screen"
@@ -99,9 +101,10 @@ vim.api.nvim_set_option_value("updatetime", 300, {})
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = "*",
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	group = highlight_group,
+	pattern = "*",
 })

@@ -8,8 +8,10 @@ return {
 					-- Set to false to disable the vim.ui.input implementation
 					enabled = true,
 
+					prompt_align = "center",
+
 					-- Default prompt string
-					default_prompt = "Input",
+					default_prompt = "> ",
 
 					-- Trim trailing `:` from prompt
 					trim_prompt = true,
@@ -26,10 +28,10 @@ return {
 					-- These are passed to nvim_open_win
 					border = "rounded",
 					-- 'editor' and 'win' will default to being centered
-					relative = "cursor",
+					relative = "editor",
 
 					-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-					prefer_width = 40,
+					prefer_width = 50,
 					width = nil,
 					-- min_width and max_width can be a list of mixed types.
 					-- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
