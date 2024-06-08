@@ -1,13 +1,14 @@
 return {
-	"iamcco/markdown-preview.nvim",
-	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	build = "cd app && yarn install",
-	init = function()
-		vim.g.mkdp_filetypes = { "markdown" }
-	end,
-	ft = { "markdown" },
-	config = function()
-		vim.cmd([[
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+		config = function()
+			vim.cmd([[
 " set to 1, nvim will open the preview window after entering the Markdown buffer
 " default: 0
 let g:mkdp_auto_start = 1
@@ -120,5 +121,6 @@ let g:mkdp_combine_preview = 1
 " only when g:mkdp_combine_preview is 1
 let g:mkdp_combine_preview_auto_refresh = 1
         ]])
-	end,
+		end,
+	},
 }

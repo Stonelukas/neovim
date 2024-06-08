@@ -1,4 +1,4 @@
----@diagnostic disable: unused-local
+---@diagnostic disable: unused-local, missing-fields
 return {
 	-- {
 	-- 	"folke/neodev.nvim",
@@ -413,9 +413,10 @@ return {
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 			vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
-			vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, opts)
-			vim.keymap.set("n", "<leader>gr", require("telescope.builtin").lsp_references, opts)
+			vim.keymap.set("n", "<leader>gd", "<cmd>Glance definitions<cr>", opts)
+			vim.keymap.set("n", "<leader>gy", "<cmd>Glance type_definitions<cr>", opts)
+			vim.keymap.set("n", "<leader>gi", "<cmd>Glance implementations<cr>", opts)
+			vim.keymap.set("n", "<leader>gr", "<cmd>Glance references<cr>", opts)
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 			vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 			vim.keymap.set("i", "<C-i>", vim.lsp.buf.completion, opts)
@@ -486,6 +487,80 @@ return {
 			require("lspconfig").lua_ls.setup({ on_attach = require("lsp-format").on_attach })
 
 			vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+		end,
+	},
+	{
+		"linrongbin16/lsp-progress.nvim",
+		config = function()
+			require("lsp-progress").setup({
+				client_format = function(client_name, spinner, series_messages)
+					if #series_messages == 0 then
+						return nil
+					end
+					return {
+						name = client_name,
+						body = spinner .. " " .. table.concat(series_messages, ", "),
+					}
+				end,
+				format = function(client_messages)
+					local function stringify(name, msg)
+						return msg and string.format("%s %s", name, msg) or name
+					end
+
+					local sign = "" -- nf-fa-gear \uf013end
+					local lsp_clients = vim.lsp.get_active_clients()
+					local messages_map = {}
+					for _, climsg in ipairs(client_messages) do
+						messages_map[climsg.name] = climsg.body
+					end
+
+					if #lsp_clients > 0 then
+						table.sort(lsp_clients, function(a, b)
+							return a.name < b.name
+						end)
+						local builder = {}
+						for _, cli in ipairs(lsp_clients) do
+							if type(cli) == "table" and type(cli.name) == "string" and string.len(cli.name) > 0 then
+								if messages_map[cli.name] then
+									table.insert(builder, stringify(cli.name, messages_map[cli.name]))
+								else
+									table.insert(builder, stringify(cli.name))
+								end
+							end
+						end
+						if #builder > 0 then
+							return sign .. " " .. table.concat(builder, ", ")
+						end
+					end
+					return ""
+				end,
+			})
+		end,
+	},
+	{
+		"dnlhc/glance.nvim",
+		config = function()
+			require("glance").setup({
+				border = {
+					enable = true,
+				},
+				hooks = {
+					before_open = function(results, open, jump, method)
+						local uri = vim.uri_from_bufnr(0)
+						if #results == 1 then
+							local target_uri = results[1].uri or results[1].targetUri
+
+							if target_uri == uri then
+								jump(results[1])
+							else
+								open(results)
+							end
+						else
+							open(results)
+						end
+					end,
+				},
+			})
 		end,
 	},
 }

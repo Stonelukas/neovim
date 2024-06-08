@@ -327,12 +327,128 @@ return {
 		},
 	},
 	{
-		"linrongbin16/colorbox.nvim",
-		priority = 1100,
+		"AckslD/nvim-neoclip.lua",
 		config = function()
-			require("colorbox").setup({
-				policy = { seconds = 1, implement = "shuffle" },
-				timing = "interval",
+			require("neoclip").setup()
+		end,
+	},
+	{
+		"tjdevries/train.nvim",
+	},
+	{
+		"lukas-reineke/headlines.nvim",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("headlines").setup({
+				markdown = {
+					headline_highlights = {
+						"Headline1",
+						"Headline2",
+						"Headline3",
+						"Headline4",
+						"Headline5",
+						"Headline6",
+					},
+					codeblock_highlight = "Codeblock",
+					dash_highlight = "Dash",
+					quote_highlight = "Quote",
+				},
+			})
+		end, -- or `opts = {}`
+	},
+	{
+		"ggandor/leap.nvim",
+		config = function()
+			-- require('leap').create_default_mappings()
+
+			-- Define equivalence classes for brackets and quotes, in addition to
+			-- the default whitespace group.
+			require("leap").opts.equivalence_classes = { " \t\r\n", "([{", ")]}", "'\"`" }
+
+			-- Override some old defaults - use backspace instead of tab (see issue #165).
+			require("leap").opts.special_keys.prev_target = "<backspace>"
+			require("leap").opts.special_keys.prev_group = "<backspace>"
+
+			-- Use the traversal keys to repeat the previous motion without explicitly
+			-- invoking Leap.
+			require("leap.user").set_repeat_keys("<enter>", "<backspace>")
+
+			-- Hide the (real) cursor when leaping, and restore it afterwards.
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LeapEnter",
+				callback = function()
+					vim.cmd.hi("Cursor", "blend=100")
+					vim.opt.guicursor:append({ "a:Cursor/lCursor" })
+				end,
+			})
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LeapLeave",
+				callback = function()
+					vim.cmd.hi("Cursor", "blend=0")
+					vim.opt.guicursor:remove({ "a:Cursor/lCursor" })
+				end,
+			})
+		end,
+	},
+	{
+		"ggandor/leap-spooky.nvim",
+		config = function()
+			require("leap-spooky").setup({
+				-- Additional text objects, to be merged with the default ones.
+				-- E.g.: {'iq', 'aq'}
+				extra_text_objects = nil,
+				-- Mappings will be generated corresponding to all native text objects,
+				-- like: (ir|ar|iR|aR|im|am|iM|aM){obj}.
+				-- Special line objects will also be added, by repeating the affixes.
+				-- E.g. `yrr<leap>` and `ymm<leap>` will yank a line in the current
+				-- window.
+				affixes = {
+					-- The cursor moves to the targeted object, and stays there.
+					magnetic = { window = "m", cross_window = "M" },
+					-- The operation is executed seemingly remotely (the cursor boomerangs
+					-- back afterwards).
+					remote = { window = "r", cross_window = "R" },
+				},
+				-- Defines text objects like `riw`, `raw`, etc., instead of
+				-- targets.vim-style `irw`, `arw`. (Note: prefix is forced if a custom
+				-- text object does not start with "a" or "i".)
+				prefix = false,
+				-- The yanked text will automatically be pasted at the cursor position
+				-- if the unnamed register is in use.
+				paste_on_remote_yank = false,
+			})
+		end,
+	},
+	{
+		"chrisgrieser/nvim-spider",
+		dependencies = {
+			"theHamsta/nvim_rocks",
+			build = "pipx install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+			config = function()
+				require("nvim_rocks").ensure_installed("luautf8")
+			end,
+		},
+		lazy = true,
+		config = function()
+			vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+			vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+			vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
+		end,
+	},
+	{
+		"nvim-pack/nvim-spectre",
+		config = function()
+			vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
+				desc = "Toggle Spectre",
+			})
+			vim.keymap.set("n", "<leader>sW", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+				desc = "Search current word",
+			})
+			vim.keymap.set("v", "<leader>sW", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+				desc = "Search current word",
+			})
+			vim.keymap.set("n", "<leader>sP", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
+				desc = "Search on current file",
 			})
 		end,
 	},

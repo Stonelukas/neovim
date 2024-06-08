@@ -3,9 +3,9 @@ local fzf = require("fzf")
 require("fzf-lua").setup({
 	"telescope",
 	winopts = { preview = { default = "bat" } },
-    lsp = {
-        async_or_timeout = 3000,
-    },
+	lsp = {
+		async_or_timeout = 3000,
+	},
 })
 
 vim.api.nvim_create_autocmd("VimResized", {
@@ -13,17 +13,20 @@ vim.api.nvim_create_autocmd("VimResized", {
 	command = 'lua require("fzf-lua").redraw()',
 })
 
-vim.keymap.set("n", "<c-P>", function()
-	require("fzf-lua").files({ resume = true })
-end, { silent = true, desc = "search files in cwd" })
+vim.keymap.set("n", "<c-P>", "<cmd>FzfxFiles<cr>", { silent = true, desc = "search files in cwd" })
+
+vim.keymap.set(
+	"x",
+	"<leader>fv",
+	"<cmd>FzfxFiles visual<cr>",
+	{ silent = true, desc = "search files in cwd in Visual" }
+)
 
 vim.keymap.set("n", "<leader>cs", function()
 	require("fzf-lua").colorschemes({ resume = true })
 end, { silent = true, desc = "Change ColorScheme with live preview" })
 
-vim.keymap.set("n", "<leader>gc", function()
-	require("fzf-lua").git_commits()
-end, { silent = true, desc = "show git commits" })
+vim.keymap.set("n", "<leader>gc", "<cmd>FzfxGCommits<cr>", { silent = true, desc = "show git commits" })
 
 vim.keymap.set("n", "<leader>bu", function()
 	require("fzf-lua").buffers({ resume = true })

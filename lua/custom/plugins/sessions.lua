@@ -80,6 +80,16 @@ return {
 					vim.notify("Loaded session " .. session.data.name, vim.log.levels.INFO, { title = title })
 				end,
 			})
+
+			vim.api.nvim_create_autocmd({ "User" }, {
+				pattern = "PersistedSavePre",
+				group = "PersistedHooks",
+				callback = function()
+					vim.api.nvim_exec_autocmds("User", {
+						pattern = "SessionSavePre",
+					})
+				end,
+			})
 		end,
 	},
 }

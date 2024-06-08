@@ -2,9 +2,9 @@
 
 vim.opt.inccommand = "split"
 vim.opt.winbar = [[%=%m %f %y %r ]]
-vim.opt.laststatus = 3
-vim.opt.statusline =
-	"▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
+-- vim.opt.laststatus = 3
+-- vim.opt.statusline =
+-- "▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"
 
 ---- Folding ----
@@ -22,6 +22,7 @@ vim.o.foldlevel = 99
 
 ---- Sessions ----
 vim.opt.sessionoptions = {
+	"globals",
 	"folds",
 	"buffers",
 	"curdir",
@@ -41,10 +42,10 @@ vim.opt.mousemodel = "extend"
 -- Search
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
-vim.opt.incsearch = true
+vim.opt.incsearch = false
 
 vim.o.background = "dark"
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme tokyonight-storm]])
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.o.splitkeep = "screen"
@@ -73,7 +74,7 @@ vim.opt.scrolloff = 2
 vim.o.hlsearch = true
 vim.o.breakindent = true
 vim.opt.undofile = true
-vim.o.updatetime = 250
+vim.o.updatetime = 200
 vim.opt.termguicolors = true
 vim.o.wrap = true
 vim.opt.signcolumn = "yes"

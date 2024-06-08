@@ -1,8 +1,5 @@
 return {
 	{
-		"arkav/lualine-lsp-progress",
-	},
-	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		enabled = true,
@@ -74,6 +71,7 @@ return {
 							"mode",
 							-- fmt = trunc(80, 4, nil, true),
 						},
+
 						{
 							function()
 								return require("lsp-status").status()
@@ -137,6 +135,14 @@ return {
 							end,
 							fmt = trunc(120, 20, nil, true),
 							color = { fg = colors.cyan },
+						},
+						{
+							function()
+								return require("lsp-progress").progress({
+									max_size = 80,
+									icon = { "", align = "right" },
+								})
+							end,
 						},
 						--[[ {
                         "filename",
@@ -202,12 +208,7 @@ return {
 						},
 					},
 					lualine_x = {},
-					lualine_y = {
-						{
-							require("lazy.status").updates,
-							cond = require("lazy.status").has_updates,
-						},
-					},
+					lualine_y = {},
 					lualine_z = {
 						{
 							"filename",
@@ -230,6 +231,14 @@ return {
 					"toggleterm",
 				},
 			}
+
+			-- listen lsp-progress event and refresh lualine
+			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+			vim.api.nvim_create_autocmd("User", {
+				group = "lualine_augroup",
+				pattern = "LspProgressStatusUpdated",
+				callback = require("lualine").refresh,
+			})
 
 			-- Inserts a component in lualine_c at left section
 			local function ins_left(component)

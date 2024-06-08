@@ -1,6 +1,7 @@
 return {
     {
         "romgrk/barbar.nvim",
+        enabled = true,
         dependencies = {
             "lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
             "nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
@@ -19,7 +20,8 @@ return {
 
             require("barbar").setup({
                 animation = true,
-                tabpages = false,
+                tabpages = true,
+                clickable = true,
                 icons = {
                     -- Configure the base icons on the bufferline.
                     -- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
@@ -28,22 +30,38 @@ return {
                     button = "",
                     -- Enables / disables diagnostic symbols
                     diagnostics = {
-                        [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "ﬀ" },
+                        [vim.diagnostic.severity.ERROR] = { enabled = true, icon = " " },
                         [vim.diagnostic.severity.WARN] = { enabled = true },
                         [vim.diagnostic.severity.INFO] = { enabled = true },
                         [vim.diagnostic.severity.HINT] = { enabled = true },
                     },
                     gitsigns = {
-                        added = { enabled = true, icon = "+" },
-                        changed = { enabled = true, icon = "~" },
-                        deleted = { enabled = true, icon = "-" },
+                        added = { enabled = true, icon = " " },
+                        changed = { enabled = true, icon = "󱗝 " },
+                        deleted = { enabled = true, icon = "󰆴 " },
                     },
                     modified = { button = "●" },
                     pinned = { button = "", filename = true },
+                    -- preset = "default",
                     alternate = { filetype = { enabled = false } },
                     current = { buffer_index = true },
                     inactive = { button = "×" },
                     visible = { modified = { buffer_number = false } },
+                },
+                insert_at_end = true,
+                sidebar_filetypes = {
+                    undotree = {
+                        text = "undotree",
+                        align = "center",
+                    },
+                    ["neo-tree"] = {
+                        event = "BufWipeout",
+                    },
+                    outline = {
+                        event = "BufWinLeave",
+                        text = "symbols-outline",
+                        align = "right",
+                    },
                 },
             })
         end,
