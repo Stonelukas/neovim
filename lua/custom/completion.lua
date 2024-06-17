@@ -1,18 +1,20 @@
-vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
-vim.opt.shortmess:append("c")
-
+-- Load and initialize lspkind for better visual representation of completion items
 local lspkind = require("lspkind")
 lspkind.init({})
 
+-- Load necessary modules for completion
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local handlers = require("nvim-autopairs.completion.handlers")
 
+-- Lazy load snippets from VSCode and SnipMate
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load()
 
+-- Setup completion configuration
 cmp.setup({
+	-- Define the sources for completion
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
@@ -50,6 +52,7 @@ cmp.setup({
 			},
 		},
 	},
+	-- Define key mappings for completion interactions
 	mapping = cmp.mapping.preset.insert({
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -66,6 +69,7 @@ cmp.setup({
 		["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 	}),
 
+	-- Configure the view and window behavior for completion
 	view = {
 		entries = { name = "custom", selection_order = "top_down" },
 	},
@@ -73,6 +77,7 @@ cmp.setup({
 		completion = cmp.config.window.bordered({}),
 		documentation = cmp.config.window.bordered(),
 	},
+	-- Define how completion items are formatted
 	formatting = {
 		expandable_indicator = true,
 		fields = { "menu", "abbr", "kind" },
@@ -105,6 +110,7 @@ cmp.setup({
 	},
 })
 
+-- Register event handlers for auto-pairing on completion confirm
 cmp.event:on("config_done", cmp_autopairs.on_confirm_done())
 
 cmp.event:on(
@@ -124,6 +130,7 @@ cmp.event:on(
 	})
 )
 
+-- Special completion setup for gitcommit filetype
 cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({
 		{ name = "git" },
@@ -132,19 +139,7 @@ cmp.setup.filetype("gitcommit", {
 	}),
 })
 require("cmp_git").setup()
--- cmp.setup.cmdline({ "/", "?" }, {
--- 	view = {
--- 		entries = { name = "wildmenu", separator = "|" },
--- 	},
--- 	mapping = cmp.mapping.preset.cmdline(),
--- 	sources = {
--- 		{ name = "buffer-lines" },
--- 		{
--- 			name = "buffer",
--- 			option = { keyword_pattern = [[\k\+]] },
--- 		},
--- 	},
--- })
+-- Setup command line completion for search and replace
 cmp.setup.cmdline({ "/", "?" }, {
 	completion = cmp.config.window.bordered(),
 	sources = {
@@ -178,6 +173,7 @@ cmp.setup.cmdline({ "/", "?" }, {
 	}),
 })
 
+-- Setup command line completion for command mode
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline({
 		["<CR>"] = cmp.mapping.confirm({
@@ -211,6 +207,7 @@ cmp.setup.cmdline(":", {
 	}),
 })
 
+-- Set highlighting for different completion item types
 -- gray
 vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
 -- blue
@@ -227,3 +224,4 @@ vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = "#D4D4D4" })
 vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
 vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
+
