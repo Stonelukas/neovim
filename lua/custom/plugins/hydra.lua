@@ -693,7 +693,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 					},
 				},
 				mode = "n",
-				body = "<C-w>",
+				body = "<leader><C-w>",
 				heads = {
 					{ "h", "<C-w>h" },
 					{ "j", "<C-w>j" },
@@ -718,7 +718,7 @@ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
 						end,
 					},
 					{
-						"<C-k>",
+						"<C-K>",
 						function()
 							splits.resize_up(2)
 						end,

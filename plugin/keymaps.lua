@@ -28,7 +28,7 @@ set("n", "<leader>w", "<Cmd>update<CR>", { desc = "save file" }) -- Save the cur
 set("n", "<leader>W", "<Cmd>wall<CR>", { desc = "save all files" }) -- Save all open files
 set("n", "<leader>wq }", ":wq<CR>", { desc = "save and quit" }) -- Save and quit the current file
 set("n", "<leader>qq", ":qa!<CR>", { desc = "quit without saving" }) -- Quit all without saving
-set("n", "gx", ":!open <c-r><c-a><CR>", { desc = "open URL under cursor" }) -- Open URL under cursor
+-- set("n", "gx", ":!open <c-r><c-a><CR>", { desc = "open URL under cursor" }) -- Open URL under cursor
 set("v", "J", ":move '>+1<CR>gv=gv", { desc = "Move selected lines down" }) -- Move selected lines down
 set("v", "K", ":move '>-2<CR>gv=gv", { desc = "Move selected lines up" }) -- Move selected lines up
 
@@ -38,8 +38,8 @@ set("o", "A", ":<C-u>normal! mggVG<CR>`z", { desc = "Select the whole buffer" })
 set("x", "A", ":<C-u>normal! ggVG<CR>", { desc = "Select the whole buffer" }) -- Select the whole buffer in visual mode
 
 -- Split window management keymaps
-set("n", "<leader>sv", "<C-w>v", { desc = "split window vertically" }) -- Split window vertically
-set("n", "<leader>sh", "<C-w>s", { desc = "split window horizontally" }) -- Split window horizontally
+set("n", "<leader>sV", "<C-w>v", { desc = "split window vertically" }) -- Split window vertically
+set("n", "<leader>sH", "<C-w>s", { desc = "split window horizontally" }) -- Split window horizontally
 set("n", "<leader>se", "<C-w>=", { desc = "make split windows equal width" }) -- Make split windows equal width
 set("n", "<leader>sx", ":close<CR>", { desc = "close split window" }) -- Close split window
 set("n", "<leader>sj", "<C-w>-", { desc = "make split window height shorter" }) -- Make split window height shorter

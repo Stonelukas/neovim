@@ -5,12 +5,12 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Disable automatic commenting of new lines when entering a buffer
 autocmd("BufEnter", {
-	pattern = "",  -- Apply to all buffers
-	command = "set fo-=c fo-=r fo-=o",  -- Remove 'c', 'r', and 'o' from 'formatoptions'
+	pattern = "", -- Apply to all buffers
+	command = "set fo-=c fo-=r fo-=o", -- Remove 'c', 'r', and 'o' from 'formatoptions'
 })
 
 -- Create an autocommand for the 'User' event with pattern 'LuasnipPreExpand'
-vim.api.nvim_create_autocmd("User", {
+--[[ vim.api.nvim_create_autocmd("User", {
 	pattern = "LuasnipPreExpand",
 	callback = function()
 		-- Get the snippet that is about to be expanded from the Luasnip session
@@ -28,4 +28,4 @@ vim.api.nvim_create_autocmd("User", {
 			)
 		)
 	end,
-})
+}) ]]

@@ -144,6 +144,15 @@ return {
 								})
 							end,
 						},
+						{
+							function()
+								if not pcall(require, "lsp_signature") then
+									return
+								end
+								local sig = require("lsp_signature").status_line(vim.fn.winwidth(0))
+								return sig.label .. "🐼" .. sig.hint
+							end,
+						},
 						--[[ {
                         "filename",
                         file_status = true,

@@ -76,15 +76,6 @@ return {
 					},
 				},
 				{
-					-- ... and for different modes
-					desc = "Show function signaure (hover)",
-					cmd = "<CMD>lua vim.lsp.buf.hover()<CR>",
-					keys = {
-						{ { "n", "x" }, "K", silent_noremap },
-						{ "i", "<C-k>" },
-					},
-				},
-				{
 					-- You can pass in a key sequences as if you would type them in nvim
 					desc = "My favorite key sequence",
 					cmd = "A  -- Add a comment at the end of a line",
