@@ -27,7 +27,7 @@ return {
             })
 
             -- Setup keymaps
-            vim.keymap.set("n", "<leader>K", require("hover").hover, { desc = "hover.nvim" })
+            vim.keymap.set("n", "<leader>lK", require("hover").hover, { desc = "hover.nvim" })
             vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
             vim.keymap.set("n", "<A-m>", function()
                 require("hover").hover_switch("previous")

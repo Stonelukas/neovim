@@ -30,6 +30,8 @@ return {
 				"rust",
 				"toml",
 				"javascript",
+				"typescript",
+				"tsx",
 				"json",
 				"markdown",
 			},
@@ -129,4 +131,13 @@ return {
 
 		require("treesitter-context").setup({})
 	end,
+	{
+		"lhkipp/nvim-nu",
+		config = function()
+			require("nu").setup({
+				use_lsp_features = true,
+				all_cmd_names = [[help commands | get name | str join "\n"]],
+			})
+		end,
+	},
 }
