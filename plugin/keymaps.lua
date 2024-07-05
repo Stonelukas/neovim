@@ -12,8 +12,8 @@ end, { silent = true, desc = "Fuzzy complete file" })
 set("n", "<leader>e", vim.diagnostic.open_float, { desc = "open diagnostic in float" })
 
 -- Executing/Sourcing keymaps
-set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })      -- Execute the current line as Lua code
-set("n", "<leader>xx", "<cmd>source %<CR>", { desc = "Execute the current file" }) -- Source the current file
+set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })  -- Execute the current line as Lua code
+set("n", "<leader>xx", "<cmd>Jaq <CR>", { desc = "Execute the current file" }) -- Source the current file
 
 -- General keymaps
 -- set("n", "j", "jzz", { silent = true }) -- Uncomment to center screen after moving down

@@ -87,7 +87,7 @@ return {
 						text = "┆",
 						priority = 7,
 						gui = nil,
-						color = colors.gitSigns.add,
+						color = colors.git.add,
 						cterm = nil,
 						color_nr = nil, -- cterm
 						highlight = "GitSignsAdd",
@@ -96,7 +96,7 @@ return {
 						text = "┆",
 						priority = 7,
 						gui = nil,
-						color = colors.gitSigns.change,
+						color = colors.git.change,
 						cterm = nil,
 						color_nr = nil, -- cterm
 						highlight = "GitSignsChange",
@@ -105,7 +105,7 @@ return {
 						text = "▁",
 						priority = 7,
 						gui = nil,
-						color = colors.gitSigns.delete,
+						color = colors.git.delete,
 						cterm = nil,
 						color_nr = nil, -- cterm
 						highlight = "GitSignsDelete",

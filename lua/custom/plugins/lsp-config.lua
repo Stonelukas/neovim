@@ -81,7 +81,6 @@ return {
             local servers = {
                 "beautysh",
                 "pyright",
-                "tsserver",
                 "biome",
                 "solargraph",
                 "tailwindcss",
@@ -427,7 +426,6 @@ return {
             -- require("neodev").setup()
             require("mason-lspconfig").setup({
                 ensure_installed = {
-                    "tsserver",
                     "lua_ls",
                     "bashls",
                     "jsonls",
@@ -585,5 +583,37 @@ return {
     },
     {
         "nvim-lua/popup.nvim",
+    },
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = function()
+            require("typescript-tools").setup({
+                settings = {
+                    separate_diagnostic_server = true,
+                    tsserver_max_memory = "auto",
+                    tsserver_file_preverences = {
+                        includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+
+                        includeCompletionsForModuleExports = true,
+                        quotePreference = "auto",
+                    },
+                    tsserver_format_options = {
+                        allowRenameOfImportPath = true,
+                    },
+                    jsx_close_tag = {
+                        enable = true,
+                        filetypes = { "javascriptreact", "typescriptreact" },
+                    },
+                },
+            })
+        end,
     },
 }
