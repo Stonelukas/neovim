@@ -5,7 +5,7 @@
 --]]
 -- Set the global leader keys to a space for easier access in command mode
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "\\"
 
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -14,9 +14,9 @@ if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
-		"--filter=blob:none",  -- This option minimizes data transfer to only essential information
+		"--filter=blob:none", -- This option minimizes data transfer to only essential information
 		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",  -- Ensures cloning from the stable branch
+		"--branch=stable", -- Ensures cloning from the stable branch
 		lazypath,
 	})
 end
@@ -26,9 +26,33 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Initialize lazy.nvim with the specified configuration directory
-require("lazy").setup({ import = "custom/plugins" }, {
+require("lazy").setup({
+	spec = {
+		import = "custom/plugins",
+	},
+	checker = {
+		enabled = true,
+		notify = true,
+	},
+	ui = {
+		border = "rounded",
+		icons = {
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
+	},
 	change_detection = {
-		notify = false,  -- Disable notifications for changes
+		notify = false, -- Disable notifications for changes
 	},
 })
 

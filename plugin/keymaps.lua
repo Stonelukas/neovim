@@ -8,6 +8,12 @@ set({ "i" }, "<C-x><C-f>", function()
     })
 end, { silent = true, desc = "Fuzzy complete file" })
 
+-- better up/down
+set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+
 -- Diagnostic keymap
 set("n", "<leader>e", vim.diagnostic.open_float, { desc = "open diagnostic in float" })
 

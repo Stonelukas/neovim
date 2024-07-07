@@ -39,19 +39,13 @@ return {
 	{
 		"tamago324/cmp-zsh",
 		config = function()
-			require("cmp_zsh").setup({
-				zshrc = true,
-				filetypes = { "deoledit", "zsh" },
-			})
+			require("cmp_zsh").setup({ zshrc = true, filetypes = { "deoledit", "zsh" } })
 		end,
 	},
 	{
 		"L3MON4D3/LuaSnip",
 		build = "make install_jsregexp",
-		dependencies = {
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-		},
+		dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
 		config = function()
 			require("custom.luasnip")
 		end,

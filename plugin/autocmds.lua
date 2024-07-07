@@ -5,8 +5,44 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Disable automatic commenting of new lines when entering a buffer
 autocmd("BufEnter", {
-	pattern = "", -- Apply to all buffers
-	command = "set fo-=c fo-=r fo-=o", -- Remove 'c', 'r', and 'o' from 'formatoptions'
+    pattern = "",                   -- Apply to all buffers
+    command = "set fo-=c fo-=r fo-=o", -- Remove 'c', 'r', and 'o' from 'formatoptions'
+})
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("close_with_q", { clear = true }),
+    pattern = {
+        "PlenaryTestPopup",
+        "help",
+        "lspinfo",
+        "notify",
+        "qf",
+        "spectre_panel",
+        "startuptime",
+        "tsplayground",
+        "neotest-output",
+        "checkhealth",
+        "neotest-summary",
+        "neotest-output-panel",
+        "dbout",
+        "gitsigns.blame",
+		"TelescopePrompt",
+	},
+	callback = function(event)
+		vim.bo[event.buf].buflisted = false
+		vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+	end,
+})
+
+-- wrap and check for spell in text filetypes
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("wrap_spell", { clear = true }),
+	pattern = { "*.txt", "*.tex", "*.typ", "gitcommit", "markdown" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.spell = true
+	  end,
 })
 
 -- Create an autocommand for the 'User' event with pattern 'LuasnipPreExpand'
