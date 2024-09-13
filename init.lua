@@ -1,6 +1,3 @@
--- Set the global leader keys to a space for easier access in command mode
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 require 'core.options'
 require 'core.keymaps'
@@ -23,13 +20,16 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 -- Add lazy.nvim to the runtime path to allow using `require` on it
----@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Set the global leader keys to a space for easier access in command mode
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 -- Initialize lazy.nvim with the specified configuration directory
 require("lazy").setup({
 	spec = {
-		-- import = "plugins",
+        { import = "plugins", },
 	},
 	checker = {
 		enabled = true,
@@ -53,15 +53,7 @@ require("lazy").setup({
 		},
 	},
 	change_detection = {
-		notify = false, -- Disable notifications for changes
+		notify = true, -- Disable notifications for changes
 	},
-{
-	"nvim-neo-tree/neo-tree.nvim",
-	branch = "v3.x",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons",
-		"MunifTanjim/nui.nvim",
-	}
-}
 })
+
