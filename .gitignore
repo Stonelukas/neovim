@@ -20,3 +20,5 @@ tags
 [._]*.un~
 
 kickstart/
+
+lazy-lock.json

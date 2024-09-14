@@ -2,6 +2,7 @@ return
 {
 	"nvim-neo-tree/neo-tree.nvim",
 	branch = "v3.x",
+    priority = 500,
 	dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -28,8 +29,7 @@ return
           end,
       },
     },
-    opts = {
-    },
+    opts = {},
     config = function(_, opts)
         -- If you want icons for diagnostic errors, you'll need to define them somewhere:
         vim.fn.sign_define("DiagnosticSignError",
@@ -108,6 +108,8 @@ return
         opts.nesting_rules = require 'neotree-file-nesting-config'.nesting_rules
         require 'neo-tree'.setup(opts)
         require 'neo-tree'.setup({
+            hide_root_node = true,
+            retain_hidden_root_indent = true,
             close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
             popup_border_style = "rounded",
             enable_git_status = true,
@@ -135,6 +137,13 @@ return
                     files = { ".dockerignore", "docker-compose.*", "dockerfile*" },
                 },
             },
+            sources = {
+                "filesystem", 
+                "buffers",
+                "git_status",
+                "document_symbols",
+                "netman.ui.neo-tree",
+            },
             default_component_config = {
                 container = {
                     enable_character_fade = true
@@ -148,9 +157,9 @@ return
                     last_indent_marker = "└",
                     highlight = "NeoTreeIndentMarker",
                     -- expander config, needed for nesting files
-                    with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+                    with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
                     expander_collapsed = "",
-                    expander_expanded = "",
+                    expander_expanded = " ",
                     expander_highlight = "NeoTreeExpander",
                 },
                 icon = {
@@ -301,9 +310,40 @@ return
                         vim.api.nvim_exec2("Neotree close", {})
                         vim.api.nvim_exec2("Neotree reveal git_status float", {})
                     end,
+                    ["r"] = function()
+                        vim.api.nvim_exec2("Neotree focus remote left", {})
+                    end,
+                    ["s"] = function()
+                        vim.api.nvim_exec2("Neotree focus document_symbols left", {})
+                    end,
                     ["o"] = "system_open",
                     ["c"] = "run_command",
                     ["d"] = "trash",
+                    ["<tab>"] = function(state)
+                        local node = state.tree:get_node()
+                        if require 'neo-tree.utils'.is_expandable(node) then
+                            state.commands["toggle_node"](state)
+                        else
+                            state.commands['open'](state)
+                            vim.cmd('Neotree last')
+                        end
+                    end,
+                    ["h"] = function(state)
+                        local node = state.tree:get_node()
+                        if node.type == 'directory' and node:is_expanded() then
+                            require 'neo-tree.sources.filesystem'.toggle_directory(state, node)
+                        else
+                            require 'neo-tree.ui.renderer'.focus_node(state, node:get_parent_id())
+                        end
+                    end,
+                    ["l"] = function(state)
+                        local node = state.tree:get_node()
+                        if node.type == 'directory' and node:is_expanded() then
+                            require 'neo-tree.sources.filesystem'.toggle_directory(state, node)
+                        else
+                            require 'neo-tree.ui.renderer'.focus_node(state, node:get_child_ids()[1])
+                        end
+                    end,
                     -- TODO Telescope
                     -- ["tf"] = "telescope_find",
                     -- ["tg"] = "telescope_grep",
@@ -317,13 +357,16 @@ return
                 },
                 filtered_items = {
                     visible = true,
+                    show_hidden_count = false,
                     hide_dotfiles = true,
                     hide_gitignored = true,
                     hide_hidden = true, -- only works on Windows for hidden files/directories
                     hide_by_name = {},
                     hide_by_pattern = {},
                     always_show = {},
-                    never_show = {},
+                    never_show = {
+                        '.DS_Store',
+                    },
                     never_show_by_pattern = {},
                 },
                 follow_current_file = {
@@ -331,7 +374,7 @@ return
                     leave_dirs_open = true
                 },
                 group_empty_dirs = true,
-                hijack_netrw_behaviour = "open_default",
+                hijack_netrw_behaviour = "open_current",
                 use_libuv_file_watcher = true
             },
             buffers = {
@@ -359,9 +402,17 @@ return
                         source = "git_status", -- string
                         display_name = " 󰊢 Git ", -- string | nil
                     },
+                    {
+                        source = "remote", 
+                        display_name = " Remote",
+                    },
+                    {
+                        source = "document_symbols",
+                        display_name = "󰆧 Symbols",
+                    },
                 },
                 content_layout = "start", -- string
-                tabs_layout = "equal", -- string
+                tabs_layout = "active", -- string
                 truncation_character = "…", -- string
                 tabs_min_width = nil, -- int | nil
                 tabs_max_width = nil, -- int | nil
@@ -386,8 +437,52 @@ return
                         require("neo-tree.command").execute({ action = "close" })
                     end,
                 },
+                {
+                    event = "neo_tree_window_after_open",
+                    handler = function(args)
+                        if args.position == "left" or args.position == "right" then
+                            vim.cmd("wincmd =")
+                        end
+                    end
+                },
+                {
+                    event = "neo_tree_window_after_close",
+                    handler = function(args)
+                        if args.position == "left" or args.position == "right" then
+                            vim.cmd("wincmd =")
+                        end
+                    end
+                },
+                {
+                    event = "neo_tree_buffer_enter",
+                    handler = function()
+                        vim.cmd 'highlight! Cursor blend=100'
+                    end,
+                },
+                {
+                    event = "neo_tree_buffer_leave",
+                    handler = function()
+                        vim.cmd 'highlight! Cursor guibg=#5f87af blend=0'
+                    end,
+                },
+                {
+                    event = "after_render",
+                    handler = function(state)
+                        if state.current_position == "left" or state.current_position == "right" then
+                            vim.api.nvim_win_call(state.winid, function()
+                                local str = require 'neo-tree.ui.selector'.get()
+                                if str then
+                                    _G.__cached_neo_tree_selector = str
+                                end
+                            end)
+                        end
+                    end,
+                },
             },
         })
-		vim.keymap.set("n", "<leader>ä", ":Neotree <CR>", { noremap = true, silent = true })
+
+
+		vim.keymap.set("n", "<leader>ä", ":Neotree last <CR>", { noremap = true, silent = true })
+        vim.keymap.set("n", "<leader>#", ":Neotree <CR>", { noremap = true, silent = true})
     end 
 }

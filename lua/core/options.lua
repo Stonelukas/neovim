@@ -60,7 +60,7 @@ vim.opt.incsearch = false
 vim.o.background = "dark"
 -- Apply the 'tokyonight-storm' color scheme
 -- TODO Colorscheme
--- vim.cmd([[colorscheme tokyonight-storm]])
+vim.cmd.colorscheme("material")
 -- Enable relative line numbers
 vim.opt.relativenumber = true
 -- Enable absolute line numbers

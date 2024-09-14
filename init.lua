@@ -1,6 +1,4 @@
 
-require 'core.options'
-require 'core.keymaps'
 
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -57,3 +55,6 @@ require("lazy").setup({
 	},
 })
 
+require 'core.options'
+require 'core.keymaps'
+require 'core.autocmds'
