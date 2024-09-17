@@ -51,3 +51,5 @@ autocmd("VimLeavePre", {
 })
 
 
+-- NVIM-TREE
+-- auto close

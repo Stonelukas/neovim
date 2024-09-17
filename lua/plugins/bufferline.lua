@@ -1,29 +1,59 @@
 return 
 {
-    -- {
-    -- config = function()
-    --     _G.__cached_neo_tree_selector = nil
-    --     _G.__get_selector = function()
-    --         return _G.__cached_neo_tree_selector
-    --     end
-    --
-    --     require 'bufferline.nvim'.setup({
-    --         options = {
-    --             offsets = {
-    --                 {
-    --                     filetype = "neo-tree",
-    --                     raw = " %{%v:lua.__get_selector()%} ",
-    --                     highlight = { sep = { link = "WinSeperator" } },
-    --                     seperator = "|",
-    --                 },
-    --             }.
-    --         },
-    --     })
-    -- end
-    -- },
+    {
+        "romgrk/barbar.nvim",
+        version = '^1.0.0',
+        cond = false,
+        init = function()
+            vim.g.barbar_auto_setup = false
+        end,
+        config = function()
+            require 'barbar'.setup({
+                animation = true,
+                tabpages = true,
+                clickable = true,
+                maximum_padding = math.huge,
+                icons = {
+                    buffer_number = true,
+                    pinned = {button = '', filename = true},
+                    preset = 'default',
+                    diagnostics = {},
+                    filetype = {
+                        custom_colors = true,
+                    },
+                    alternate = { 
+                        filetype = { enabled = false }
+                    },
+                    current = {
+                        buffer_index = true,
+                    },
+                    inactive = {
+                        button = '×' 
+                    },
+                    visible = {
+                        modified = {
+                            buffer_number = false
+                        },
+                    },
+                },
+                sidebar_filetypes = {
+                    undotree = {
+                        text = 'undotree',
+                        align = 'center',
+                    },
+                    ['neo-tree'] =  {
+                        event = 'BufWipeout',
+                        text = 'neo-tree',
+                        align = 'center',
+                    },
+                },
+            })
+        end
+    },
     {
         "miversen33/nvim-cokeline",
         priority = 800,
+        cond = true,
         config = function()
             local get_hex = require 'cokeline.hlgroups'.get_hl_attr
             local mappings = require 'cokeline.mappings'
@@ -192,14 +222,23 @@ return
                     components = {},
                 },
                 sidebar = {
-                    filetype = { "neo-tree" },
+                    -- filetype = "neo-tree",
+                    -- components = {
+                    --     {
+                    --         text = function(buf)
+                    --             return vim.bo[buf.number].filetype
+                    --         end,
+                    --         fg = yellow,
+                    --         bg = function() return get_hex('NeoTreeNormal', 'bg') end,
+                    --         bold = true,
+                    --     },
+                    -- },
+                    filetype = { "NvimTree", "neo-tree" },
                     components = {
                         {
-                            text = function(buf)
-                                return buf.filetype
-                            end,
+                            text = ' 󰙅  File Explorer ',
                             fg = yellow,
-                            bg = function() return get_hex('NeoTreeNormal', 'bg') end,
+                            bg = yellow,
                             bold = true,
                         },
                     },

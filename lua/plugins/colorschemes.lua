@@ -65,6 +65,7 @@ return
                     -- "neogit",
                     -- "neotest",
                     "neo-tree",
+                    "nvim-tree",
                     -- "noice",
                     -- "nvim-cmp",
                     -- "nvim-navic",

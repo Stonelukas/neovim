@@ -48,6 +48,7 @@ vim.opt.sessionoptions = {
 vim.opt.mouse = "a"
 -- Set the mouse model to extend, enhancing selection capabilities
 vim.opt.mousemodel = "extend"
+vim.opt.mousemoveevent = true
 
 -- Search
 -- Enable smart case and ignore case to improve search usability

@@ -1,5 +1,3 @@
-
-
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- Check if lazy.nvim is already downloaded, if not, clone it from GitHub
@@ -19,6 +17,10 @@ end
 
 -- Add lazy.nvim to the runtime path to allow using `require` on it
 vim.opt.rtp:prepend(lazypath)
+
+-- disable netrw 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Set the global leader keys to a space for easier access in command mode
 vim.g.mapleader = " "

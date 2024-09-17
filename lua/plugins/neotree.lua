@@ -2,6 +2,7 @@ return
 {
 	"nvim-neo-tree/neo-tree.nvim",
 	branch = "v3.x",
+    cond = true,
     priority = 500,
 	dependencies = {
       "nvim-lua/plenary.nvim",
@@ -482,7 +483,7 @@ return
         })
 
 
-		vim.keymap.set("n", "<leader>ä", ":Neotree last <CR>", { noremap = true, silent = true })
-        vim.keymap.set("n", "<leader>#", ":Neotree <CR>", { noremap = true, silent = true})
+		-- vim.keymap.set("n", "<leader>ä", ":Neotree last <CR>", { noremap = true, silent = true })
+        vim.keymap.set("n", "<leader>#", ":Neotree remote<CR>", { noremap = true, silent = true})
     end 
 }
