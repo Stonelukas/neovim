@@ -30,6 +30,7 @@ return {
 			auto_install = true,
 			highlight = {
 				enable = true,
+                additional_vim_regex_highighting = false,
 			},
 			incremental_selection = {
 				enable = true,
@@ -52,7 +53,7 @@ return {
 				smart_rename = {
 					enable = true,
 					keymaps = {
-						smart_rename = "grr",
+						smart_rename = "gr",
 					},
 				},
 				navigation = {

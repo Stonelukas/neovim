@@ -22,6 +22,28 @@ return {
 			}
 		end,
 	},
+    {
+        'adoyle-h/ad-telescope-extensions.nvim',
+        config = function()
+            require('ad-telescope-extensions').setup {
+                enable = { 
+                'changes', 
+                'colors', 
+                'env', 
+                'floaterm', 
+                'lsp_document_symbols_filter', 
+                'lsp_dynamic_workspace_symbols_filter', 
+                'lsp_workspace_symbols_filter',
+                'message',
+                'packpath',
+                'rtp',
+                'scriptnames',
+                'time',
+                'zk',
+                },
+            }
+        end
+    },
 	{
 		'nvim-telescope/telescope.nvim',
 		branch = 'master',

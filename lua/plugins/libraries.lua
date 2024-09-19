@@ -34,4 +34,6 @@ return {
 	{ "muniftanjim/nui.nvim" },
 	{ "kkharji/sqlite.lua", module = "sqlite" },
 	{ "nvim-lua/popup.nvim" },
+    { 'adoyle-h/telescope-extension-maker.nvim' },
+    { 'sindrets/diffview.nvim' },
 }

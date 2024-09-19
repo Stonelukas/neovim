@@ -233,5 +233,11 @@ telescope.setup({
             lazy_config = vim.fn.stdpath('config') .. "/init.lua",
         },
         resession = {},
+        workspaces ={
+            keep_insert = false,
+        },
+        git_diffs = {
+            git_command = { 'git', 'log', '--oneline', '--decorate', '--all', '.' }
+        },
 	},
 })

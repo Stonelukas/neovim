@@ -220,7 +220,7 @@ return {
 			"n",
 			"<leader>ä",
 			"<cmd>NvimTreeToggle<cr>",
-			{ desc = "Open Nvim-Tree", silent = true, noremap = true }
+			{ desc = "Nvim-Tree", silent = true, noremap = true }
 		)
 	end,
 }
