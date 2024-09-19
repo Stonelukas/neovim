@@ -4,6 +4,11 @@ return {
     config = function()
         local hydra = require('hydra')
 
+
+
         hydra.setup {}
+
+        require('plugins.utils.hydra')
     end
-} 
+}  
+

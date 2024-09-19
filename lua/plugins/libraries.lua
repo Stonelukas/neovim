@@ -36,4 +36,12 @@ return {
 	{ "nvim-lua/popup.nvim" },
     { 'adoyle-h/telescope-extension-maker.nvim' },
     { 'sindrets/diffview.nvim' },
+    { 
+        'echasnovski/mini.nvim', 
+        version = false,
+        config = function()
+
+            require('mini.move').setup() 
+        end
+    },
 }

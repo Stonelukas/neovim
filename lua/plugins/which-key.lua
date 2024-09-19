@@ -1,6 +1,7 @@
 return
 {
     'folke/which-key.nvim',
+    cond = true,
     event = 'VeryLazy',
     keys = {
         {
@@ -65,6 +66,8 @@ return
             { '<leader>t', group = 'Todo-comments' },
             { '<leader>s', group = 'Sessions' },
             { '<leader>l', group = 'Activate' },
+            { '<leader>g', group = 'Git' },
+            { '<leader>gt', group = 'Toggle' },
             { 'g', group = 'Go-to' },
             { '=', group = 'Filter paste' },
             { "<leader>w", proxy = "<c-w>", group = "windows" },
