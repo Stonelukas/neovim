@@ -13,34 +13,36 @@ vim.opt.winbar = [[%=%m %f %y %r ]]
 ---- Folding ----
 -- Set characters used for displaying folds
 vim.opt.fillchars = {
-    fold = " ",
-    foldopen = "",
-    foldclose = "",
-    foldsep = " ",
-    diff = "╱",
-    eob = " ",
+	fold = " ",
+	foldopen = "",
+	foldclose = "",
+	foldsep = " ",
+	diff = "╱",
+	eob = " ",
 }
 -- Enable folding by default
 vim.o.foldenable = true
 -- Set the fold column to 1 to show a marker on the side
 vim.o.foldcolumn = "1"
 -- Set the default fold level to 99 to start with all folds open
-vim.o.foldlevel = 99
+vim.o.foldlevel = 50
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 ---- Sessions ----
 -- Configure session options to save/restore these aspects of the session
 vim.opt.sessionoptions = {
-    "globals",
-    "folds",
-    "buffers",
-    "curdir",
-    "tabpages",
-    "winsize",
-    "resize",
-    "winpos",
-    "terminal",
-    "help",
-    "winpos",
+	"globals",
+	"folds",
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"resize",
+	"winpos",
+	"terminal",
+	"help",
+	"winpos",
 }
 
 ---- Mouse ----
@@ -126,6 +128,8 @@ vim.o.wrap = false
 vim.opt.signcolumn = "yes"
 -- Use the system clipboard for all operations
 vim.opt.clipboard = "unnamedplus"
+-- auto change cwd 
+vim.opt.autochdir = false
 
 -- Configure completion options for a better experience
 -- :help completeopt
@@ -149,10 +153,10 @@ vim.api.nvim_set_option_value("updatetime", 300, {})
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    group = highlight_group,
-    pattern = "*",
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	group = highlight_group,
+	pattern = "*",
 })
