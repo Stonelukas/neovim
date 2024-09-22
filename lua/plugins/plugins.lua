@@ -15,4 +15,7 @@ return {
         'tiagovla/scope.nvim',
         opts = {},
     },
+    {
+        'jlanzarotta/bufexplorer',
+    },
 }

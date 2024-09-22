@@ -5,14 +5,14 @@ return
     event = 'VeryLazy',
     keys = {
         {
-            '<leader>h', 
+            '<leader>Hl', 
             function()
                 require('which-key').show { global = false }
             end,
             desc = "Buffer Local Keymaps (which-key)",
         },
         {
-            '<leader>H', 
+            '<leader>Hg', 
             function()
                 require('which-key').show { global = true }
             end,
@@ -68,6 +68,7 @@ return
             { '<leader>l', group = 'Activate' },
             { '<leader>g', group = 'Git' },
             { '<leader>gt', group = 'Toggle' },
+            { '<leader>H', group = 'Keymaps' },
             { 'g', group = 'Go-to' },
             { '=', group = 'Filter paste' },
             { "<leader>w", proxy = "<c-w>", group = "windows" },

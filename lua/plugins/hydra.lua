@@ -6,7 +6,9 @@ return {
 
 
 
-        hydra.setup {}
+        hydra.setup {
+            color = 'red',
+        }
 
         require('plugins.utils.hydra')
     end

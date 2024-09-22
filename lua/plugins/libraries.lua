@@ -36,6 +36,8 @@ return {
 	{ "nvim-lua/popup.nvim" },
     { 'adoyle-h/telescope-extension-maker.nvim' },
     { 'sindrets/diffview.nvim' },
+    { 'anuvyklack/middleclass' },
+    { 'anuvyklack/animation.nvim' },
     { 
         'echasnovski/mini.nvim', 
         version = false,

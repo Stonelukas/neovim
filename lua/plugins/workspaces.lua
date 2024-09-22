@@ -16,7 +16,6 @@ return
                     function()
                         require('resession').load(vim.fn.getcwd(), { notify = true })
                     end,
-
                 },
             },
         }
