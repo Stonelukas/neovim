@@ -22,8 +22,8 @@ return {
 		require("neoclip").setup({
 			enable_persistent_history = true,
 			default_registers = { '"', "+", "*" },
-			preview = true,
-			content_spec_column = false,
+			preview = false,
+			content_spec_column = true,
 			on_select = {
 				close_telescope = false,
 			},
@@ -31,12 +31,13 @@ return {
 				return not all(data.event.regcontents, is_whitespace)
 			end,
 			keys = {
-				telescope = {
-					n = {
-						custom = {},
-					},
-				},
+                custom = {
+                    ['<space>'] = function(opts)
+                    print(vim.inspect(opts))
+                    end,
+                },
 			},
 		})
+
 	end,
 }

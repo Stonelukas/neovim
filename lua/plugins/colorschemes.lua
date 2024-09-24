@@ -24,6 +24,7 @@ return {
 	},
 	{
 		"miversen33/material.nvim",
+        priority = 1000,
 		init = function()
 			vim.g.material_style = "deep ocean"
 		end,
@@ -81,4 +82,27 @@ return {
 			})
 		end,
 	},
+    {
+        'folke/tokyonight.nvim',
+        priority = 1000,
+        opts = {},
+        config = function()
+            require('tokyonight').setup {
+                style = 'night',
+                transparent = false,
+                styles = {
+					comments = { italic = true },
+					strings = { bold = true },
+					functions = { bold = true, undercurl = true },
+					variables = { bold = true },
+					operators = {},
+					types = {},
+                    sidebars = 'normal',
+                    floats = 'transparent',
+                },
+                dim_inactive = true,
+                lualine_bold = true,
+            }
+        end
+    },
 }

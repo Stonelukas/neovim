@@ -11,10 +11,10 @@ return {
 
 			comments.setup()
 
-			map("n", "<leader>tn", function()
+			map("n", "<leader>vn", function()
 				comments.jump_next()
 			end, opts("Next todo comment"))
-			map("n", "<leader>tp", function()
+			map("n", "<leader>vp", function()
 				comments.jump_prev()
 			end, opts("Previous todo comment"))
 		end,

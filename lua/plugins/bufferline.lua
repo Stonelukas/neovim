@@ -2,7 +2,7 @@ return {
 	{
 		"romgrk/barbar.nvim",
 		version = "^1.0.0",
-		cond = false,
+		cond = true,
 		init = function()
 			vim.g.barbar_auto_setup = false
 		end,
@@ -12,47 +12,67 @@ return {
 				tabpages = true,
 				clickable = true,
 				maximum_padding = math.huge,
+                highlight_visible = true,
 				icons = {
-					buffer_number = true,
+                    default = 'slanted',
+					buffer_number = false,
+                    button = "",
+                    diagnostics = {
+                        [vim.diagnostic.severity.ERROR] = { enabled = true, icon = " " },
+                        [vim.diagnostic.severity.WARN] = { enabled = true },
+                        [vim.diagnostic.severity.INFO] = { enabled = true },
+                        [vim.diagnostic.severity.HINT] = { enabled = true },
+                    },
+                    gitsigns = {
+                        added = { enabled = true, icon = " " },
+                        changed = { enabled = true, icon = "󱗝 " },
+                        deleted = { enabled = true, icon = "󰆴 " },
+                    },
 					pinned = { button = "", filename = true },
-					preset = "default",
-					diagnostics = {},
 					filetype = {
-						custom_colors = true,
+						custom_colors = false,
+                        enabled = true,
 					},
 					alternate = {
 						filetype = { enabled = false },
 					},
-					current = {
-						buffer_index = true,
-					},
-					inactive = {
-						button = "×",
-					},
+					current = {},
+					inactive = {},
 					visible = {
-						modified = {
-							buffer_number = false,
-						},
+						modified = {},
 					},
+                    separator = {left = '▎', right = ''},
+                    seperator_at_end = true,
 				},
 				sidebar_filetypes = {
 					undotree = {
 						text = "undotree",
 						align = "center",
 					},
+                    ['NvimTree'] = {
+                        -- text = 'Nvimtree',
+                        event = 'BufWipeout',
+                    },
 					["neo-tree"] = {
 						event = "BufWipeout",
 						text = "neo-tree",
 						align = "center",
 					},
+                    outline = {
+                        event = 'BufWinLeave',
+                        text = 'symbols-outline',
+                        align = 'right',
+                    },
 				},
 			})
+
+            require('plugins.config.barbar')
 		end,
 	},
 	{
 		"miversen33/nvim-cokeline",
 		priority = 800,
-		cond = true,
+		cond = false,
 		config = function()
 			local get_hex = require("cokeline.hlgroups").get_hl_attr
 			local mappings = require("cokeline.mappings")

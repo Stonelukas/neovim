@@ -64,7 +64,7 @@ return
             { '<leader>b', group = 'Buffers' },
             { '<leader>d', group = 'Definitions' },
             { '<leader>t', group = 'Todo-comments' },
-            { '<leader>s', group = 'Sessions' },
+            { '<leader>s', group = 'Save' },
             { '<leader>l', group = 'Activate' },
             { '<leader>g', group = 'Git' },
             { '<leader>gt', group = 'Toggle' },
@@ -81,9 +81,9 @@ return
                 -- Nested mappings are allowed and can be added in any order
                 -- Most attributes can be inherited or overridden on any level
                 -- There's no limit to the depth of nesting
-                mode = { "n", "v" }, -- NORMAL and VISUAL mode
-                { "<leader>Q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
-                { "<leader>W", "<cmd>w<cr>", desc = "Write" },
+                -- mode = { "n", "v" }, -- NORMAL and VISUAL mode
+                -- { "<leader>Q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
+                -- { "<leader>W", "<cmd>w<cr>", desc = "Write" },
             }
 
         }

@@ -2,10 +2,8 @@ return {
     'mbbill/undotree',
     keys = {
         {
-            '<F5>',
-            function()
-                return vim.cmd 'UndotreeToggle'
-            end,
+            '<leader>u',
+            '<cmd>UndotreeShow<cr>',
             desc = 'Undotree',
         },
     },

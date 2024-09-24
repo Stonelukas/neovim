@@ -147,6 +147,9 @@ return {
             -- resession 
 			require('telescope').load_extension 'resession' 
 
+            -- scope 
+            require('telescope').load_extension 'scope'
+
             -- tasks
             local default = require('telescope').extensions.tasks.generators.default
             default.all()
