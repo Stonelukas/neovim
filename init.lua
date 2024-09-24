@@ -1,3 +1,4 @@
+
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 -- Check if lazy.nvim is already downloaded, if not, clone it from GitHub
@@ -29,35 +30,44 @@ vim.g.maplocalleader = '\\'
 
 -- Initialize lazy.nvim with the specified configuration directory
 require('lazy').setup {
-  spec = {
-    { import = 'plugins' },
-  },
-  checker = {
-    enabled = true,
-    notify = true,
-  },
-  ui = {
-    border = 'rounded',
-    icons = {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
+    spec = {
+        { import = 'plugins' },
     },
-  },
-  change_detection = {
-    notify = true, -- Disable notifications for changes
-  },
+    default = { version = nil },
+    install = { missing = true, colorscheme = { 'tokyonight', 'gruvbox' } },
+    checker = {
+        enabled = true,
+        notify = true,
+    },
+    ui = {
+        border = 'rounded',
+        icons = {
+        cmd = '⌘',
+        config = '🛠',
+        event = '📅',
+        ft = '📂',
+        init = '⚙',
+        keys = '🗝',
+        plugin = '🔌',
+        runtime = '💻',
+        source = '📄',
+        start = '🚀',
+        task = '📌',
+        lazy = '💤 ',
+        },
+    },
+    change_detection = {
+        notify = true, -- Disable notifications for changes
+    },
 }
+vim.keymap.set('n', '<leader>z', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    require "core.keymaps"
+  end,
+})
 
 require 'core.options'
-require 'core.keymaps'
-require 'core.autocmds'
+require "core.autocmds"

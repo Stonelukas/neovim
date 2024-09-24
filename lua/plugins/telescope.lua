@@ -71,9 +71,6 @@ return {
             'polirritmico/telescope-lazy-plugins.nvim',
             'scottmckendry/telescope-resession.nvim',
 		},
-        keys = {
-            { ':', '<cmd>Telescope cmdline<cr>', desc = 'Cmdline' }
-        },
 		opts = {},
 		config = function()
 			-- Configuration

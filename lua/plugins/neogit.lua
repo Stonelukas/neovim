@@ -5,6 +5,10 @@ return {
         local neogit = require('neogit')
 
         neogit.setup {
+            kind = 'tab',
+            commit_view = {
+                kind = 'tab',
+            },
             integrations = {
                 telescope = true,
                 diffview = true,

@@ -209,10 +209,6 @@ telescope.setup({
             -- vim.api.nvim_put({ emoji.value }, 'c', false, true)
         end,
         },
-        cmdline = {
-            mappings = {
-            },
-        },
         helpgrep = {
             ignore_paths = {
                 vim.fn.stdpath('state') .. '/lazy/readme',

@@ -35,7 +35,11 @@ return {
 	{ "kkharji/sqlite.lua", module = "sqlite" },
 	{ "nvim-lua/popup.nvim" },
     { 'adoyle-h/telescope-extension-maker.nvim' },
-    { 'sindrets/diffview.nvim' },
+    {
+        'sindrets/diffview.nvim',
+        cmd = { 'DiffviewOpen', "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+        config = true,
+    },
     { 'anuvyklack/middleclass' },
     { 'anuvyklack/animation.nvim' },
     { 

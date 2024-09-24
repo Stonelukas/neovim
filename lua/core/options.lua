@@ -5,7 +5,7 @@ vim.opt.inccommand = "split"
 -- Configure the content displayed in the window bar
 vim.opt.winbar = [[%=%m %f %y %r ]]
 -- The following lines are commented out, but they configure the status line and winbar with more detailed information
--- vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 -- vim.opt.statusline =
 -- "▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"
@@ -71,7 +71,7 @@ vim.opt.number = true
 -- Keep the screen position centered when splitting
 vim.o.splitkeep = "screen"
 -- Set new splits to open below the current window
-vim.opt.splitbelow = true
+vim.opt.splitbelow = false
 -- Set new splits to open to the right of the current window
 vim.opt.splitright = true
 -- Enable automatic indentation
@@ -111,17 +111,15 @@ vim.opt.showmatch = true
 -- Set the window title
 vim.opt.title = true
 -- Set the number of screen lines to keep above and below the cursor
-vim.opt.scrolloff = 2
+vim.opt.scrolloff = 6
 -- Highlight search results
-vim.o.hlsearch = true
+vim.o.hlsearch = false
 -- Enable break indent
 vim.o.breakindent = true
 -- Enable undo file
 vim.opt.undofile = true
 -- Set the delay for triggering the CursorHold event
 vim.o.updatetime = 200
--- Enable true color support again (redundant, already set above)
-vim.opt.termguicolors = true
 -- Enable line wrapping
 vim.o.wrap = false
 -- Always show the sign column
@@ -130,6 +128,18 @@ vim.opt.signcolumn = "yes"
 vim.opt.clipboard = "unnamedplus"
 -- auto change cwd 
 vim.opt.autochdir = false
+-- format
+vim.o.formatoptions = 'jcroqlnt'
+-- cmdheight when 0 then no cmd until used
+vim.opt.cmdheight = 0
+-- NOTE: test completions with 'preview' and 'popup'
+vim.opt.completeopt = 'menuone,noselect,preview,popup'
+vim.opt.conceallevel = 3
+vim.opt.list = true
+-- tranparency of popup windows
+vim.opt.pumblend = 10
+vim.opt.pumheight = 10
+
 
 -- Configure completion options for a better experience
 -- :help completeopt
@@ -138,6 +148,7 @@ vim.opt.autochdir = false
 -- noselect: Do not select, force to select one from the menu
 -- shortness: avoid showing extra messages when using completion
 -- updatetime: set updatetime for CursorHold
+vim.o.shortmess = "filnxtToOFWIcC"
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
 vim.api.nvim_set_option_value("updatetime", 300, {})
 

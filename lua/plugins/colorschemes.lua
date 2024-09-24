@@ -1,4 +1,15 @@
 return {
+    {
+        'folke/styler.nvim',
+        config = function()
+            require('styler').setup {
+                themes = {
+                    markdown = { colorscheme = 'material' },
+                    help = { colorscheme = 'horizon' },
+                }
+            }
+        end
+    },
 	{
 		"akinsho/horizon.nvim",
 		version = "*",
@@ -87,7 +98,8 @@ return {
         priority = 1000,
         opts = {},
         config = function()
-            require('tokyonight').setup {
+            local tokyonight = require('tokyonight')
+            tokyonight.setup {
                 style = 'night',
                 transparent = false,
                 styles = {
@@ -103,6 +115,7 @@ return {
                 dim_inactive = true,
                 lualine_bold = true,
             }
+            tokyonight.load()
         end
     },
 }

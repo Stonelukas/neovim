@@ -23,9 +23,19 @@ map('n', '<leader>xx', '<cmd>Jaq<cr>', opts('Execute the current file'))
 -- set("n", "j", "jzz", { silent = true }) -- Uncomment to center screen after moving down
 -- set("n", "k", "kzz", { silent = true }) -- Uncomment to center screen after moving up
 map("i", "jj", "<Esc>", opts("exit insert mode" ))                      -- Exit insert mode
+map("t", "jj", "<C-\\><C-n>", opts("exit terminal mode" ))              -- Exit terminal mode
+map("t", "<C-h>", "<C-\\><C-n><C-w>h")
+map("t", "<C-j>", "<C-\\><C-n><C-w>j")
+map("t", "<C-k>", "<C-\\><C-n><C-w>k")
+map("t", "<C-l>", "<C-\\><C-n><C-w>l")
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+-- Paste over currently selected text without yanking it
+map("v", "p", '"_dP')
 map("n", "n", "nzz", opts("Go to next search result" ))                 -- Center screen after going to next search result
 map("n", "N", "Nzz", opts("Go to previous search result" ))             -- Center screen after going to previous search result
-map("n", "<C-s>", ":w<CR>", opts("save" ))                              -- Save the current file
 map("n", "<C-q>", ":q<CR>", opts(" quit" ))                             -- Quit the current window
 map("n", "<CR>", "o<Esc>", opts("add new line" ))                       -- Add a new line below the current line
 map("n", "<S-Enter>", "O<Esc>", opts("add new line above" ))            -- Add a new line above the current line
