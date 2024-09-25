@@ -1,8 +1,3 @@
---[[
--- Setup initial configuration,
---
--- Primarily just download and execute lazy.nvim
---]]
 -- Set the global leader keys to a space for easier access in command mode
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -25,11 +20,17 @@ end
 ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Initialize lazy.nvim with the specified configuration directory
 require("lazy").setup({
 	spec = {
-		import = "custom/plugins",
+		import = "plugins",
 	},
+	default = { version = nil },
+	install = { missing = true, colorscheme = { 'tokyonight', 'gruvbox' } },
 	checker = {
 		enabled = true,
 		notify = true,
@@ -56,7 +57,5 @@ require("lazy").setup({
 	},
 })
 
--- Configure completion options for better user experience in command-line mode
-vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 -- Append 'c' to shortmess to avoid showing extra completion messages
 vim.opt.shortmess:append("c")
