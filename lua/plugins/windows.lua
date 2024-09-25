@@ -1,5 +1,24 @@
 return {
-    {
+	{
+		"s1n7ax/nvim-window-picker",
+		version = "2.*",
+		config = function()
+			require("window-picker").setup({
+				filter_rules = {
+					include_current_win = false,
+					autoselect_one = true,
+					-- filter using buffer options
+					bo = {
+						-- if the file type is one of the following, the window will be ignored
+						filetype = { "neotree", "neo-tree-popup", "notify" },
+						-- if the buffer type is one of the following, the window will be ignored
+						buftype = { "terminal", "quickfix" },
+					},
+				},
+			})
+		end,
+	},
+	{
 		"sindrets/winshift.nvim",
 		config = function()
 			require("winshift").setup({
@@ -44,60 +63,58 @@ return {
 			})
 		end,
 	},
-    {
-        'mrjones2014/smart-splits.nvim',
-        config = function()
-
-            require('smart-splits').setup {
-                ignored_filetypes = { 'neo-tree' },
-                resize_mode = {
-                    hooks = {
-                        on_leave = require('bufresize').register,
-                    },
-                },
-            }
-        end
-    },
-    {
-        'kwkarlwang/bufresize.nvim',
-        config = function()
-            -- TODO: Toggleterm
+	{
+		"mrjones2014/smart-splits.nvim",
+		config = function()
+			require("smart-splits").setup({
+				ignored_filetypes = { "neo-tree" },
+				resize_mode = {
+					hooks = {
+						on_leave = require("bufresize").register,
+					},
+				},
+			})
+		end,
+	},
+	{
+		"kwkarlwang/bufresize.nvim",
+		config = function()
 			local function opts(desc)
 				return { desc = "" .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 			end
-            require('bufresize').setup {
-                register = {
-                    keys = {
-                        { 'n', '<leader>w<', '20<C-w><', opts('Decrease width') },
-                        { 'n', '<leader>w>', '20<C-w>>', opts('Increase width') },
-                        { 'n', '<leader>w+', '2<C-w>+', opts('Increase height') },
-                        { 'n', '<leader>w-', '2<C-w>-', opts('Increase height') },
-                        { 'n', '<leader>w_', '<C-w>_', opts('Increase height to max') },
-                        { 'n', '<leader>w=', '<C-w>=', opts('Equal height and width') },
-                        { 'n', '<leader>w|', '<C-w>|', opts('Increase width to max') },
-                        { 'n', '<leader>wO', '<C-w>|<C-w>_', opts('Increase width and hight to max') },
-                    },
-                    trigger_events = { 'BufWinEnter', 'WinEnter' },
-                },
-                resize = {
-                    keys = {},
-                    trigger_events = { 'VimResized' },
-                    increment = false,
-                },
-            }
-        end
-    },
-    {
-        "anuvyklack/windows.nvim",
-        dependencies = {
-            "anuvyklack/middleclass",
-            "anuvyklack/animation.nvim",
-        },
-        config = function()
-            vim.o.winwidth = 10
-            vim.o.winminwidth = 10
-            vim.o.equalalways = false
-            require("windows").setup()
-        end,
-    },
+			require("bufresize").setup({
+				register = {
+					keys = {
+						{ "n", "<leader>w<", "20<C-w><", opts("Decrease width") },
+						{ "n", "<leader>w>", "20<C-w>>", opts("Increase width") },
+						{ "n", "<leader>w+", "2<C-w>+", opts("Increase height") },
+						{ "n", "<leader>w-", "2<C-w>-", opts("Increase height") },
+						{ "n", "<leader>w_", "<C-w>_", opts("Increase height to max") },
+						{ "n", "<leader>w=", "<C-w>=", opts("Equal height and width") },
+						{ "n", "<leader>w|", "<C-w>|", opts("Increase width to max") },
+						{ "n", "<leader>wO", "<C-w>|<C-w>_", opts("Increase width and hight to max") },
+					},
+					trigger_events = { "BufWinEnter", "WinEnter" },
+				},
+				resize = {
+					keys = {},
+					trigger_events = { "VimResized" },
+					increment = false,
+				},
+			})
+		end,
+	},
+	{
+		"anuvyklack/windows.nvim",
+		dependencies = {
+			"anuvyklack/middleclass",
+			"anuvyklack/animation.nvim",
+		},
+		config = function()
+			vim.o.winwidth = 10
+			vim.o.winminwidth = 10
+			vim.o.equalalways = false
+			require("windows").setup()
+		end,
+	},
 }

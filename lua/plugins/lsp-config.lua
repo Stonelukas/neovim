@@ -405,11 +405,12 @@ return {
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-            vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-            vim.keymap.set("n", "<leader>gd", "<cmd>Glance definitions<cr>", opts)
-            vim.keymap.set("n", "<leader>gy", "<cmd>Glance type_definitions<cr>", opts)
-            vim.keymap.set("n", "<leader>gi", "<cmd>Glance implementations<cr>", opts)
-            vim.keymap.set("n", "<leader>gr", "<cmd>Glance references<cr>", opts)
+            -- TODO: change keymap
+            -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+            -- vim.keymap.set("n", "<leader>gd", "<cmd>Glance definitions<cr>", opts)
+            -- vim.keymap.set("n", "<leader>gy", "<cmd>Glance type_definitions<cr>", opts)
+            -- vim.keymap.set("n", "<leader>gi", "<cmd>Glance implementations<cr>", opts)
+            -- vim.keymap.set("n", "<leader>gr", "<cmd>Glance references<cr>", opts)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
             -- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
             vim.keymap.set("i", "<C-i>", vim.lsp.buf.completion, opts)
@@ -504,7 +505,8 @@ return {
             require("lsp-format").setup({})
             require("lspconfig").lua_ls.setup({ on_attach = require("lsp-format").on_attach })
 
-            vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+            -- TODO: change keymap
+            -- vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
         end,
     },
     {

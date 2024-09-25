@@ -111,11 +111,6 @@ return {
     {
         "gerazov/ollama-chat.nvim",
         cond = false,
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "stevearc/dressing.nvim",
-            "nvim-telescope/telescope.nvim",
-        },
         -- lazy load on command
         cmd = {
             "OllamaQuickChat",

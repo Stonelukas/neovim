@@ -1,7 +1,6 @@
 return {
 	{
 		"FeiyouG/commander.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
 		keys = {
 			{ "<leader>fc", "<CMD>Telescope commander<CR>", mode = "n" },
 		},

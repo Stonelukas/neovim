@@ -62,7 +62,7 @@ vim.opt.incsearch = false
 -- Set the background color scheme to dark
 vim.o.background = "dark"
 -- Apply the 'tokyonight-storm' color scheme
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd([[colorscheme tokyonight]])
 -- done in Plugin spec
 -- Enable relative line numbers
 vim.opt.relativenumber = true
@@ -126,20 +126,19 @@ vim.o.wrap = false
 vim.opt.signcolumn = "yes"
 -- Use the system clipboard for all operations
 vim.opt.clipboard = "unnamedplus"
--- auto change cwd 
+-- auto change cwd
 vim.opt.autochdir = false
 -- format
-vim.o.formatoptions = 'jcroqlnt'
+vim.o.formatoptions = "jcroqlnt"
 -- cmdheight when 0 then no cmd until used
 vim.opt.cmdheight = 0
 -- NOTE: test completions with 'preview' and 'popup'
-vim.opt.completeopt = 'menuone,noselect,preview,popup'
+vim.opt.completeopt = "menuone,noselect,preview,popup"
 vim.opt.conceallevel = 3
 vim.opt.list = true
 -- tranparency of popup windows
 vim.opt.pumblend = 10
 vim.opt.pumheight = 10
-
 
 -- Configure completion options for a better experience
 -- :help completeopt

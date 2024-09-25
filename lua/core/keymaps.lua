@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 
 local function opts(desc, expr)
-	return { desc = "" .. desc, noremap = true, silent = true, nowait = true, expr = more}
+    return { desc = "" .. desc, noremap = true, silent = true, nowait = true, expr = more }
 end
 
 -- Better up/down
@@ -13,7 +13,7 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 -- Diagnostics keymaps
 map('n', '<leader>e', vim.diagnostic.open_float, opts('open diagnostic in float'))
 
--- Executing/Sourcing 
+-- Executing/Sourcing
 map('n', '<leader>x', '<cmd>.lua<cr>', opts('Execute the current line'))
 -- TODO: jaq
 map('n', '<leader>xx', '<cmd>Jaq<cr>', opts('Execute the current file'))
@@ -22,8 +22,8 @@ map('n', '<leader>xx', '<cmd>Jaq<cr>', opts('Execute the current file'))
 -- General keymaps
 -- set("n", "j", "jzz", { silent = true }) -- Uncomment to center screen after moving down
 -- set("n", "k", "kzz", { silent = true }) -- Uncomment to center screen after moving up
-map("i", "jj", "<Esc>", opts("exit insert mode" ))                      -- Exit insert mode
-map("t", "jj", "<C-\\><C-n>", opts("exit terminal mode" ))              -- Exit terminal mode
+map("i", "jj", "<Esc>", opts("exit insert mode"))          -- Exit insert mode
+map("t", "jj", "<C-\\><C-n>", opts("exit terminal mode"))  -- Exit terminal mode
 map("t", "<C-h>", "<C-\\><C-n><C-w>h")
 map("t", "<C-j>", "<C-\\><C-n><C-w>j")
 map("t", "<C-k>", "<C-\\><C-n><C-w>k")
@@ -34,21 +34,21 @@ map("i", ".", ".<c-g>u")
 map("i", ";", ";<c-g>u")
 -- Paste over currently selected text without yanking it
 map("v", "p", '"_dP')
-map("n", "n", "nzz", opts("Go to next search result" ))                 -- Center screen after going to next search result
-map("n", "N", "Nzz", opts("Go to previous search result" ))             -- Center screen after going to previous search result
-map("n", "<C-q>", ":q<CR>", opts(" quit" ))                             -- Quit the current window
-map("n", "<CR>", "o<Esc>", opts("add new line" ))                       -- Add a new line below the current line
-map("n", "<S-Enter>", "O<Esc>", opts("add new line above" ))            -- Add a new line above the current line
-map("n", "<leader>sw", "<Cmd>update<CR>", opts("save file" ))            -- Save the current file if modified
-map("n", "<leader>sW", "<Cmd>wall<CR>", opts("save all files" ))         -- Save all open files
-map("n", "<leader>sq", ":wqa<CR>", opts("save and quit" ))             -- Save and quit the current file
-map("n", "<leader>qq", ":qa!<CR>", opts("quit without saving" ))        -- Quit all without saving
-map("n", "gx", ":!open <c-r><c-a><CR>", opts("open URL under cursor" )) -- Open URL under cursor
-map("v", "J", ":move '>+1<CR>gv=gv", opts("Move selected lines down" )) -- Move selected lines down
-map("v", "K", ":move '>-2<CR>gv=gv", opts("Move selected lines up" ))   -- Move selected lines up
+map("n", "n", "nzz", opts("Go to next search result"))                  -- Center screen after going to next search result
+map("n", "N", "Nzz", opts("Go to previous search result"))              -- Center screen after going to previous search result
+map("n", "<C-q>", ":q<CR>", opts(" quit"))                              -- Quit the current window
+map("n", "<CR>", "o<Esc>", opts("add new line"))                        -- Add a new line below the current line
+map("n", "<S-Enter>", "O<Esc>", opts("add new line above"))             -- Add a new line above the current line
+map("n", "<leader>sw", "<Cmd>update<CR>", opts("save file"))            -- Save the current file if modified
+map("n", "<leader>sW", "<Cmd>wall<CR>", opts("save all files"))         -- Save all open files
+map("n", "<leader>sq", ":wqa<CR>", opts("save and quit"))               -- Save and quit the current file
+map("n", "<leader>qq", ":qa!<CR>", opts("quit without saving"))         -- Quit all without saving
+map("n", "gx", ":!open <c-r><c-a><CR>", opts("open URL under cursor"))  -- Open URL under cursor
+map("v", "J", ":move '>+1<CR>gv=gv", opts("Move selected lines down"))  -- Move selected lines down
+map("v", "K", ":move '>-2<CR>gv=gv", opts("Move selected lines up"))    -- Move selected lines up
 -- Keep things highlighted after moving with < and >
-map("v", "<", "<gv", opts("Keep select after indenting" ))
-map("v", ">", ">gv", opts("Keep select after indenting" ))
+map("v", "<", "<gv", opts("Keep select after indenting"))
+map("v", ">", ">gv", opts("Keep select after indenting"))
 
 -- Use operator pending mode to visually select the whole buffer
 -- e.g. dA = delete buffer ALL, yA = copy whole buffer ALL
@@ -73,7 +73,7 @@ map('n', '<leader>tp', '<cmd>tabp<cr>', opts('previous tab'))
 
 -- TODO: fzf-lua
 -- fuzzy file completion in insert mode
-map( 'i', '<C-x><C-f>', function()
+map('i', '<C-x><C-f>', function()
     require('fzf-lua').complete_file {
         cmd = 'rg --files',
         winopts = { preview = { hidden = 'nohidden' } },
@@ -81,8 +81,6 @@ map( 'i', '<C-x><C-f>', function()
 end, opts('Fuzzy complete file'))
 
 
--- TODO: LSP
--- Toggle inlay hints 
 map('n', '<leader>lt', function()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr= 0 }), { bufnr = 0 })
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end, opts('Toggle Inlay Hints'))

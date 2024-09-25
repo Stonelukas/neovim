@@ -30,7 +30,7 @@ require("lazy").setup({
 		import = "plugins",
 	},
 	default = { version = nil },
-	install = { missing = true, colorscheme = { 'tokyonight', 'gruvbox' } },
+	install = { missing = true, colorscheme = { 'tokyonight', 'material' } },
 	checker = {
 		enabled = true,
 		notify = true,
@@ -56,6 +56,18 @@ require("lazy").setup({
 		notify = false, -- Disable notifications for changes
 	},
 })
+
+vim.keymap.set('n', '<leader>z', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    require "core.keymaps"
+  end,
+})
+
+require 'core.options'
+require "core.autocmds"
 
 -- Append 'c' to shortmess to avoid showing extra completion messages
 vim.opt.shortmess:append("c")

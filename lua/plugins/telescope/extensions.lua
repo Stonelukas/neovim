@@ -1,42 +1,43 @@
 local function opts(desc)
-    return {
-        desc = '' .. desc,
-        noremap = true,
-        silent = true,
-        nowait = true
-    }
+	return {
+		desc = "" .. desc,
+		noremap = true,
+		silent = true,
+		nowait = true,
+	}
 end
-local builtin = require 'telescope.builtin'
-local map = map
+local builtin = require("telescope.builtin")
+local map = vim.keymap.set
+local telescope = require("telescope")
 
 -- recent files extension
 require("telescope").load_extension("recent-files")
 
 map("n", "<leader>f.", function()
-    require("telescope").extensions["recent-files"].recent_files({})
+	require("telescope").extensions["recent-files"].recent_files({})
 end, {
-    desc = "recent files",
-    noremap = true,
-    silent = true
+	desc = "recent files",
+	noremap = true,
+	silent = true,
 })
 
 -- project extension
 require("telescope").load_extension("project")
 
 map("n", "<leader>fp", function()
-    require("telescope").extensions.project.project({
-        display_type = "full"
-    })
+	require("telescope").extensions.project.project({
+		display_type = "full",
+	})
 end, {
-    noremap = true,
-    silent = true
+	noremap = true,
+	silent = true,
 })
 
 -- telescope file browser extension
 require("telescope").load_extension("file_browser")
 
 map("n", "<space>fb", function()
-    require("telescope").extensions.file_browser.file_browser()
+	require("telescope").extensions.file_browser.file_browser()
 end)
 
 -- telescope menu
@@ -51,8 +52,8 @@ map("n", "<leader>cd", telescope.extensions.zoxide.list)
 require("telescope").load_extension("lazy")
 
 map("n", "<leader>ll", ":Telescope lazy<CR>", {
-    noremap = true,
-    desc = "Lazy Plugins"
+	noremap = true,
+	desc = "Lazy Plugins",
 })
 
 -- egrepify extensions
@@ -73,14 +74,11 @@ require("telescope").load_extension("workspaces")
 -- cder extension
 require("telescope").load_extension("cder")
 map("n", "<leader>cd", "<cmd>Telescope cder<CR>", {
-    desc = "open cder to switch cwd"
+	desc = "open cder to switch cwd",
 })
 
 -- env extension
 require("telescope").load_extension("env")
-
--- persisted extension
-require("telescope").load_extension("persisted")
 
 -- text-case extension
 require("telescope").load_extension("textcase")
@@ -92,68 +90,65 @@ require("telescope").load_extension("neoclip")
 require("telescope").load_extension("package_info")
 
 -- pathogen
-require('telescope').load_extension 'pathogen'
+require("telescope").load_extension("pathogen")
 
 -- Github CLI
-require('telescope').load_extension 'gh'
+require("telescope").load_extension("gh")
 
 -- Repo
-require('telescope').load_extension 'repo'
+require("telescope").load_extension("repo")
 
 -- Node Modules
-require('telescope').load_extension 'node_modules'
+require("telescope").load_extension("node_modules")
 
 -- Headings
-require('telescope').load_extension 'heading'
+require("telescope").load_extension("heading")
 
 -- Emojis
-require('telescope').load_extension 'emoji'
+require("telescope").load_extension("emoji")
 
 -- File Switcher
-require('telescope').load_extension 'switch'
-map('n', '<leader>fs', require('telescope').extensions.switch.switch, opts 'Switch to a Project file')
+require("telescope").load_extension("switch")
+map("n", "<leader>fs", require("telescope").extensions.switch.switch, opts("Switch to a Project file"))
 
 -- Neoclip and Macroscope
-require('telescope').load_extension 'neoclip'
-require('telescope').load_extension 'macroscope'
-map('n', '<leader>fc', require('telescope').extensions.neoclip.default, opts 'Neoclip')
-map('n', '<leader>fm', require('telescope').extensions.macroscope.default, opts 'Macroscope')
+require("telescope").load_extension("neoclip")
+require("telescope").load_extension("macroscope")
+map("n", "<leader>fc", require("telescope").extensions.neoclip.default, opts("Neoclip"))
+map("n", "<leader>fm", require("telescope").extensions.macroscope.default, opts("Macroscope"))
 
 -- Scriptnames
-require('telescope').load_extension 'scriptnames'
+require("telescope").load_extension("scriptnames")
 
 -- yanky
-require('telescope').load_extension 'yank_history'
-
--- dir-telescope
-require('telescope').load_extension 'dir'
+require("telescope").load_extension("yank_history")
 
 -- undo
-require('telescope').load_extension 'undo'
+require("telescope").load_extension("undo")
 
 -- docker
-require('telescope').load_extension 'docker'
+require("telescope").load_extension("docker")
 
 -- helpgrep
-require('telescope').load_extension 'helpgrep'
+require("telescope").load_extension("helpgrep")
 
 -- lazy
-require('telescope').load_extension 'lazy'
+require("telescope").load_extension("lazy")
 
 -- lazy-pugins config
-require('telescope').load_extension 'lazy_plugins'
-map('n', '<leader>fl', '<cmd>Telescope lazy_plugins<cr>', opts('Lazy Plugins Files'))
+require("telescope").load_extension("lazy_plugins")
+map("n", "<leader>fl", "<cmd>Telescope lazy_plugins<cr>", opts("Lazy Plugins Files"))
 
--- resession 
-require('telescope').load_extension 'resession'
+-- resession
+require("telescope").load_extension("resession")
 
--- scope 
-require('telescope').load_extension 'scope'
+-- scope
+require("telescope").load_extension("scope")
 
 -- tasks
-local default = require('telescope').extensions.tasks.generators.default
+local default = require("telescope").extensions.tasks.generators.default
 default.all()
-require('telescope').load_extension 'tasks'
+require("telescope").load_extension("tasks")
 
 -- picker-list -  INFO: needs to be last
-require('telescope').load_extension 'picker_list'
+require("telescope").load_extension("picker_list")

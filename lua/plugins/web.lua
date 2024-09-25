@@ -12,7 +12,7 @@ return {
         config = function()
             require("tsc").setup()
         end
-    }
+    },
     {
         'axieax/urlview.nvim',
         config = function()

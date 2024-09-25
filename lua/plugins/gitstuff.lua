@@ -4,11 +4,11 @@ return {
 		dependencies = {
 			"tpope/vim-rhubarb",
 			"shumphrey/fugitive-gitlab.vim",
-			"lewis6991/gitsigns.nvim",
 		},
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		cond = true,
 		config = function()
 			require("gitsigns").setup({
 				signs = {
@@ -79,30 +79,30 @@ return {
 					end)
 
 					-- Actions
-					map("n", "<leader>hs", gitsigns.stage_hunk)
-					map("n", "<leader>hr", gitsigns.reset_hunk)
+					map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "stage hunk" })
+					map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "reset hunk" })
 					map("v", "<leader>hs", function()
 						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
+					end, { desc = "stage hunk" })
 					map("v", "<leader>hr", function()
 						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					map("n", "<leader>hS", gitsigns.stage_buffer)
-					map("n", "<leader>hu", gitsigns.undo_stage_hunk)
-					map("n", "<leader>hR", gitsigns.reset_buffer)
-					map("n", "<leader>gp", gitsigns.preview_hunk)
+					end, { desc = "reset hunk" })
+					map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "stage buffer" })
+					map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "undo staged hunk" })
+					map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "reset hunk" })
+					map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
 					map("n", "<leader>hb", function()
 						gitsigns.blame_line({ full = true })
-					end)
-					map("n", "<leader>gb", gitsigns.toggle_current_line_blame)
-					map("n", "<leader>hd", gitsigns.diffthis)
+					end, { desc = "show blame" })
+					map("n", "<leader>htb", gitsigns.toggle_current_line_blame, { desc = "toggle current line blame" })
+					map("n", "<leader>hd", gitsigns.diffthis, { desc = "diff this" })
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")
-					end)
-					map("n", "<leader>td", gitsigns.toggle_deleted)
+					end, { desc = "diff to origin" })
+					map("n", "<leader>htd", gitsigns.toggle_deleted, { desc = "toggle deleted" })
 
 					-- Text object
-					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "select hunk" })
 				end,
 			})
 
@@ -408,6 +408,10 @@ return {
 						["[c"] = "OpenOrScrollUp",
 						["]c"] = "OpenOrScrollDown",
 					},
+					intergrations = {
+						telescope = true,
+						diffview = true,
+					},
 				},
 			})
 		end,
@@ -422,6 +426,7 @@ return {
 	},
 	{
 		"rmagatti/igs.nvim",
+		cond = true,
 		config = function()
 			require("igs").setup({
 				default_mappings = true,
@@ -432,10 +437,10 @@ return {
 		"linrongbin16/gitlinker.nvim",
 		cmd = "GitLink",
 		keys = {
-			{ "<leader>gl", "<cmd>GitLink<cr>", mode = "n", desc = "Open git permlink" },
-			{ "<leader>gl", "<cmd>GitLink<cr>", mode = "v", desc = "Open git permlink" },
-			{ "<leader>gb", "<cmd>GitLink blame<cr>", mode = "n", desc = "Open git blame link" },
-			{ "<leader>gb", "<cmd>GitLink blame<cr>", mode = "v", desc = "Open git blame link" },
+			{ "<leader>gll", "<cmd>GitLink<cr>", mode = "n", desc = "Open git permlink" },
+			{ "<leader>gll", "<cmd>GitLink<cr>", mode = "v", desc = "Open git permlink" },
+			{ "<leader>glb", "<cmd>GitLink blame<cr>", mode = "n", desc = "Open git blame link" },
+			{ "<leader>glb", "<cmd>GitLink blame<cr>", mode = "v", desc = "Open git blame link" },
 		},
 		config = function()
 			require("gitlinker").setup({})
@@ -450,9 +455,6 @@ return {
 	},
 	{
 		"tanvirtin/vgit.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
 		config = function()
 			require("vgit").setup({
 				keymaps = {
@@ -483,20 +485,14 @@ return {
 					["n <leader>gu"] = function()
 						require("vgit").buffer_reset()
 					end,
-					["n <leader>gg"] = function()
-						require("vgit").buffer_gutter_blame_preview()
-					end,
-					["n <leader>glu"] = function()
+					["n <leader>ghu"] = function()
 						require("vgit").buffer_hunks_preview()
 					end,
-					["n <leader>gls"] = function()
+					["n <leader>ghs"] = function()
 						require("vgit").project_hunks_staged_preview()
 					end,
 					["n <leader>gd"] = function()
 						require("vgit").project_diff_preview()
-					end,
-					["n <leader>gq"] = function()
-						require("vgit").project_hunks_qf()
 					end,
 					["n <leader>gx"] = function()
 						require("vgit").toggle_diff_preference()
