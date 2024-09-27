@@ -116,11 +116,11 @@ return {
 		-- },
 		config = function()
 			-- configuration
-			require("plugins.hydra.config")
 			local Hydra = require("hydra")
 			Hydra.setup({
-                color = 'red',
+				color = "red",
 			})
+			require("plugins.hydra.config")
 		end,
 	},
 }

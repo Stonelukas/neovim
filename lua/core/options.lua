@@ -5,7 +5,7 @@ vim.opt.inccommand = "split"
 -- Configure the content displayed in the window bar
 vim.opt.winbar = [[%=%m %f %y %r ]]
 -- The following lines are commented out, but they configure the status line and winbar with more detailed information
-vim.opt.laststatus = 0
+vim.opt.laststatus = 3
 -- vim.opt.statusline =
 -- "▌%{toupper(mode())}▐ %F%m%r%h%w │ %2p%% %l/%L %-2v │ ts:%{&ts} sw:%{&sw} ft:%Y ff:%{&ff} │ %{&encoding}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}%=%m %f %y %r"

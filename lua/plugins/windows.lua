@@ -1,21 +1,57 @@
 return {
 	{
 		"s1n7ax/nvim-window-picker",
+		name = "window-picker",
 		version = "2.*",
+		cond = true,
 		config = function()
 			require("window-picker").setup({
+				hint = "floating-big-letter",
+				show_prompt = true,
 				filter_rules = {
-					include_current_win = false,
-					autoselect_one = true,
+					include_current_win = true,
+					autoselect_one = false,
 					-- filter using buffer options
 					bo = {
 						-- if the file type is one of the following, the window will be ignored
-						filetype = { "neotree", "neo-tree-popup", "notify" },
+						filetype = {
+                            "neotree",
+                            "neo-tree-popup",
+                            "notify",
+                            "NvimTree",
+                            "Hydra",
+                        },
 						-- if the buffer type is one of the following, the window will be ignored
-						buftype = { "terminal", "quickfix" },
+						buftype = {
+                            "terminal",
+                            "quickfix",
+                            "popup",
+                            "nofile",
+                        },
 					},
 				},
 			})
+		end,
+	},
+	{
+		"ten3roberts/window-picker.nvim",
+        name = "window_picker",
+		cond = false,
+		config = function()
+			require("window-picker").setup({
+				-- Default keys to annotate, keys will be used in order. The default uses the
+				-- most accessible keys from the home row and then top row.
+				keys = "alskdjfhgwoeiruty",
+				-- Swap windows by holding shift + letter
+				swap_shift = true,
+				-- Windows containing filetype to exclude
+				exclude = { qf = true, NvimTree = true, aerial = true },
+				-- Flash the cursor line of the newly focused window for 300ms.
+				-- Set to 0 or false to disable.
+				flash_duration = 300,
+			})
+
+			-- Example keymaps
 		end,
 	},
 	{

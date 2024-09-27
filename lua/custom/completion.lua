@@ -35,7 +35,7 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "nvim_lua" },
 		{ name = "codeium" },
-		-- { name = "nvim_lsp_signature_help" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "path", trigger_characters = { "/" } },
 		{ name = "bufname", keyword_length = 5 },
 		{ name = "cmp_git" },

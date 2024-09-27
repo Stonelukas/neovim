@@ -19,4 +19,6 @@ tags
 # Persistent undo
 [._]*.un~
 
-./kickstart/
+yarn.lock
+node_modules
+kickstart

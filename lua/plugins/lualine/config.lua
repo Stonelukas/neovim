@@ -126,7 +126,11 @@ local config = {
             -- Codeium
             {
                 function()
-                    return vim.fn["codeium#GetStatusString"]()
+                    if not pcall(require, "codeium") then
+                        return
+                    end
+                    return vim.api.nvim_call_function("codeium#GetStatusString", {})
+
                 end,
                 fmt = trunc(120, 20, nil, true),
                 color = { fg = colors.cyan },

@@ -35,6 +35,7 @@ return {
 				"json",
 				"markdown",
 				"markdown_inline",
+                "latex",
 				"bash",
 				"git_config",
 				"git_rebase",
