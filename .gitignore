@@ -20,3 +20,4 @@ tags
 [._]*.un~
 
 kickstart/
+nvim
