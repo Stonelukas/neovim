@@ -22,3 +22,5 @@ tags
 yarn.lock
 node_modules
 kickstart
+lazy-lock.json
+noice.log
