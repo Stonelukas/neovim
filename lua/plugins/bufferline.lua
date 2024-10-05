@@ -1,7 +1,7 @@
 return {
     {
         "akinsho/bufferline.nvim",
-		enabled = false,
+        enabled = false,
         version = "*",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
@@ -31,7 +31,7 @@ return {
                     diagnostics_indicator = function(count, level, diagnostics_dict, context)
                         local s = " "
                         for e, n in pairs(diagnostics_dict) do
-                            local sym = e == "error" and " " or (e == "warning" and " " or "")
+                            local sym = e == "error" and " " or (e == "warning" and " " or "")
                             s = s .. n .. sym
                         end
                         return s

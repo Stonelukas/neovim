@@ -4,10 +4,10 @@ return {
     dependencies = { "saifulapm/neotree-file-nesting-config" },
     opts = {},
     config = function(_, opts)
-        vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-        vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-        vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-        vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+        vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+        vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+        vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+        vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
 
         function getTelescopeOpts(state, path)
             return {
@@ -76,7 +76,7 @@ return {
         require("neo-tree").setup({
             hide_root_node = true,
             retain_hidden_root_indent = true,
-            close_if_last_window = true,                              -- Close Neo-tree if it is the last window left in the tab
+            close_if_last_window = true,                                       -- Close Neo-tree if it is the last window left in the tab
             open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes orf buftypes
             enable_diagnostics = true,
             popup_border_style = "rounded",
@@ -85,11 +85,11 @@ return {
             nesting_rules = {
                 ["js"] = { "js.map" },
                 ["package.json"] = {
-                    pattern = "^package%.json$", -- <-- Lua pattern
+                    pattern = "^package%.json$",              -- <-- Lua pattern
                     files = { "package-lock.json", "yarn*" }, -- <-- glob pattern
                 },
                 ["go"] = {
-                    pattern = "(.*)%.go$", -- <-- Lua pattern with capture
+                    pattern = "(.*)%.go$",    -- <-- Lua pattern with capture
                     files = { "%1_test.go" }, -- <-- glob pattern with capture
                 },
                 ["js-extended"] = {

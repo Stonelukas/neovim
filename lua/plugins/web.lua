@@ -19,5 +19,9 @@ return {
             require('urlview').setup {
             }
         end
-    }
+    },
+    {
+        "yuratomo/w3m.vim",
+        event = "VeryLazy",
+    },
 }

@@ -283,23 +283,6 @@ return {
         end,
     },
     {
-        "chrisgrieser/nvim-spider",
-        dependencies = {
-            "theHamsta/nvim_rocks",
-            build =
-            "pipx install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-            config = function()
-                require("nvim_rocks").ensure_installed("luautf8")
-            end,
-        },
-        lazy = true,
-        config = function()
-            vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
-            vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
-            vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
-        end,
-    },
-    {
         "nvim-pack/nvim-spectre",
         config = function()
             vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
@@ -425,12 +408,6 @@ return {
     },
     {
         "mawkler/modicator.nvim",
-        dependencies = {
-            "folke/tokyonight.nvim",
-            "catppuccin/nvim",
-            "rmehri01/onenord.nvim",
-            "shaunsingh/nord.nvim",
-        },
         opts = {
             show_warnings = true,
         },

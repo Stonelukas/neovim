@@ -307,9 +307,9 @@ return {
                 })
             end
 
-            signs({ name = "DiagnosticSignError", text = "" })
-            signs({ name = "DiagnosticSignWarn", text = "" })
-            signs({ name = "DiagnosticSignHint", text = "" })
+            signs({ name = "DiagnosticSignError", text = "" })
+            signs({ name = "DiagnosticSignWarn", text = "" })
+            signs({ name = "DiagnosticSignHint", text = "" })
             signs({ name = "DiagnosticSignInfo", text = "" })
 
             --[[ for type, icon in pairs(signs) do
