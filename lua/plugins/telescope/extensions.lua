@@ -73,9 +73,6 @@ require("telescope").load_extension("workspaces")
 
 -- cder extension
 require("telescope").load_extension("cder")
-map("n", "<leader>cd", "<cmd>Telescope cder<CR>", {
-	desc = "open cder to switch cwd",
-})
 
 -- env extension
 require("telescope").load_extension("env")
@@ -94,6 +91,9 @@ require("telescope").load_extension("pathogen")
 
 -- Github CLI
 require("telescope").load_extension("gh")
+
+-- Lazygit
+require("telescope").load_extension("lazygit")
 
 -- Repo
 require("telescope").load_extension("repo")

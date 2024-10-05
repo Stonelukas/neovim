@@ -2,11 +2,11 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46_cache"
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache"
 
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- Check if lazy.nvim is already downloaded, if not, clone it from GitHub
+-- Check if lazy.nvim is already downloaded, if not clone it from GitHub
 if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
@@ -18,21 +18,21 @@ if not vim.uv.fs_stat(lazypath) then
     })
 end
 
--- Add lazy.nvim to the runtime path to allow using `require` on it
+-- Add "lazy.nvim" to the runtime path to allow using `require` on it
 ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- disable netrw
+-- Disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Initialize lazy.nvim with the specified configuration directory
+-- Initialize "lazy.nvim" with the specified configuration directory
 require("lazy").setup({
     spec = {
         import = "plugins",
     },
     default = { version = nil },
-    -- install = { missing = true, colorscheme = { 'tokyonight', 'material' } },
+    -- Install = { missing = true, colorscheme = { 'tokyonight', 'material' } },
     install = { missing = true, colorscheme = { "nvchad" } },
     checker = {
         enabled = true,
@@ -60,21 +60,28 @@ require("lazy").setup({
     },
 })
 
-vim.keymap.set('n', '<leader>z', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+vim.keymap.set("n", "<leader>z", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 vim.api.nvim_create_autocmd("User", {
     pattern = "VeryLazy",
     callback = function()
-        require "core.keymaps"
+        require("core.keymaps")
     end,
 })
 
-require 'core.options'
-require "core.autocmds"
+require("core.options")
+require("core.autocmds")
 
 for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
     dofile(vim.g.base46_cache .. v)
 end
+
+-- Neovim-remote open files from lazygit in nvim
+vim.cmd([[
+if has('nvim') && executable('nvr')
+  let $GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
+endif
+]])
 
 -- Append 'c' to shortmess to avoid showing extra completion messages
 vim.opt.shortmess:append("c")
