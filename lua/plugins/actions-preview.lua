@@ -1,7 +1,7 @@
 return {
 	{
 		"aznhe21/actions-preview.nvim",
-		cond = false,
+		cond = true,
 		config = function()
 			local hl = require("actions-preview.highlight")
 			require("actions-preview").setup({

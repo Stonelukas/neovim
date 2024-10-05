@@ -48,9 +48,6 @@ return {
                 vim.cmd("edit" .. file.fname)
             end)
 
-            -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Recipes#show-dynamic-actions-popup
-            require("plugins.hydra.nvim-tree-hydra")
-
             -- Git
             local git_add = function()
                 local node = api.tree.get_node_under_cursor()

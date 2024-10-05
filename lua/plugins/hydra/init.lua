@@ -1,7 +1,7 @@
 return {
 	{
 		"nvimtools/hydra.nvim",
-		cond = true,
+		cond = false,
 		-- commander = {
 		-- 	{
 		-- 		desc = "show all commands in git mode",

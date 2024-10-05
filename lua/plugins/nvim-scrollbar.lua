@@ -1,151 +1,69 @@
+---@diagnostic disable: missing-fields
 return {
 	{
-		"petertriho/nvim-scrollbar",
+		"lewis6991/satellite.nvim",
 		config = function()
-			local colors = require("tokyonight.colors").setup()
-			require("scrollbar").setup({
-				show = true,
-				show_in_active_only = false,
-				set_highlights = true,
-				folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
-				max_lines = false, -- disables if no. of lines in buffer exceeds this
-				hide_if_all_visible = false, -- Hides everything if all lines are visible
-				throttle_ms = 100,
-				handle = {
-					text = " ",
-					blend = 30, -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
-					color = colors.bg_highlight,
-					color_nr = nil, -- cterm
-					highlight = "CursorColumn",
-					hide_if_all_visible = true, -- Hides handle if all lines are visible
-				},
-				marks = {
-					Cursor = {
-						text = "•",
-						priority = 0,
-						gui = nil,
-						color = colors.blue,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "Normal",
-					},
-					Search = {
-						text = { "-", "=" },
-						priority = 100,
-						gui = nil,
-						color = colors.orange,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "ScrollbarSearchMark",
-					},
-					Error = {
-						text = { "-", "=" },
-						priority = 101,
-						gui = nil,
-						color = colors.error,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "DiagnosticVirtualTextError",
-					},
-					Warn = {
-						text = { "-", "=" },
-						priority = 102,
-						gui = nil,
-						color = colors.warning,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "DiagnosticVirtualTextWarn",
-					},
-					Info = {
-						text = { "-", "=" },
-						priority = 103,
-						gui = nil,
-						color = colors.info,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "DiagnosticVirtualTextInfo",
-					},
-					Hint = {
-						text = { "-", "=" },
-						priority = 104,
-						gui = nil,
-						color = colors.hint,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "DiagnosticVirtualTextHint",
-					},
-					Misc = {
-						text = { "-", "=" },
-						priority = 105,
-						gui = nil,
-						color = colors.purple,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "Normal",
-					},
-					GitAdd = {
-						text = "┆",
-						priority = 7,
-						gui = nil,
-						color = colors.git.add,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "GitSignsAdd",
-					},
-					GitChange = {
-						text = "┆",
-						priority = 7,
-						gui = nil,
-						color = colors.git.change,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "GitSignsChange",
-					},
-					GitDelete = {
-						text = "▁",
-						priority = 7,
-						gui = nil,
-						color = colors.git.delete,
-						cterm = nil,
-						color_nr = nil, -- cterm
-						highlight = "GitSignsDelete",
-					},
-				},
-				excluded_buftypes = {
-					"terminal",
-				},
-				excluded_filetypes = {
-					"cmp_docs",
-					"cmp_menu",
-					"noice",
-					"prompt",
-					"TelescopePrompt",
-				},
-				autocmd = {
-					render = {
-						"BufWinEnter",
-						"TabEnter",
-						"TermEnter",
-						"WinEnter",
-						"CmdwinLeave",
-						"TextChanged",
-						"VimResized",
-						"WinScrolled",
-					},
-					clear = {
-						"BufWinLeave",
-						"TabLeave",
-						"TermLeave",
-						"WinLeave",
-					},
-				},
+			require("satellite").setup({
+				current_only = true,
+				winblend = 50,
+				zindex = 40,
+				excluded_filetypes = { "prompt", "TelescopePrompt", "noice", "notify", "neo-tree", "NvimTree" },
+				width = 2,
 				handlers = {
-					cursor = true,
-					diagnostic = true,
-					gitsigns = true, -- Requires gitsigns
-					handle = true,
-					search = true, -- Requires hlslens
-					ale = false, -- Requires ALE
+					baseconfig = {
+						overlap = true,
+						enable = true,
+						priority = 1000,
+					},
+					cursor = {
+						enable = true,
+						-- Supports any number of symbols
+						symbols = { "⎺", "⎻", "⎼", "⎽" },
+						-- symbols = { '⎻', '⎼' }
+						-- Highlights:
+						-- - SatelliteCursor (default links to NonText
+					},
+					search = {
+						enable = true,
+						-- Highlights:
+						-- - SatelliteSearch (default links to Search)
+						-- - SatelliteSearchCurrent (default links to SearchCurrent)
+					},
+					diagnostic = {
+						enable = true,
+						signs = { "", "", "", "" },
+						min_severity = vim.diagnostic.severity.INFO,
+						-- Highlights:
+						-- - SatelliteDiagnosticError (default links to DiagnosticError)
+						-- - SatelliteDiagnosticWarn (default links to DiagnosticWarn)
+						-- - SatelliteDiagnosticInfo (default links to DiagnosticInfo)
+						-- - SatelliteDiagnosticHint (default links to DiagnosticHint)
+					},
+					gitsigns = {
+						enable = true,
+						signs = { -- can only be a single character (multibyte is okay)
+							add = "│",
+							change = "│",
+							delete = "-",
+						},
+						-- Highlights:
+						-- SatelliteGitSignsAdd (default links to GitSignsAdd)
+						-- SatelliteGitSignsChange (default links to GitSignsChange)
+						-- SatelliteGitSignsDelete (default links to GitSignsDelete)
+					},
+					marks = {
+						enable = true,
+						show_builtins = false, -- shows the builtin marks like [ ] < >
+						key = "m",
+						-- Highlights:
+						-- SatelliteMark (default links to Normal)
+					},
+					quickfix = {
+						---@diagnostic disable-next-line: missing-fields
+						signs = { "-", "=", "≡" },
+						-- Highlights:
+						-- SatelliteQuickfix (default links to WarningMsg)
+					},
 				},
 			})
 		end,
@@ -186,13 +104,6 @@ return {
 					render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
 				end,
 			})
-
-			vim.cmd([[
-			             augroup scrollbar_search_hide
-			                 autocmd!
-			                 autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
-			             augroup END
-			         ]])
 
 			local kopts = { noremap = true, silent = true }
 
