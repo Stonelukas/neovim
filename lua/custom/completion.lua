@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 -- Setup completion configuration
-cmp.setup({
+local options = {
 	-- Define the sources for completion
 	sources = {
 		{ name = "nvim_lsp" },
@@ -123,7 +123,10 @@ cmp.setup({
 			vim.snippet.expand(args.body)
 		end,
 	},
-})
+}
+
+options = vim.tbl_deep_extend("force", options, require("nvchad.cmp"))
+require("cmp").setup(options)
 
 -- Register event handlers for auto-pairing on completion confirm
 cmp.event:on("config_done", cmp_autopairs.on_confirm_done())
@@ -238,3 +241,5 @@ vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = "#D4D4D4" })
 vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
 vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
+
+return options

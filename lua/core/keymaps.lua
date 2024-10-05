@@ -67,6 +67,50 @@ map("n", "<leader>tc", "<cmd>tabclose<cr>", opts("close a new tab"))
 map("n", "<leader>tn", "<cmd>tabn<cr>", opts("next tab"))
 map("n", "<leader>tp", "<cmd>tabp<cr>", opts("previous tab"))
 
+-- nvchad tabufline
+map("n", "<Tab>", function()
+    require("nvchad.tabufline").next()
+end, opts("Go to next buffer"))
+map("n", "<S-Tab>", function()
+    require("nvchad.tabufline").prev()
+end, opts("Go to previous buffer"))
+map("n", "<leader>bc", function()
+    require("nvchad.tabufline").close_buffer()
+end, opts("Close buffer"))
+map("n", "<leader>ba", function()
+    require("nvchad.tabufline").closeAllBufs(false)
+end, opts("Close all buffer"))
+map("n", "<leader>br", function()
+    require("nvchad.tabufline").move_buf(1)
+end, opts("Move buffer right"))
+map("n", "<leader>bl", function()
+    require("nvchad.tabufline").move_buf(-1)
+end, opts("Move buffer left"))
+for i = 1, 9, 1 do
+    vim.keymap.set("n", string.format("<A-%s>", i), function()
+        vim.api.nvim_set_current_buf(vim.t.bufs[i])
+    end)
+end
+
+-- nvchad term
+-- new terminals
+map("n", "<leader>th", function()
+    require("nvchad.term").new({ pos = "sp" })
+end, { desc = "terminal new horizontal term" })
+
+map("n", "<leader>tv", function()
+    require("nvchad.term").new({ pos = "vsp" })
+end, { desc = "terminal new vertical window" })
+-- toggleable
+map({ "n", "t" }, "<A-i>", function()
+    require("nvchad.term").toggle({ pos = "float", id = "floatTerm" })
+end, { desc = "terminal toggle floating term" })
+
+-- nvchad rename
+map("n", "grn", function()
+    require("nvchad.lsp.renamer")()
+end, opts("rename"))
+
 -- TODO: fzf-lua
 -- fuzzy file completion in insert mode
 map("i", "<C-x><C-f>", function()

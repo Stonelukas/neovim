@@ -1,10 +1,10 @@
 return {
-	{
-		"nvim-lualine/lualine.nvim",
-		enabled = true,
-		config = function()
-			-- config
-			require("plugins.lualine.config")
-		end,
-	},
+    {
+        "nvim-lualine/lualine.nvim",
+        cond = false,
+        config = function()
+            -- config
+            require("plugins.lualine.config")
+        end,
+    },
 }

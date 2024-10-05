@@ -2,6 +2,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46_cache"
+
 -- Define the path where lazy.nvim will be stored locally
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- Check if lazy.nvim is already downloaded, if not, clone it from GitHub

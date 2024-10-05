@@ -1,6 +1,7 @@
 return {
     {
         "folke/styler.nvim",
+        cond = false,
         config = function()
             require("styler").setup({
                 themes = {
@@ -12,6 +13,7 @@ return {
     },
     {
         "akinsho/horizon.nvim",
+        cond = false,
         version = "*",
         priority = 1000,
         opts = {
@@ -35,6 +37,7 @@ return {
     },
     {
         "miversen33/material.nvim",
+        cond = false,
         priority = 1000,
         init = function()
             vim.g.material_style = "deep ocean"
@@ -95,6 +98,7 @@ return {
     },
     {
         "0xstepit/flow.nvim",
+        cond = false,
         priority = 1000,
         config = function()
             require("flow").setup({
@@ -108,6 +112,7 @@ return {
     },
     {
         "catppuccin/nvim",
+        cond = false,
         lazy = false,
         name = "catppuccin",
         priority = 1000,
@@ -115,7 +120,7 @@ return {
             require("catppuccin").setup({
                 flavour = "mocha",
                 transparent_background = false,
-                styles = {    -- Handles the styles of general hi groups (see `:h highlight-args`):
+                styles = {                   -- Handles the styles of general hi groups (see `:h highlight-args`):
                     comments = { "italic" }, -- Change the style of comments
                 },
             })
@@ -123,6 +128,7 @@ return {
     },
     {
         "folke/tokyonight.nvim",
+        cond = false,
         lazy = false,
         priority = 1000,
         opts = {},
@@ -133,10 +139,10 @@ return {
                 transparent = true,
                 terminal_colors = true,
                 styles = {
-                	comments = { italic = true },
-                	keywords = { italic = true },
-                	sidebars = "normal",
-                	floats = "transparent",
+                    comments = { italic = true },
+                    keywords = { italic = true },
+                    sidebars = "normal",
+                    floats = "transparent",
                 },
                 sidebars = { "qf", "help" },
                 on_highlights = function(hl, c)
@@ -174,10 +180,11 @@ return {
     },
     {
         "rmehri01/onenord.nvim",
+        cond = false,
         config = function()
             require("onenord").setup({
-                theme = "dark", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
-                borders = true, -- Split window borders
+                theme = "dark",  -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
+                borders = true,  -- Split window borders
                 fade_nc = false, -- Fade non-current windows, making them more distinguishable
                 -- Style that is applied to various groups: see `highlight-args` for options
                 styles = {
@@ -189,17 +196,17 @@ return {
                     diagnostics = "underline",
                 },
                 disable = {
-                    background = false, -- Disable setting the background color
+                    background = false,       -- Disable setting the background color
                     float_background = false, -- Disable setting the background color for floating windows
-                    cursorline = false, -- Disable the cursorline
-                    eob_lines = true, -- Hide the end-of-buffer lines
+                    cursorline = false,       -- Disable the cursorline
+                    eob_lines = true,         -- Hide the end-of-buffer lines
                 },
                 -- Inverse highlight for different groups
                 inverse = {
                     match_paren = false,
                 },
                 custom_highlights = {}, -- Overwrite default highlight groups
-                custom_colors = {}, -- Overwrite default colors
+                custom_colors = {},     -- Overwrite default colors
             })
         end,
     },

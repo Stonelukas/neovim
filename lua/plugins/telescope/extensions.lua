@@ -152,3 +152,6 @@ require("telescope").load_extension("tasks")
 
 -- picker-list -  INFO: needs to be last
 require("telescope").load_extension("picker_list")
+
+require("telescope").load_extension("themes")
+require("telescope").load_extension("terms")
