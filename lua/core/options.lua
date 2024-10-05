@@ -13,12 +13,12 @@ vim.opt.laststatus = 3
 ---- Folding ----
 -- Set characters used for displaying folds
 vim.opt.fillchars = {
-	fold = " ",
-	foldopen = "",
-	foldclose = "",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+    foldsep = " ",
+    diff = "╱",
+    eob = " ",
 }
 -- Enable folding by default
 vim.o.foldenable = true
@@ -32,17 +32,17 @@ vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 ---- Sessions ----
 -- Configure session options to save/restore these aspects of the session
 vim.opt.sessionoptions = {
-	"globals",
-	"folds",
-	"buffers",
-	"curdir",
-	"tabpages",
-	"winsize",
-	"resize",
-	"winpos",
-	"terminal",
-	"help",
-	"winpos",
+    "globals",
+    "folds",
+    "buffers",
+    "curdir",
+    "tabpages",
+    "winsize",
+    "resize",
+    "winpos",
+    "terminal",
+    "help",
+    "winpos",
 }
 
 ---- Mouse ----
@@ -163,10 +163,10 @@ vim.api.nvim_set_option_value("updatetime", 300, {})
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	group = highlight_group,
-	pattern = "*",
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    group = highlight_group,
+    pattern = "*",
 })
