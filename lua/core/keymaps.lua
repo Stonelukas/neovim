@@ -61,6 +61,23 @@ map("n", "<c-j>", "<cmd> wincmd j<CR>", opts("move window down"))
 map("n", "<c-h>", "<cmd> wincmd h<CR>", opts("move window left"))
 map("n", "<c-l>", "<cmd> wincmd l<CR>", opts("move window right"))
 
+-- Toggle between single, double, and backtick quotes
+map("n", "<leader>tq", function()
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.fn.col(".")
+    local new_line = line:gsub("(['\"`])(.-[^\\])%1", function(q, content)
+        if q == "'" then
+            return '"' .. content .. '"'
+        elseif q == '"' then
+            return "`" .. content .. "`"
+        else
+            return "'" .. content .. "'"
+        end
+    end)
+    vim.api.nvim_set_current_line(new_line)
+    vim.fn.cursor(vim.fn.line("."), col)
+end, { desc = "Toggle quote style" })
+
 -- Tab management
 map("n", "<leader>to", "<cmd>tabnew<cr>", opts("open a new tab"))
 map("n", "<leader>tc", "<cmd>tabclose<cr>", opts("close a new tab"))
