@@ -1,32 +1,18 @@
 return {
-	{
-		"numToStr/FTerm.nvim",
-		cond = false,
-		config = function()
-			require("FTerm").setup({
-				border = "rounded",
-				lualine_bold = true,
-			})
+    {
+        "numToStr/FTerm.nvim",
+        cond = true,
+        config = function()
+            require("FTerm").setup({
+                border = "rounded",
+                lualine_bold = true,
+            })
 
-			vim.keymap.set("n", "<A-i>", function()
-				require("FTerm").toggle()
-			end)
+            vim.keymap.set("n", "<A-g>", function()
+                require("FTerm").toggle()
+            end)
 
-			local fterm = require("FTerm")
-
-			local gitui = fterm:new({
-				ft = "fterm_gitui", -- You can also override the default filetype, if you want
-				cmd = "gitui",
-				dimensions = {
-					height = 0.9,
-					width = 0.9,
-				},
-			})
-
-			-- Use this to toggle gitui in a floating terminal
-			vim.keymap.set("n", "<A-g>", function()
-				gitui:toggle()
-			end)
+            vim.keymap.set('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 
 			local fterm = require("FTerm")
 

@@ -4,17 +4,17 @@ local map = vim.keymap.set
 
 -- Create an autocommand that triggers on opening a terminal
 vim.api.nvim_create_autocmd("TermOpen", {
-	-- Create a new autocommand group for terminal settings
-	group = vim.api.nvim_create_augroup("custom-term-open", {}),
-	-- Define the settings to apply when a terminal opens
-	callback = function()
-		set.number = false
-		set.relativenumber = false
-		-- Set the scroll offset to zero
-		set.scrolloff = 0
+    -- Create a new autocommand group for terminal settings
+    group = vim.api.nvim_create_augroup("custom-term-open", {}),
+    -- Define the settings to apply when a terminal opens
+    callback = function()
+        set.number = false
+        set.relativenumber = false
+        -- Set the scroll offset to zero
+        set.scrolloff = 0
 
-		vim.bo.filetype = "terminal"
-	end,
+        vim.bo.filetype = "terminal"
+    end,
 })
 
 -- Map double escape to exit terminal mode
@@ -22,11 +22,11 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Exit terminal mode" }
 
 -- Map ',st' in normal mode to open a terminal in a new window at the bottom
 vim.keymap.set("n", ",st", function()
-	vim.cmd.new()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 12)
-	vim.wo.winfixheight = true
-	vim.cmd.term()
+    vim.cmd.new()
+    vim.cmd.wincmd("J")
+    vim.api.nvim_win_set_height(0, 12)
+    vim.wo.winfixheight = true
+    vim.cmd.term()
 end, { desc = "Open a terminal at the bottom of the screen" })
 
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
