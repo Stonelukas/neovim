@@ -1,7 +1,7 @@
 return {
     {
         "nvim-lualine/lualine.nvim",
-        cond = false,
+        enabled = false,
         config = function()
             -- config
             require("plugins.lualine.config")

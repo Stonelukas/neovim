@@ -1,7 +1,7 @@
 return {
 	{
 		"uga-rosa/ccc.nvim",
-		cond = false,
+        enabled = false,
 		config = function()
 			local ccc = require("ccc")
 			local mapping = ccc.mapping

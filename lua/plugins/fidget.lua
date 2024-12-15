@@ -1,12 +1,11 @@
 return {
 	{
 		"j-hui/fidget.nvim",
-		cond = false,
-		enabled = false,
+		cond = true,
 		config = function()
 			local fidget = require("fidget")
 
-			require("fidget").setup({
+			fidget.setup({
 				-- Options related to LSP progress subsystem
 				progress = {
 					poll_rate = 0, -- How and when to poll for progress messages
@@ -108,9 +107,6 @@ return {
 				integration = {
 					["nvim-tree"] = {
 						enable = true, -- Integrate with nvim-tree/nvim-tree.lua (if installed)
-					},
-					["xcodebuild-nvim"] = {
-						enable = true, -- Integrate with wojciech-kulik/xcodebuild.nvim (if installed)
 					},
 				},
 

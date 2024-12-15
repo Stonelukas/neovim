@@ -2,6 +2,7 @@ return {
 	{
 		"prochri/telescope-all-recent.nvim",
 		config = function()
+---@diagnostic disable-next-line: missing-fields
 			require("telescope-all-recent").setup({})
 		end,
 	},

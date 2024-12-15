@@ -1,7 +1,8 @@
 return {
     {
         "romgrk/barbar.nvim",
-        cond = false,
+        -- cond = false,
+        enabled = false,
         init = function()
             vim.g.barbar_auto_setup = false
         end,

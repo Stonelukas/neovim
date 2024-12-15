@@ -37,18 +37,6 @@ return {
         "tpope/vim-unimpaired",
     },
     {
-        "svermeulen/vim-easyclip",
-        config = function()
-            vim.g.EasyClipUseSubstituteDefaults = 1
-            vim.g.EasyClipAlwaysMoveCursorToEndOfPaste = 1
-            vim.g.EasyClipAutoFormat = 1
-            vim.keymap.set("n", "<leader>yf", "<Cmd>call EasyClip#Yank(expand('%'))<CR>")
-            vim.keymap.set("n", "<leader>cf", "<plug>EasyClipToggleFormattedPaste")
-            vim.keymap.set("n", "<leader>cc", "<Plug>EasyClipPasteAlternative")
-            vim.keymap.set("n", "<leader>ch", "<Plug>EasyClipPasteBefore")
-        end,
-    },
-    {
         "svermeulen/vim-subversive",
         config = function()
             vim.keymap.set("n", "s", "<plug>SubversiveSubstitute")
@@ -67,7 +55,7 @@ return {
     },
     {
         "xiyaowong/transparent.nvim",
-        cond = false,
+        enabled = false,
         config = function()
             require("transparent").setup({
                 extra_groups = {
@@ -199,7 +187,7 @@ return {
     },
     {
         "lukas-reineke/headlines.nvim",
-        cond = false,
+        enabled = false,
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             require("headlines").setup({
@@ -302,8 +290,17 @@ return {
     {
         "voldikss/vim-floaterm",
         config = function()
-            vim.g.floaterm_autoclose = 1
+            vim.g.floaterm_autoclose = 2
         end,
+    },
+    {
+        "liuchengxu/vim-clap",
+        init = function()
+            vim.g.clap_plugin_experimental = true
+        end
+    },
+    {
+        "voldikss/clap-floaterm",
     },
     {
         "voldikss/vim-browser-search",

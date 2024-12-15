@@ -1,13 +1,6 @@
 return {
 	{ "junegunn/fzf", build = "./install --all" },
 	{
-		"vijaymarupudi/nvim-fzf",
-		cond = false,
-		config = function()
-			require("custom.fzf")
-		end,
-	},
-	{
 		"vijaymarupudi/nvim-fzf-commands",
 	},
 	{
@@ -19,6 +12,7 @@ return {
 		end,
 	},
 	{
+        -- TODO: look into replacing this with some of telescope
 		"linrongbin16/fzfx.nvim",
 		cond = false,
 		dependencies = { "nvim-tree/nvim-web-devicons", "junegunn/fzf" },

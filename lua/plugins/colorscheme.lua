@@ -128,7 +128,7 @@ return {
     },
     {
         "folke/tokyonight.nvim",
-        cond = false,
+        enabled = false,
         lazy = false,
         priority = 1000,
         opts = {},

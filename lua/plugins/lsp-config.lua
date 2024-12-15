@@ -59,10 +59,10 @@ return {
             rt.setup({
                 server = {
                     on_attach = function(_, bufnr)
-                        -- Hover actions
-                        vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-                        -- Code action groups
-                        vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+                        -- hover actions
+                        vim.keymap.set("n", "<c-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+                        -- code action groups
+                        vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
                     end,
                 },
             })
@@ -73,13 +73,12 @@ return {
         lazy = true,
         config = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.textDocument.completion.completionItem.snippetSupport = true
-            capabilities.textDocument.completion.completionItem.resolveSupport = {
-                properties = { "documentation", "detail", "additionalTextEdits" },
+            capabilities.textDocument.completion.completionItem.snippetsupport = true
+            capabilities.textDocument.completion.completionItem.resolvesupport = {
+                properties = { "documentation", "detail", "additionaltextedits" },
             }
             local lspconfig = require("lspconfig")
             local servers = {
-                "beautysh",
                 "pyright",
                 "biome",
                 "solargraph",
@@ -87,34 +86,36 @@ return {
                 "html",
                 "lua_ls",
                 "jsonls",
-                "jsonlint",
             }
 
             ---- clangd ----
             local navic = require("nvim-navic")
 
-            vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
-            vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
+            vim.cmd([[autocmd! colorscheme * highlight normalfloat guibg=#1f2335]])
+            vim.cmd([[autocmd! colorscheme * highlight floatborder guifg=white guibg=#1f2335]])
 
             local border = {
-                { "🭽", "FloatBorder" },
-                { "▔", "FloatBorder" },
-                { "🭾", "FloatBorder" },
-                { "▕", "FloatBorder" },
-                { "🭿", "FloatBorder" },
-                { "▁", "FloatBorder" },
-                { "🭼", "FloatBorder" },
-                { "▏", "FloatBorder" },
+                { "🭽", "floatborder" },
+                { "▔", "floatborder" },
+                { "🭾", "floatborder" },
+                { "▕", "floatborder" },
+                { "🭿", "floatborder" },
+                { "▁", "floatborder" },
+                { "🭼", "floatborder" },
+                { "▏", "floatborder" },
             }
 
-            -- LSP settings (for overriding per client)
+            -- lsp settings (for overriding per client)
             local handlers = {
                 ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
                 ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+                -- ["textdocument/hover"] = vim.lsp.buf(vim.lsp.buf.hover, { border = border }),
+                -- ["textdocument/signaturehelp"] = vim.lsp.buf(vim.lsp.buf.signature_help, { border = border }),
             }
 
             -- To instead override globally
             local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+            ---@diagnostic disable-next-line: duplicate-set-field
             function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
                 opts = opts or {}
                 opts.border = opts.border or border
@@ -268,6 +269,7 @@ return {
 
                     -- do something with the notification
                     if method == "textDocument/..." then
+                        ---@diagnostic disable-next-line: redefined-local
                         function PrintDiagnostics(opts, bufnr, line_nr, client_id)
                             bufnr = bufnr or 0
                             line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
@@ -366,40 +368,6 @@ return {
             --          autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
             --          ]])
 
-            local function goto_definition(split_cmd)
-                local util = vim.lsp.util
-                local log = require("vim.lsp.log")
-                local api = vim.api
-
-                -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
-                local handler = function(_, result, ctx)
-                    if result == nil or vim.tbl_isempty(result) then
-                        local _ = log.info() and log.info(ctx.method, "No location found")
-                        return nil
-                    end
-
-                    if split_cmd then
-                        vim.cmd(split_cmd)
-                    end
-
-                    if vim.islist(result) then
-                        util.jump_to_location(result[1])
-
-                        if #result > 1 then
-                            -- util.set_qflist(util.locations_to_items(result))
-                            vim.fn.setqflist(util.locations_to_items(result, ""))
-                            api.nvim_command("copen")
-                            api.nvim_command("wincmd p")
-                        end
-                    else
-                        util.jump_to_location(result)
-                    end
-                end
-
-                return handler
-            end
-
-            vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
 
             local opts = { buffer = bufnr, noremap = true, silent = true }
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
@@ -413,15 +381,19 @@ return {
             -- vim.keymap.set("n", "<leader>gr", "<cmd>Glance references<cr>", opts)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
             -- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-            vim.keymap.set("i", "<C-i>", vim.lsp.buf.completion, opts)
+            vim.keymap.set("i", "<C-i>", function() vim.lsp.completion.trigger() end, opts)
             vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
             vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
             vim.keymap.set("n", "<leader>wl", function()
                 print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end, opts)
             vim.keymap.set("n", "<leader>dc", vim.lsp.buf.workspace_symbol, opts)
-            vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev, opts)
-            vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next, opts)
+            vim.keymap.set("n", "<leader>p", function()
+                vim.diagnostic.jump({ count = -1 })
+            end, opts)
+            vim.keymap.set("n", "<leader>n", function()
+                vim.diagnostic.jump({ count = 1 })
+            end, opts)
             vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 
             -- require("neodev").setup()
@@ -436,7 +408,7 @@ return {
                 handlers = {
                     function(server_name)
                         require("lspconfig")[server_name].setup({
-                            on_attach = on_attach,
+                            -- on_attach = on_attach,
                             handlers = handlers,
                             capabilities = capabilities,
                         })
@@ -487,6 +459,7 @@ return {
                 callback = function(args)
                     local bufnr = args.buf
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    ---@diagnostic disable-next-line: need-check-nil
                     if vim.tbl_contains({ "null-ls" }, client.name) then -- blacklist lsp
                         return
                     end
@@ -528,7 +501,7 @@ return {
                     end
 
                     local sign = "" -- nf-fa-gear \uf013end
-                    local lsp_clients = vim.lsp.get_active_clients()
+                    local lsp_clients = vim.lsp.get_clients()
                     local messages_map = {}
                     for _, climsg in ipairs(client_messages) do
                         messages_map[climsg.name] = climsg.body

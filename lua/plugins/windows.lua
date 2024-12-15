@@ -36,7 +36,7 @@ return {
 	{
 		"ten3roberts/window-picker.nvim",
         name = "window_picker",
-		cond = false,
+        enabled = false,
 		config = function()
 			require("window-picker").setup({
 				-- Default keys to annotate, keys will be used in order. The default uses the
