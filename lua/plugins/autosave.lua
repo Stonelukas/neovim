@@ -7,18 +7,12 @@ return {
     },
     opts = {
         enabled = true,
-        execution_message = {
-            enabled = true,
-            message = function()
-                local filename = vim.fn.expand("%:t")
-                return 'AutoSave: saved "' .. filename .. '" at ' .. vim.fn.strftime("%H:%M:%S")
-            end,
-        },
         trigger_events = {                                 -- See :h events
-            immediate_save = { "BufLeave", "FocusLost" },  -- vim events that trigger an immediate save
 
+            immediate_save = { "BufLeave", "FocusLost" },  -- vim events that trigger an immediate save
             defer_save = { "InsertLeave", "TextChanged" }, -- vim events that trigger a deferred save (saves after `debounce_delay`)
-            cancel_defered_save = { "InsertEnter" },       -- vim events that cancel a pending deferred save
+
+            cancel_deferred_save = { "InsertEnter" },      -- vim events that cancel a pending deferred save
         },
         conditions = function(buf)
             local fn = vim.fn
@@ -31,7 +25,6 @@ return {
         end,
         noautocmd = false,
         lockmarks = false,
-
         write_all_buffers = false,
         debounce_delay = 3000,
     },

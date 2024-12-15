@@ -147,6 +147,21 @@ autocmd("VimEnter", {
 -- 	end,
 -- })
 
+local autosave = vim.api.nvim_create_augroup('autosave', {})
+
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'AutoSaveWritePost',
+    group = autosave,
+    callback = function(opts)
+        if opts.data.saved_buffer ~= nil then
+            -- display whole path
+            -- local filename = vim.api.nvim_buf_get_name(opts.data.saved_buffer)
+            local filename = vim.fn.expand("%:t")
+            vim.notify('AutoSave: saved ' .. filename .. ' at ' .. vim.fn.strftime('%H:%M:%S'), vim.log.levels.INFO)
+        end
+    end,
+})
+
 -- Neoclip
 local Neoclip = augroup("Plugins", { clear = false })
 autocmd("VimLeavePre", {
@@ -162,4 +177,3 @@ autocmd("VimEnter", {
         require("neoclip").db_pull()
     end,
 })
-
