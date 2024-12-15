@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 
 local function opts(desc, expr)
-    return { desc = "" .. desc, noremap = true, silent = true, nowait = true, expr = more }
+    return { desc = "" .. desc, noremap = true, silent = true, nowait = true, expr = expr }
 end
 
 -- Better up/down
@@ -14,7 +14,8 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 map("n", "<leader>e", vim.diagnostic.open_float, opts("open diagnostic in float"))
 
 -- Executing/Sourcing
-map("n", "<leader>x", "<cmd>.lua<cr>", opts("Execute the current line"))
+vim.keymap.set("n", "<leader>x", "<cmd>.lua<cr>", { desc = "Execute the current line" })
+vim.keymap.set("n", "<leader><leader>x", "<cmd>luafile %<cr>", { desc = "Source the current file" })
 -- TODO: jaq
 map("n", "<leader>xx", "<cmd>Jaq<cr>", opts("Execute the current file"))
 

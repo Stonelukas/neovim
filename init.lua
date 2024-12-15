@@ -71,6 +71,7 @@ vim.api.nvim_create_autocmd("User", {
 
 require("core.options")
 require("core.autocmds")
+require("core.terminal")
 
 for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
     dofile(vim.g.base46_cache .. v)
