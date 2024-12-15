@@ -430,23 +430,16 @@ return {
         end,
     },
     {
-        "linrongbin16/gitlinker.nvim",
-        cmd = "GitLink",
-        keys = {
-            { "<leader>gll", "<cmd>GitLink<cr>",       mode = "n", desc = "Open git permlink" },
-            { "<leader>gll", "<cmd>GitLink<cr>",       mode = "v", desc = "Open git permlink" },
-            { "<leader>glb", "<cmd>GitLink blame<cr>", mode = "n", desc = "Open git blame link" },
-            { "<leader>glb", "<cmd>GitLink blame<cr>", mode = "v", desc = "Open git blame link" },
-        },
+        "ruifm/gitlinker.nvim",
         config = function()
-            require("gitlinker").setup({})
-            require("gitlinker").link({
+            require('gitlinker').setup()
 
-                action = function(url)
-                    require("gitlinker.actions").system(url)
-                    print("Opening URL:" .. vim.inspect(url))
-                end,
-            })
+            vim.keymap.set('n', '<leader>go',
+                '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+                { desc = "Open Permalink in Browser", silent = true })
+            vim.keymap.set('v', '<leader>go',
+                '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+                { desc = "Open Permalink in Browser" })
         end,
     },
     {
