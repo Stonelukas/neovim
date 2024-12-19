@@ -12,12 +12,12 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 
 -- Diagnostics keymaps
 map("n", "<leader>e", vim.diagnostic.open_float, opts("open diagnostic in float"))
-
 -- Executing/Sourcing
 vim.keymap.set("n", "<leader>x", "<cmd>.lua<cr>", { desc = "Execute the current line" })
+vim.keymap.set("v", "<leader>x", ":lua<cr>", { desc = "Execute the current lines" })
 vim.keymap.set("n", "<leader><leader>x", "<cmd>luafile %<cr>", { desc = "Source the current file" })
 -- TODO: jaq
-map("n", "<leader>xx", "<cmd>Jaq<cr>", opts("Execute the current file"))
+map("n", "<leader>Xx", "<cmd>Jaq<cr>", opts("Execute the current file"))
 
 -- General keymaps
 -- set("n", "j", "jzz", { silent = true }) -- Uncomment to center screen after moving down
@@ -84,6 +84,9 @@ map("n", "<leader>to", "<cmd>tabnew<cr>", opts("open a new tab"))
 map("n", "<leader>tc", "<cmd>tabclose<cr>", opts("close a new tab"))
 map("n", "<leader>tn", "<cmd>tabn<cr>", opts("next tab"))
 map("n", "<leader>tp", "<cmd>tabp<cr>", opts("previous tab"))
+
+-- Buffers
+map('n', '<leader>bb', '<cmd>b#<cr>', { desc = 'Switch to Last buffer' })
 
 -- nvchad tabufline
 map("n", "<Tab>", function()

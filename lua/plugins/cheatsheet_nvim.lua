@@ -4,6 +4,9 @@ return {
         "dbeniamine/cheat.sh-vim",
     },
     {
+        "lifepillar/vim-cheat40",
+    },
+    {
         "doctorfree/cheatsheet.nvim",
         event = "VeryLazy",
         config = function()
@@ -16,8 +19,8 @@ return {
                 bundled_cheatsheets = true,
                 bundled_plugin_cheatsheets = {
                     "goto-preview",
-                    --     -- TODO:
-                    --     -- "octo.nvim",
+                        -- TODO:
+                        -- "octo.nvim",
                     "gitsigns",
                     "telescope.nvim",
                 },

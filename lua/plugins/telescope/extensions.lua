@@ -24,7 +24,7 @@ end, {
 -- project extension
 require("telescope").load_extension("project")
 
-map("n", "<leader>fp", function()
+map("n", "<leader>fP", function()
     require("telescope").extensions.project.project({
         display_type = "full",
     })
