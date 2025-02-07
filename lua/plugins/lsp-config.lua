@@ -1,25 +1,5 @@
 ---@diagnostic disable: unused-local, missing-fields
 return {
-    -- {
-    -- 	"folke/neodev.nvim",
-    -- 	config = function()
-    -- 		require("neodev").setup({
-    -- 			library = { plugins = { "nvim-dap-ui" }, types = true },
-    -- 		})
-    -- 		local lspconfig = require("lspconfig")
-    --
-    -- 		-- example to setup lua_ls and enable call snippets
-    -- 		lspconfig.lua_ls.setup({
-    -- 			settings = {
-    -- 				Lua = {
-    -- 					completion = {
-    -- 						callSnippet = "Replace",
-    -- 					},
-    -- 				},
-    -- 			},
-    -- 		})
-    -- 	end,
-    -- },
     {
         "maan2003/lsp_lines.nvim",
         lazy = false,
@@ -52,212 +32,56 @@ return {
         },
     },
     {
-        "simrat39/rust-tools.nvim",
-        config = function()
-            local rt = require("rust-tools")
-
-            rt.setup({
-                server = {
-                    on_attach = function(_, bufnr)
-                        -- hover actions
-                        vim.keymap.set("n", "<c-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-                        -- code action groups
-                        vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-                    end,
-                },
-            })
-        end,
-    },
-    {
         "neovim/nvim-lspconfig",
         lazy = true,
-        config = function()
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.textDocument.completion.completionItem.snippetsupport = true
-            capabilities.textDocument.completion.completionItem.resolvesupport = {
-                properties = { "documentation", "detail", "additionaltextedits" },
-            }
-            local lspconfig = require("lspconfig")
-            local servers = {
-                "pyright",
-                "biome",
-                "solargraph",
-                "tailwindcss",
-                "html",
-                "lua_ls",
-                "jsonls",
-            }
-
-            ---- clangd ----
-            local navic = require("nvim-navic")
-
-            vim.cmd([[autocmd! colorscheme * highlight normalfloat guibg=#1f2335]])
-            vim.cmd([[autocmd! colorscheme * highlight floatborder guifg=white guibg=#1f2335]])
-
-            local border = {
-                { "🭽", "floatborder" },
-                { "▔", "floatborder" },
-                { "🭾", "floatborder" },
-                { "▕", "floatborder" },
-                { "🭿", "floatborder" },
-                { "▁", "floatborder" },
-                { "🭼", "floatborder" },
-                { "▏", "floatborder" },
-            }
-
-            -- lsp settings (for overriding per client)
-            local handlers = {
-                ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-                ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-                -- ["textdocument/hover"] = vim.lsp.buf(vim.lsp.buf.hover, { border = border }),
-                -- ["textdocument/signaturehelp"] = vim.lsp.buf(vim.lsp.buf.signature_help, { border = border }),
-            }
-
-            -- To instead override globally
-            local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-            ---@diagnostic disable-next-line: duplicate-set-field
-            function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-                opts = opts or {}
-                opts.border = opts.border or border
-                return orig_util_open_floating_preview(contents, syntax, opts, ...)
-            end
-
-            require("lspconfig.ui.windows").default_options.border = "single"
-
-            require("lspconfig").lua_ls.setup({
-                handlers = handlers,
-                on_init = function(client)
-                    local path = client.workspace_folders[1].name
-                    if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-                        return
-                    end
-
-                    client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-                        runtime = {
-                            -- Tell the language server which version of Lua you're using
-                            -- (most likely LuaJIT in the case of Neovim)
-                            version = "LuaJIT",
-                        },
-                        -- Make the server aware of Neovim runtime files
-                        workspace = {
-                            checkThirdParty = true,
-                            library = {
-                                vim.env.VIMRUNTIME,
-                                -- Depending on the usage, you might want to add additional paths here.
-                                -- "${3rd}/luv/library"
-                                -- "${3rd}/busted/library",
+        opts = {
+            servers = {
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            runtime = {
+                                version = "LuaJIT",
+                                special = { reload = "require" },
                             },
-                            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-                            -- library = vim.api.nvim_get_runtime_file("", true)
-                        },
-                    })
-                end,
-                settings = {
-                    Lua = {
-                        addonManager = {
-                            enable = true,
-                        },
-                        codeLens = {
-                            enable = true,
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        completion = {
-                            autoRequire = true,
-                            callSnippet = "Both",
-                            displayContext = 10,
-                            keywordSnippet = "Both",
-                            showWord = "Enable",
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        diagnostics = {
-
-                            workspaceEvent = "OnChange",
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        doc = {},
-                        format = {
-                            enable = true,
-                            defaultConfig = {},
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        hint = {
-                            enable = true,
-                            setType = true,
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        hover = {},
-                        ---@diagnostic disable-next-line: missing-fields
-                        misc = {},
-                        nameStyle = {
-                            config = {},
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        runtime = {
-                            special = {
-                                include = require,
+                            diagnostics = {
+                                globals = { "vim" },
                             },
-                            ---@diagnostic disable-next-line: missing-fields
-                            builtin = {
-                                builtin = "enable",
-                                io = "enable",
-                                string = "enable",
-                                basic = "enable",
-                                utf8 = "enable",
+                            completion = {
+                                callSnippet = "Replace",
+                                displayContext = 10,
+                                keywordSnippet = "Replace",
                             },
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        semantic = {
-                            enable = true,
-                        },
-
-                        signatureHelp = {
-                            enable = false,
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        spell = {},
-                        ---@diagnostic disable-next-line: missing-fields
-                        type = {},
-                        typeFormat = {
-                            ---@diagnostic disable-next-line: missing-fields
-                            config = {},
-                        },
-                        ---@diagnostic disable-next-line: missing-fields
-                        window = {},
-                        ---@diagnostic disable-next-line: missing-fields
-                        workspace = {
-                            checkThirdParty = true,
+                            hint = {
+                                arrayIndex = "Enable",
+                                enabled = true,
+                                setType = true,
+                            },
                         },
                     },
                 },
-            })
+                pyright = {},
+                ts_ls = {},
+                html = {},
+                cssls = {},
+                tailwindcss = {},
+                jsonls = {},
+                rust_analyzer = {},
+            },
+        },
+        config = function(_, opts)
+            local lspconfig = require("lspconfig")
+            local util = require("lspconfig.util")
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-            for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup({
-                    on_attach = function(client, bufnr)
-                        navic.attach(client, bufnr)
-                    end,
-                    handlers = handlers,
-                    capabilities = capabilities,
-                })
+            for server, config in pairs(opts.servers) do
+                config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+                lspconfig[server].setup(config)
             end
 
-            ---@diagnostic disable-next-line: missing-fields
-            lspconfig.rust_analyzer.setup({
+            lspconfig.marksman.setup({
                 capabilities = capabilities,
-                handlers = {
-                    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                        -- Disable virtual_text
-                        virtual_text = false,
-                    }),
-                },
-            })
-
-            ---@diagnostic disable-next-line: missing-fields
-            require("lspconfig").clangd.setup({
-                capabilities = capabilities,
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
+                filetypes = { "markdown", "quarto", "Avante" },
+                root_dir = util.root_pattern(".git", ".marksman.toml", "_quarto.yml"),
             })
 
             vim.api.nvim_create_autocmd("LspNotify", {
@@ -314,74 +138,14 @@ return {
             signs({ name = "DiagnosticSignHint", text = "" })
             signs({ name = "DiagnosticSignInfo", text = "" })
 
-            --[[ for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-            end ]]
-
-            -- You will likely want to reduce updatetime which affects CursorHold
-            -- note: this setting is global and should be set only once
-            -- vim.o.updatetime = 250
-            -- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-            -- 	group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
-            -- 	callback = function()
-            -- 		vim.diagnostic.open_float(nil, { focus = false })
-            -- 	end,
-            -- })
-            --
-            -- on_attach = function(bufnr)
-            -- 	vim.api.nvim_create_autocmd("CursorHold", {
-            -- 		buffer = bufnr,
-            -- 		callback = function()
-            -- 			local opts = {
-            -- 				focusable = false,
-            -- 				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-            -- 				border = "rounded",
-            -- 				source = "always",
-            -- 				prefix = " ",
-            -- 				scope = "cursor",
-            -- 			}
-            -- 			vim.diagnostic.open_float(nil, opts)
-            -- 		end,
-            -- 	})
-            -- end
-
-            vim.diagnostic.config({
-                -- signs = true,
-                underline = true,
-                update_in_insert = true,
-                severity_sort = true,
-                -- virtual_lines = true,
-                virtual_text = {
-                    prefix = "",
-                },
-                float = {
-                    border = "rounded",
-                    source = true,
-                    header = "",
-                    prefix = "",
-                },
-            })
-
-            -- vim.cmd([[
-            --          set signcolumn=yes
-            --          autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-            --          ]])
-
-
             local opts = { buffer = bufnr, noremap = true, silent = true }
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-            -- TODO: change keymap
-            -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-            -- vim.keymap.set("n", "<leader>gd", "<cmd>Glance definitions<cr>", opts)
-            -- vim.keymap.set("n", "<leader>gy", "<cmd>Glance type_definitions<cr>", opts)
-            -- vim.keymap.set("n", "<leader>gi", "<cmd>Glance implementations<cr>", opts)
-            -- vim.keymap.set("n", "<leader>gr", "<cmd>Glance references<cr>", opts)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-            -- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-            vim.keymap.set("i", "<C-i>", function() vim.lsp.completion.trigger() end, opts)
+            vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+            vim.keymap.set("i", "<C-i>", function()
+                vim.lsp.completion.trigger()
+            end, opts)
             vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
             vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
             vim.keymap.set("n", "<leader>wl", function()
@@ -395,30 +159,24 @@ return {
                 vim.diagnostic.jump({ count = 1 })
             end, opts)
             vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+        end,
+    },
+    {
+        "mihyaeru21/nvim-ruby-lsp",
+        dependencies = { "neovim/nvim-lspconfig" },
+        config = function()
+            require("ruby-lsp").setup()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-            -- require("neodev").setup()
-            require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "lua_ls",
-                    "bashls",
-                    "jsonls",
-                    "tailwindcss",
-                    "eslint",
-                },
-                handlers = {
-                    function(server_name)
-                        require("lspconfig")[server_name].setup({
-                            -- on_attach = on_attach,
-                            handlers = handlers,
-                            capabilities = capabilities,
-                        })
-                    end,
-                },
+            local lspconfig = require("lspconfig")
+            lspconfig.ruby_lsp.setup({
+                capabilities = capabilities,
             })
         end,
     },
     {
         "ray-x/lsp_signature.nvim",
+        cond = false,
         config = function()
             require("lsp_signature").setup({
                 bind = true,
@@ -454,32 +212,6 @@ return {
             vim.keymap.set({ "n" }, "<leader>lk", function()
                 require("lsp_signature").toggle_float_win()
             end, { silent = true, noremap = true, desc = "toggle signature" })
-
-            vim.api.nvim_create_autocmd("LspAttach", {
-                callback = function(args)
-                    local bufnr = args.buf
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    ---@diagnostic disable-next-line: need-check-nil
-                    if vim.tbl_contains({ "null-ls" }, client.name) then -- blacklist lsp
-                        return
-                    end
-                    require("lsp_signature").on_attach({
-                        -- ... setup options here ...
-                    }, bufnr)
-                end,
-            })
-        end,
-    },
-    {
-        "lukas-reineke/lsp-format.nvim",
-        config = function()
-            require("lsp-format").setup({})
-
-            require("lsp-format").setup({})
-            require("lspconfig").lua_ls.setup({ on_attach = require("lsp-format").on_attach })
-
-            -- TODO: change keymap
-            -- vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
         end,
     },
     {
@@ -534,6 +266,7 @@ return {
         "dnlhc/glance.nvim",
         config = function()
             require("glance").setup({
+                height = 30,
                 border = {
                     enable = true,
                 },
@@ -553,42 +286,15 @@ return {
                         end
                     end,
                 },
+                use_trouble_qf = true,
             })
+            vim.keymap.set("n", "gD", "<CMD>Glance definitions<CR>")
+            vim.keymap.set("n", "grr", "<CMD>Glance references<CR>")
+            vim.keymap.set("n", "gY", "<CMD>Glance type_definitions<CR>")
+            vim.keymap.set("n", "gri", "<CMD>Glance implementations<CR>")
         end,
     },
     {
         "nvim-lua/popup.nvim",
-    },
-    {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        config = function()
-            require("typescript-tools").setup({
-                settings = {
-                    separate_diagnostic_server = true,
-                    tsserver_max_memory = "auto",
-                    tsserver_file_preverences = {
-                        includeInlayParameterNameHints = "all", -- "none" | "literals" | "all";
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                        includeInlayFunctionParameterTypeHints = true,
-                        includeInlayVariableTypeHints = true,
-                        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayFunctionLikeReturnTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-
-                        includeCompletionsForModuleExports = true,
-                        quotePreference = "auto",
-                    },
-                    tsserver_format_options = {
-                        allowRenameOfImportPath = true,
-                    },
-                    jsx_close_tag = {
-                        enable = true,
-                        filetypes = { "javascriptreact", "typescriptreact" },
-                    },
-                },
-            })
-        end,
     },
 }

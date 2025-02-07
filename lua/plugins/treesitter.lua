@@ -35,7 +35,7 @@ return {
 				"json",
 				"markdown",
 				"markdown_inline",
-                "latex",
+				"latex",
 				"bash",
 				"git_config",
 				"git_rebase",
@@ -43,7 +43,7 @@ return {
 				"gitcommit",
 				"gitignore",
 			},
-			highlight = { enable = true, additional_vim_regex_highlighting = false },
+			highlight = { enable = true, additional_vim_regex_highlighting = true },
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -67,7 +67,7 @@ return {
 					enable = true,
 					lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
 					keymaps = {
-					-- you can use the capture groups defined in textobjects.scm
+						-- you can use the capture groups defined in textobjects.scm
 						["af"] = { query = "@function.outer", desc = "select outer part of a function" },
 						["if"] = { query = "@function.inner", desc = "select inner part of a function" },
 						["ac"] = { query = "@class.outer", desc = "select outer part of a class region" },
