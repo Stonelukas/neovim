@@ -2,6 +2,7 @@ return {
     {
         "hrsh7th/nvim-cmp",
         lazy = false,
+        enabled = false,
         priority = 100,
         event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
@@ -33,19 +34,21 @@ return {
             "onsails/diaglist.nvim",
         },
         config = function()
-            require("custom.completion")
+            -- require("custom.completion")
         end,
     },
     {
         "tamago324/cmp-zsh",
+        enabled = false,
         config = function()
-            require("cmp_zsh").setup({ zshrc = true, filetypes = { "deoledit", "zsh" } })
+            -- require("cmp_zsh").setup({ zshrc = true, filetypes = { "deoledit", "zsh" } })
         end,
     },
     {
         "L3MON4D3/LuaSnip",
         build = "make install_jsregexp",
-        dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
+        -- enabled = false,
+        dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
             require("custom.luasnip")
         end,
