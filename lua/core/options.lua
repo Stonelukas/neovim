@@ -62,7 +62,7 @@ vim.opt.incsearch = false
 -- Set the background color scheme to dark
 vim.o.background = "dark"
 -- Apply the 'tokyonight-storm' color scheme
--- vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme tokyonight-night]])
 -- done in Plugin spec
 -- Enable relative line numbers
 vim.opt.relativenumber = true

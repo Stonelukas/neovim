@@ -8,9 +8,10 @@ autocmd("BufEnter", {
     group = general,
     pattern = "",
     command = "set fo-=c fo-=r fo-=o",
+    -- close some filetypes with <q>
 })
 
--- close some filetypes with <q>
+
 autocmd("FileType", {
     group = general,
     pattern = {
@@ -33,6 +34,7 @@ autocmd("FileType", {
         "neotest-output",
         "checkhealth",
         "neotest-summary",
+
         "neotest-output-panel",
         "dbout",
         "gitsigns.blame",
@@ -52,6 +54,14 @@ autocmd("FileType", {
         vim.opt_local.wrap = true
         vim.opt_local.spell = true
     end,
+})
+
+-- Removes any trailing whitespace when saving a file
+autocmd({ "BufWritePre" }, {
+    desc = "remove trailing whitespace on save",
+    group = augroup("remove trailing whitespace", { clear = true }),
+    pattern = { "*" },
+    command = [[%s/\s\+$//e]],
 })
 
 -- Check if we need to reload the file when it changed
@@ -77,20 +87,19 @@ autocmd({ "InsertEnter", "WinLeave" }, {
     end,
 })
 
--- Go to last loc when opening a buffer
-autocmd("BufReadPre", {
-    pattern = "*",
-    callback = function()
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "<buffer>",
-            once = true,
-            callback = function()
-                vim.cmd(
-                    [[if &ft !~# 'commit\|rebase' && line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif]]
-                )
-            end,
-        })
-    end,
+-- remembers file state, such as cursor position and any folds
+augroup("remember file state", { clear = true })
+autocmd({ "BufWinLeave" }, {
+    desc = "remember file state",
+    group = "remember file state",
+    pattern = { "*.*" },
+    command = "mkview",
+})
+autocmd({ "BufWinEnter" }, {
+    desc = "remember file state",
+    group = "remember file state",
+    pattern = { "*.*" },
+    command = "silent! loadview",
 })
 
 autocmd("FileType", {
@@ -111,25 +120,25 @@ local function get_session_name()
 end
 -- SESSIONS
 local Sessions = augroup("Plugins", { clear = false })
-autocmd("VimLeavePre", {
-    group = Sessions,
-    callback = function()
-        -- Save these to a different directory, so our manual sessions don't get polluted
-        require("resession").save(vim.fn.getcwd(), { notify = true })
-    end,
-})
-
--- autosave and open based on directories
-autocmd("VimEnter", {
-    group = Sessions,
-    callback = function()
-        -- Only load the session if nvim was started with no args
-        if vim.fn.argc(-1) == 0 then
-            require("resession").load(vim.fn.getcwd(), { silence_errors = true })
-        end
-    end,
-    nested = true,
-})
+-- autocmd("VimLeavePre", {
+--     group = Sessions,
+--     callback = function()
+--         -- Save these to a different directory, so our manual sessions don't get polluted
+--         require("resession").save(vim.fn.getcwd(), { notify = true })
+--     end,
+-- })
+--
+-- -- autosave and open based on directories
+-- autocmd("VimEnter", {
+--     group = Sessions,
+--     callback = function()
+--         -- Only load the session if nvim was started with no args
+--         if vim.fn.argc(-1) == 0 then
+--             require("resession").load(vim.fn.getcwd(), { silence_errors = true })
+--         end
+--     end,
+--     nested = true,
+-- })
 
 -- autosave and open based on git
 -- autocmd('VimEnter', {
@@ -147,18 +156,35 @@ autocmd("VimEnter", {
 -- 	end,
 -- })
 
-local autosave = vim.api.nvim_create_augroup('autosave', {})
 
-vim.api.nvim_create_autocmd('User', {
-    pattern = 'AutoSaveWritePost',
+local autosave = vim.api.nvim_create_augroup("autosave", {})
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "AutoSaveWritePost",
     group = autosave,
     callback = function(opts)
         if opts.data.saved_buffer ~= nil then
             -- display whole path
             -- local filename = vim.api.nvim_buf_get_name(opts.data.saved_buffer)
             local filename = vim.fn.expand("%:t")
-            vim.notify('AutoSave: saved ' .. filename .. ' at ' .. vim.fn.strftime('%H:%M:%S'), vim.log.levels.INFO)
+            vim.notify("AutoSave: saved " .. filename .. " at " .. vim.fn.strftime("%H:%M:%S"), vim.log.levels.INFO)
         end
+    end,
+})
+
+-- Nvim-Treee
+local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+local Snacks = require("snacks")
+autocmd("User", {
+    pattern = "NvimTreeSetup",
+    callback = function()
+        local events = require("nvim-tree.api").events
+        events.subscribe(events.Event.NodeRenamed, function(data)
+            if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+                data = data
+                Snacks.rename.on_rename_file(data.old_name, data.new_name)
+            end
+        end)
     end,
 })
 

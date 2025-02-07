@@ -29,6 +29,10 @@ map("t", "<C-h>", "<C-\\><C-n><C-w>h")
 map("t", "<C-j>", "<C-\\><C-n><C-w>j")
 map("t", "<C-k>", "<C-\\><C-n><C-w>k")
 map("t", "<C-l>", "<C-\\><C-n><C-w>l")
+-- visually select start of line
+map("n", "H", "v0", opts("Go to start of line"))
+-- visually selecu end of line
+map("n", "L", "vg_", opts("Go to end of line"))
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
@@ -50,6 +54,38 @@ map("v", "K", ":move '>-2<CR>gv=gv", opts("Move selected lines up"))   -- Move s
 -- Keep things highlighted after moving with < and >
 map("v", "<", "<gv", opts("Keep select after indenting"))
 map("v", ">", ">gv", opts("Keep select after indenting"))
+map("n", "p", '"+p', opts("Paste from the clipboard"))
+-- dont copy when deleting
+map("v", "x", '"_d', opts("dont copy when deleting"))
+map("n", "X", '"_d', opts("dont copy when deleting"))
+map("n", "d", '"_d', { noremap = true })
+map("n", "dd", '"_dd', { noremap = true })
+map("x", "d", '"_d', { noremap = true })
+-- Copy and delete the whole line with "mm"
+map("n", "mm", '"+yydd"', { noremap = true, silent = true })
+
+-- Copy and delete one word with "mw"
+map("n", "m", '"+d', { noremap = true, silent = true })
+
+-- (Optional) Copy and delete visually selected text with "m"
+map("x", "m", '"+d', { noremap = true, silent = true })
+-- Movement
+-- in insert mode, type <c-d> and your cursor will move past the next separator
+-- such as quotes, parens, brackets, etc.
+-- do that silent
+map("i", "<C-b>", "<C-o>0")
+map("i", "<C-a>", "<C-o>A")
+-- delete one word backwards
+map("i", "<C-w>", "<C-o>db")
+-- delete one word
+map("i", "<C-d>", "<C-o>dw")
+-- delete one character backwards
+map("i", "<C-h>", "<C-o>db")
+-- skip over a letter
+map("i", "<A-l>", "<RIGHT>", opts("skip over a letter"))
+map("i", "<A-h>", "<LEFT>", opts("go back a letter"))
+map("i", "<A-j>", "<DOWN>", opts("go back a letter"))
+map("i", "<A-k>", "<UP>", opts("go back a letter"))
 
 -- Use operator pending mode to visually select the whole buffer
 -- e.g. dA = delete buffer ALL, yA = copy whole buffer ALL
@@ -86,9 +122,10 @@ map("n", "<leader>tn", "<cmd>tabn<cr>", opts("next tab"))
 map("n", "<leader>tp", "<cmd>tabp<cr>", opts("previous tab"))
 
 -- Buffers
-map('n', '<leader>bb', '<cmd>b#<cr>', { desc = 'Switch to Last buffer' })
+map("n", "<leader>bb", "<cmd>b#<cr>", { desc = "Switch to Last buffer" })
 
 -- nvchad tabufline
+map("n", "<leader>bo", "<cmd>TabuflineToggle<cr>", opts("Toggle nvchad tabline"))
 map("n", "<Tab>", function()
     require("nvchad.tabufline").next()
 end, opts("Go to next buffer"))
