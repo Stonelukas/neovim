@@ -1,10 +1,10 @@
 local function opts(desc)
-    return {
-        desc = "" .. desc,
-        noremap = true,
-        silent = true,
-        nowait = true,
-    }
+	return {
+		desc = "" .. desc,
+		noremap = true,
+		silent = true,
+		nowait = true,
+	}
 end
 local builtin = require("telescope.builtin")
 local map = vim.keymap.set
@@ -14,30 +14,30 @@ local telescope = require("telescope")
 require("telescope").load_extension("recent-files")
 
 map("n", "<leader>f.", function()
-    require("telescope").extensions["recent-files"].recent_files({})
+	require("telescope").extensions["recent-files"].recent_files({})
 end, {
-    desc = "recent files",
-    noremap = true,
-    silent = true,
+	desc = "recent files",
+	noremap = true,
+	silent = true,
 })
 
 -- project extension
 require("telescope").load_extension("project")
 
 map("n", "<leader>fP", function()
-    require("telescope").extensions.project.project({
-        display_type = "full",
-    })
+	require("telescope").extensions.project.project({
+		display_type = "full",
+	})
 end, {
-    noremap = true,
-    silent = true,
+	noremap = true,
+	silent = true,
 })
 
 -- telescope file browser extension
 require("telescope").load_extension("file_browser")
 
 map("n", "<space>fb", function()
-    require("telescope").extensions.file_browser.file_browser()
+	require("telescope").extensions.file_browser.file_browser()
 end)
 
 -- telescope menu
@@ -52,18 +52,18 @@ map("n", "<leader>cd", telescope.extensions.zoxide.list)
 require("telescope").load_extension("lazy")
 
 map("n", "<leader>ll", ":Telescope lazy<CR>", {
-    noremap = true,
-    desc = "Lazy Plugins",
+	noremap = true,
+	desc = "Lazy Plugins",
 })
 
 -- egrepify extensions
 require("telescope").load_extension("egrepify")
 
 -- scope extensions
-require("telescope").load_extension("scope")
+-- require("telescope").load_extension("scope")
 
 -- noice extension
-require("telescope").load_extension("noice")
+-- pcall(require("telescope").load_extension("noice"))
 
 -- aerial extension
 require("telescope").load_extension("aerial")
@@ -142,9 +142,6 @@ map("n", "<leader>fl", "<cmd>Telescope lazy_plugins<cr>", opts("Lazy Plugins Fil
 -- resession
 require("telescope").load_extension("resession")
 
--- scope
-require("telescope").load_extension("scope")
-
 -- tasks
 local default = require("telescope").extensions.tasks.generators.default
 default.all()
@@ -152,6 +149,3 @@ require("telescope").load_extension("tasks")
 
 -- picker-list -  INFO: needs to be last
 require("telescope").load_extension("picker_list")
-
-require("telescope").load_extension("themes")
-require("telescope").load_extension("terms")

@@ -55,7 +55,7 @@ return {
 					},
 				},
 			})
-			vim.keymap.set({ "v", "n" }, "<leader>ap", require("actions-preview").code_actions)
+			vim.keymap.set({ "v", "n" }, "grp", require("actions-preview").code_actions)
 		end,
 	},
 }

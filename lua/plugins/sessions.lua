@@ -1,5 +1,6 @@
-return {{
+return { {
     "stevearc/resession.nvim",
+    cond = false,
     opts = {},
     config = function()
         local resession = require("resession")
@@ -9,8 +10,8 @@ return {{
                 interval = 30,
                 notify = false
             },
-            options = {"binary", "bufhidden", "buflisted", "cmdheight", "diff", "filetype", "modifiable",
-                       "previewwindow", "readonly", "scrollbind", "winfixheight", "winfixwidth"},
+            options = { "binary", "bufhidden", "buflisted", "cmdheight", "diff", "filetype", "modifiable",
+                "previewwindow", "readonly", "scrollbind", "winfixheight", "winfixwidth" },
             dir = "session",
             load_detail = true,
             load_order = "modification_time",
@@ -44,4 +45,4 @@ return {{
             desc = 'Delete sessions'
         })
     end
-}}
+} }

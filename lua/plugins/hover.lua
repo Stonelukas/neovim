@@ -7,9 +7,11 @@ return {
                     -- Require providers
                     require("hover.providers.lsp")
                     require("hover.providers.gh")
+                    require("hover.providers.gh_user")
+                    require("hover.providers.fold_preview")
                     -- require "hover.providers.terraform"
                     -- require "hover.providers.ansible"
-                    -- require("hover.providers.grep")
+                    require("hover.providers.diagnostic")
                     require("hover.providers.man")
                     require("hover.providers.dictionary")
                 end,
@@ -27,7 +29,7 @@ return {
             })
 
             -- Setup keymaps
-            vim.keymap.set("n", "<leader>lK", require("hover").hover, { desc = "hover.nvim" })
+            vim.keymap.set("n", "<leader>lk", require("hover").hover, { desc = "hover.nvim" })
             vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
             vim.keymap.set("n", "<A-m>", function()
                 require("hover").hover_switch("previous")

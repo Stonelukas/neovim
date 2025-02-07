@@ -1,16 +1,23 @@
+--- This module configures various Markdown-related plugins for Neovim.
+--- It includes settings for nvim-markdown-preview, markdown-preview.nvim, render-markdown.nvim, and obsidian.nvim.
+--- Each plugin is configured with specific options and dependencies to enhance Markdown editing and previewing capabilities.
 --   https://github.com/davidgranstrom/nvim-markdown-preview
 return {
 	{
-		"davidgranstrom/nvim-markdown-preview",
+		"ixru/nvim-markdown",
+		ft = { "markdown", "Avante" },
 	},
 	{
+		--- Configures the markdown-preview.nvim plugin.
+		--- This plugin allows for live preview of Markdown files in a browser.
+		--- It includes commands for toggling and stopping the preview.
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		build = "cd app && yarn install",
-		init = function()
-			-- vim.g.mkdp_filetypes = { "markdown" }
-		end,
-		-- ft = { "markdown" },
+		-- init = function()
+		--     vim.g.mkdp_filetypes = { "markdown", "Avante" }
+		-- end,
+		ft = { "markdown", "Avante" },
 		config = function()
 			vim.cmd([[
                 let g:mkdp_auto_start = 1
@@ -24,14 +31,15 @@ return {
 		end,
 	},
 	{
+		--- Configures the render-markdown.nvim plugin.
+		--- This plugin provides enhanced rendering options for Markdown files.
+		--- It supports various render modes and customization options.
 		"MeanderingProgrammer/render-markdown.nvim",
-		cond = true,
-        ft = { "markdown", "Avante" },
-		opts = {},
+		ft = { "markdown", "Avante" },
 		config = function()
 			require("render-markdown").setup({
 				preset = "obsidian",
-                file_types = { "markdown", "Avante" },
+				file_types = { "markdown", "Avante" },
 				render_modes = { "n", "c", "i", "v" },
 				anti_conceal = { enabled = true },
 				debounce = 60,
@@ -55,25 +63,27 @@ return {
 					custom = { todo = { rendered = "◯ " } },
 				},
 				code = {
-					position = "right",
-					width = "block",
-					right_pad = 10,
+					sign = true,
+					style = "full",
 				},
 				heading = {
 					border = true,
-					width = "block",
-					left_pad = 2,
-					right_pad = 4,
+					-- width = "block",
+					-- left_pad = 2,
+					-- right_pad = 4,
 				},
 			})
 		end,
 		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" }, -- if you prefer nvim-web-devicons
 	},
 	{
+		--- Configures the obsidian.nvim plugin.
+		--- This plugin integrates Obsidian note-taking features into Neovim.
+		--- It supports workspaces, custom mappings, and advanced URI handling.
 		"epwalsh/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
-		ft = "markdown",
+		ft = { "markdown", "Avante" },
 		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
 		-- event = {
 		--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
@@ -85,8 +95,6 @@ return {
 		dependencies = {
 			-- Required.
 			"nvim-lua/plenary.nvim",
-
-			-- see below for full list of optional dependencies 👇
 		},
 		opts = {
 			workspaces = {
@@ -119,7 +127,7 @@ return {
 				vim.fn.jobstart({ "open", url })
 				-- vim.ui.open(url)
 			end,
-			follow_img_func = function(img)
+			follow_img_func = function(img, url)
 				vim.fn.jobstart({ "open", url })
 				vim.ui.open(img)
 			end,

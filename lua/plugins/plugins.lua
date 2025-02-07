@@ -294,12 +294,6 @@ return {
         end,
     },
     {
-        "liuchengxu/vim-clap",
-        init = function()
-            vim.g.clap_plugin_experimental = true
-        end
-    },
-    {
         "voldikss/clap-floaterm",
     },
     {
