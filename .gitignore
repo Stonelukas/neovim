@@ -24,3 +24,10 @@ node_modules
 kickstart
 lazy-lock.json
 noice.log
+.aider*
+.env
+
+.repro/
+spell/
+clipboard0-0.txt
+init.db
