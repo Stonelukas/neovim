@@ -147,6 +147,10 @@ for _, source in ipairs({
 	end
 end
 
+for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
+	dofile(vim.g.base46_cache .. v)
+end
+
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath("config") .. "/lua/custom/functions", [[v:val =~ '\.lua$']])) do
 	require("custom.functions." .. file:gsub("%.lua$", ""))
 end

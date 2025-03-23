@@ -37,6 +37,8 @@ return {
 			vim.keymap.set("n", "<leader>fg", fzf_lua.git_files, { desc = "FZF: Find git files" })
 			vim.keymap.set("n", "<leader>fr", fzf_lua.oldfiles, { desc = "FZF: Recent files" })
 
+			vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "FZF: find Help" })
+
 			-- Grep/Search
 			vim.keymap.set("n", "<leader>fs", fzf_lua.live_grep, { desc = "FZF: Live grep" })
 			vim.keymap.set("n", "<leader>fw", fzf_lua.grep_cword, { desc = "FZF: Grep current word" })
@@ -47,16 +49,10 @@ return {
 			-- Git operations
 			vim.keymap.set("n", "<leader>gcc", fzf_lua.git_commits, { desc = "FZF: Git commits" })
 			vim.keymap.set("n", "<leader>gb", fzf_lua.git_branches, { desc = "FZF: Git branches" })
-			vim.keymap.set("n", "<leader>gs", fzf_lua.git_status, { desc = "FZF: Git status" })
-
-			-- Command and search history
-			vim.keymap.set("n", "<leader>fc", fzf_lua.command_history, { desc = "FZF: Command history" })
-			vim.keymap.set("n", "<leader>fh", fzf_lua.search_history, { desc = "FZF: Search history" })
+			vim.keymap.set("n", "<leader>gS", fzf_lua.git_status, { desc = "FZF: Git status" })
 
 			-- LSP
-			vim.keymap.set("n", "<leader>fd", fzf_lua.lsp_definitions, { desc = "FZF: LSP definitions" })
-			vim.keymap.set("n", "<leader>fr", fzf_lua.lsp_references, { desc = "FZF: LSP references" })
-			vim.keymap.set("n", "<leader>fi", fzf_lua.lsp_implementations, { desc = "FZF: LSP implementations" })
+			vim.keymap.set("n", "<leader>fR", fzf_lua.lsp_references, { desc = "FZF: LSP references" })
 		end,
 	},
 	{

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/dotfiles/nvim-personal/init.lua.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="lua">
+<meta name="settings" content="use_css,no_foldcolumn,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Special { color: #c000c0; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+.Type { color: #008000; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">-- Set the global leader keys to a space for easier access in command mode</span>
+vim.g.mapleader <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant"> </span><span class="Constant">&quot;</span>
+vim.g.maplocalleader <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Special">\\</span><span class="Constant">&quot;</span>
+
+<span class="Statement">if</span> vim.env.PROF <span class="Statement">then</span>
+	<span class="Comment">-- example for lazy.nvim</span>
+	<span class="Comment">-- change this to the correct path for your plugin manager</span>
+	<span class="Statement">local</span> snacks <span class="Statement">=</span> vim.fn.stdpath(<span class="Constant">&quot;</span><span class="Constant">data</span><span class="Constant">&quot;</span>) <span class="Statement">..</span> <span class="Constant">&quot;</span><span class="Constant">/lazy/snacks.nvim</span><span class="Constant">&quot;</span>
+	vim.opt.rtp:<span class="Identifier">append</span>(snacks)
+	<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">snacks.profiler</span><span class="Constant">&quot;</span>).startup(<span class="Type">{</span>
+		startup <span class="Statement">=</span> <span class="Type">{</span>
+			event <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">VimEnter</span><span class="Constant">&quot;</span>, <span class="Comment">-- stop profiler on this event. Defaults to `VimEnter`</span>
+			<span class="Comment">-- event = &quot;UIEnter&quot;,</span>
+			<span class="Comment">-- event = &quot;VeryLazy&quot;,</span>
+		<span class="Type">}</span>,
+	<span class="Type">}</span>)
+<span class="Statement">end</span>
+
+vim.g.base46_cache <span class="Statement">=</span> vim.fn.stdpath(<span class="Constant">&quot;</span><span class="Constant">data</span><span class="Constant">&quot;</span>) <span class="Statement">..</span> <span class="Constant">&quot;</span><span class="Constant">/base46_cache</span><span class="Constant">&quot;</span>
+
+<span class="Comment">-- Define the path where lazy.nvim will be stored locally</span>
+<span class="Statement">local</span> lazypath <span class="Statement">=</span> vim.fn.stdpath(<span class="Constant">&quot;</span><span class="Constant">data</span><span class="Constant">&quot;</span>) <span class="Statement">..</span> <span class="Constant">&quot;</span><span class="Constant">/lazy/lazy.nvim</span><span class="Constant">&quot;</span>
+<span class="Comment">-- Check if lazy.nvim is already downloaded, if not clone it from GitHub</span>
+<span class="Statement">if</span> <span class="Statement">not</span> vim.uv.fs_stat(lazypath) <span class="Statement">then</span>
+	vim.fn.system(<span class="Type">{</span>
+		<span class="Constant">&quot;</span><span class="Constant">git</span><span class="Constant">&quot;</span>,
+		<span class="Constant">&quot;</span><span class="Constant">clone</span><span class="Constant">&quot;</span>,
+		<span class="Constant">&quot;</span><span class="Constant">--filter=blob:none</span><span class="Constant">&quot;</span>, <span class="Comment">-- This option minimizes data transfer to only essential information</span>
+		<span class="Constant">&quot;</span><span class="Constant"><a href="https://github.com/folke/lazy.nvim.git">https://github.com/folke/lazy.nvim.git</a></span><span class="Constant">&quot;</span>,
+		<span class="Constant">&quot;</span><span class="Constant">--branch=stable</span><span class="Constant">&quot;</span>, <span class="Comment">-- Ensures cloning from the stable branch</span>
+		lazypath,
+	<span class="Type">}</span>)
+<span class="Statement">end</span>
+
+<span class="Comment">-- Add &quot;lazy.nvim&quot; to the runtime path to allow using `require` on it</span>
+<span class="Comment">---@diagnostic disable-next-line: undefined-field</span>
+vim.opt.rtp:<span class="Identifier">prepend</span>(lazypath)
+
+<span class="Comment">-- Disable netrw</span>
+vim.g.loaded_netrw <span class="Statement">=</span> <span class="Constant">1</span>
+vim.g.loaded_netrwPlugin <span class="Statement">=</span> <span class="Constant">1</span>
+
+<span class="Comment">-- Initialize &quot;lazy.nvim&quot; with the specified configuration directory</span>
+<span class="Comment">---@type LazyConfig</span>
+<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">lazy</span><span class="Constant">&quot;</span>).setup(<span class="Type">{</span>
+	rocks <span class="Statement">=</span> <span class="Type">{</span>
+		hererocks <span class="Statement">=</span> <span class="Constant">true</span>,
+	<span class="Type">}</span>,
+	spec <span class="Statement">=</span> <span class="Type">{</span>
+		import <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">plugins</span><span class="Constant">&quot;</span>,
+	<span class="Type">}</span>,
+	default <span class="Statement">=</span> <span class="Type">{</span> version <span class="Statement">=</span> <span class="Constant">nil</span> <span class="Type">}</span>,
+	<span class="Comment">-- Install = { missing = true, colorscheme = { 'tokyonight', 'material' } },</span>
+	install <span class="Statement">=</span> <span class="Type">{</span> missing <span class="Statement">=</span> <span class="Constant">true</span>, colorscheme <span class="Statement">=</span> <span class="Type">{</span> <span class="Constant">&quot;</span><span class="Constant">nvchad</span><span class="Constant">&quot;</span> <span class="Type">}</span> <span class="Type">}</span>,
+	checker <span class="Statement">=</span> <span class="Type">{</span>
+		enabled <span class="Statement">=</span> <span class="Constant">true</span>,
+		notify <span class="Statement">=</span> <span class="Constant">true</span>,
+	<span class="Type">}</span>,
+	ui <span class="Statement">=</span> <span class="Type">{</span>
+		border <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">rounded</span><span class="Constant">&quot;</span>,
+		wrap <span class="Statement">=</span> <span class="Constant">true</span>,
+		title <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Lazy UI</span><span class="Constant">&quot;</span>,
+		icons <span class="Statement">=</span> <span class="Type">{</span>
+			cmd <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">⌘</span><span class="Constant">&quot;</span>,
+			config <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">🛠</span><span class="Constant">&quot;</span>,
+			event <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">📅</span><span class="Constant">&quot;</span>,
+			ft <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">📂</span><span class="Constant">&quot;</span>,
+			init <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">⚙</span><span class="Constant">&quot;</span>,
+			keys <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">🗝</span><span class="Constant">&quot;</span>,
+			plugin <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">🔌</span><span class="Constant">&quot;</span>,
+			runtime <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">💻</span><span class="Constant">&quot;</span>,
+			source <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">📄</span><span class="Constant">&quot;</span>,
+			start <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">🚀</span><span class="Constant">&quot;</span>,
+			task <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">📌</span><span class="Constant">&quot;</span>,
+			lazy <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">💤 </span><span class="Constant">&quot;</span>,
+		<span class="Type">}</span>,
+		custom_keys <span class="Statement">=</span> <span class="Type">{</span>
+			[<span class="Constant">&quot;</span><span class="Constant">&lt;leader&gt;lG</span><span class="Constant">&quot;</span>] <span class="Statement">=</span> <span class="Type">{</span>
+				<span class="Identifier">function</span>(plugin)
+					<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">lazy.util</span><span class="Constant">&quot;</span>).float_term(<span class="Type">{</span> <span class="Constant">&quot;</span><span class="Constant">lazygit</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">log</span><span class="Constant">&quot;</span> <span class="Type">}</span>, <span class="Type">{</span>
+						cwd <span class="Statement">=</span> plugin.dir,
+					<span class="Type">}</span>)
+				<span class="Identifier">end</span>,
+				desc <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Open lazygit log</span><span class="Constant">&quot;</span>,
+			<span class="Type">}</span>,
+			[<span class="Constant">&quot;</span><span class="Constant">&lt;leader&gt;li</span><span class="Constant">&quot;</span>] <span class="Statement">=</span> <span class="Type">{</span>
+				<span class="Identifier">function</span>(plugin)
+					<span class="Statement">local</span> Util <span class="Statement">=</span> <span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">lazy.util</span><span class="Constant">&quot;</span>)
+					Util.notify(vim.inspect(plugin), <span class="Type">{</span>
+						title <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Inspect </span><span class="Constant">&quot;</span> <span class="Statement">..</span> plugin.name,
+						lang <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">lua</span><span class="Constant">&quot;</span>,
+					<span class="Type">}</span>)
+				<span class="Identifier">end</span>,
+				desc <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Inspect Plugin</span><span class="Constant">&quot;</span>,
+			<span class="Type">}</span>,
+			[<span class="Constant">&quot;</span><span class="Constant">&lt;leader&gt;lt</span><span class="Constant">&quot;</span>] <span class="Statement">=</span> <span class="Type">{</span>
+				<span class="Identifier">function</span>(plugin)
+					<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">lazy.util</span><span class="Constant">&quot;</span>).float_term(<span class="Constant">nil</span>, <span class="Type">{</span>
+						cwd <span class="Statement">=</span> plugin.dir,
+					<span class="Type">}</span>)
+				<span class="Identifier">end</span>,
+				desc <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Open terminal in plugin dir</span><span class="Constant">&quot;</span>,
+			<span class="Type">}</span>,
+		<span class="Type">}</span>,
+	<span class="Type">}</span>,
+	diff <span class="Statement">=</span> <span class="Type">{</span>
+		cmd <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">diffview.nvim</span><span class="Constant">&quot;</span>,
+	<span class="Type">}</span>,
+	change_detection <span class="Statement">=</span> <span class="Type">{</span>
+		enabled <span class="Statement">=</span> <span class="Constant">true</span>,
+		notify <span class="Statement">=</span> <span class="Constant">true</span>, <span class="Comment">-- Disable notifications for changes</span>
+	<span class="Type">}</span>,
+	performance <span class="Statement">=</span> <span class="Type">{</span>
+		rtp <span class="Statement">=</span> <span class="Type">{</span>
+			disable_plugins <span class="Statement">=</span> <span class="Type">{</span>
+				<span class="Constant">&quot;</span><span class="Constant">2html_plugin</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">tohtml</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">matchit</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">matchparen</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">netrwPlugin</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">tarPlugin</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">zipPlugin</span><span class="Constant">&quot;</span>,
+				<span class="Constant">&quot;</span><span class="Constant">tar</span><span class="Constant">&quot;</span>,
+			<span class="Type">}</span>,
+		<span class="Type">}</span>,
+	<span class="Type">}</span>,
+<span class="Type">}</span>)
+
+vim.keymap.set(<span class="Constant">&quot;</span><span class="Constant">n</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">&lt;leader&gt;z</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">&lt;cmd&gt;Lazy&lt;cr&gt;</span><span class="Constant">&quot;</span>, <span class="Type">{</span> desc <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">Lazy</span><span class="Constant">&quot;</span> <span class="Type">}</span>)
+
+vim.api.nvim_create_autocmd(<span class="Constant">&quot;</span><span class="Constant">User</span><span class="Constant">&quot;</span>, <span class="Type">{</span>
+	pattern <span class="Statement">=</span> <span class="Constant">&quot;</span><span class="Constant">VeryLazy</span><span class="Constant">&quot;</span>,
+	callback <span class="Statement">=</span> <span class="Identifier">function</span>()
+		<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">core.keymaps</span><span class="Constant">&quot;</span>)
+	<span class="Identifier">end</span>,
+<span class="Type">}</span>)
+
+<span class="Statement">for</span> _, source <span class="Statement">in</span> <span class="Identifier">ipairs</span>(<span class="Type">{</span>
+	<span class="Constant">&quot;</span><span class="Constant">core.keymaps</span><span class="Constant">&quot;</span>,
+	<span class="Constant">&quot;</span><span class="Constant">core.autocmds</span><span class="Constant">&quot;</span>,
+	<span class="Constant">&quot;</span><span class="Constant">core.terminal</span><span class="Constant">&quot;</span>,
+	<span class="Constant">&quot;</span><span class="Constant">core.options</span><span class="Constant">&quot;</span>,
+<span class="Type">}</span>) <span class="Statement">do</span>
+	<span class="Statement">local</span> status_ok, fault <span class="Statement">=</span> <span class="Identifier">pcall</span>(<span class="Identifier">require</span>, source)
+	<span class="Statement">if</span> <span class="Statement">not</span> status_ok <span class="Statement">then</span>
+		vim.api.nvim_err_writeln(<span class="Constant">&quot;</span><span class="Constant">Failed to load </span><span class="Constant">&quot;</span> <span class="Statement">..</span> source <span class="Statement">..</span> <span class="Constant">&quot;</span><span class="Special">\n\n</span><span class="Constant">&quot;</span> <span class="Statement">..</span> fault)
+	<span class="Statement">end</span>
+<span class="Statement">end</span>
+
+<span class="Statement">for</span> _, v <span class="Statement">in</span> <span class="Identifier">ipairs</span>(vim.fn.readdir(vim.g.base46_cache)) <span class="Statement">do</span>
+	<span class="Identifier">dofile</span>(vim.g.base46_cache <span class="Statement">..</span> v)
+<span class="Statement">end</span>
+
+<span class="Statement">for</span> _, file <span class="Statement">in</span> <span class="Identifier">ipairs</span>(vim.fn.readdir(vim.fn.stdpath(<span class="Constant">&quot;</span><span class="Constant">config</span><span class="Constant">&quot;</span>) <span class="Statement">..</span> <span class="Constant">&quot;</span><span class="Constant">/lua/custom/functions</span><span class="Constant">&quot;</span>, <span class="Constant">[[</span><span class="Constant">v:val =~ '\.lua$'</span><span class="Constant">]]</span>)) <span class="Statement">do</span>
+	<span class="Identifier">require</span>(<span class="Constant">&quot;</span><span class="Constant">custom.functions.</span><span class="Constant">&quot;</span> <span class="Statement">..</span> file:<span class="Identifier">gsub</span>(<span class="Constant">&quot;</span><span class="Constant">%.lua$</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;&quot;</span>))
+<span class="Statement">end</span>
+
+<span class="Comment">-- Neovim-remote open files from lazygit in nvim</span>
+vim.cmd(<span class="Constant">[[</span>
+<span class="Constant">if has('nvim') &amp;&amp; executable('nvr')</span>
+<span class="Constant">  let $GIT_EDITOR = &quot;nvr -cc split --remote-wait +'set bufhidden=wipe'&quot;</span>
+<span class="Constant">endif</span>
+<span class="Constant">]]</span>)
+
+<span class="Comment">-- Append 'c' to shortmess to avoid showing extra completion messages</span>
+vim.opt.shortmess:<span class="Identifier">append</span>(<span class="Constant">&quot;</span><span class="Constant">c</span><span class="Constant">&quot;</span>)
+
+vim.cmd(<span class="Constant">[[</span>
+<span class="Constant">let g:clipboard = {</span>
+<span class="Constant">            \   'name': 'WslClipboard',</span>
+<span class="Constant">            \   'copy': {</span>
+<span class="Constant">            \      '+': 'clip.exe',</span>
+<span class="Constant">            \      '*': 'clip.exe',</span>
+<span class="Constant">            \    },</span>
+<span class="Constant">            \   'paste': {</span>
+<span class="Constant">            \      '+': 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(&quot;`r&quot;, &quot;&quot;))',</span>
+<span class="Constant">            \      '*': 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(&quot;`r&quot;, &quot;&quot;))',</span>
+<span class="Constant">            \   },</span>
+<span class="Constant">            \   'cache_enabled': 0,</span>
+<span class="Constant">            \ }</span>
+<span class="Constant">]]</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

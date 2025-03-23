@@ -55,7 +55,7 @@ return {
                                 arrayIndex = "Enable",
                                 enabled = true,
                                 setType = true,
-                            },
+                            }
                         },
                     },
                 },

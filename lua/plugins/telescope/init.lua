@@ -118,40 +118,12 @@ return {
                 desc = "[S]earch [D]iagnostics",
             })
 
-            map("n", "<leader>gS", require("telescope.builtin").git_status, {
-                desc = "[S]earch Git [S]tatus",
-            })
-
-            map("n", "<Leader>sn", "<CMD>lua require('telescope').extensions.notify.notify()<CR>", {
-                desc = "[S]earch [N]otify",
-                silent = true,
-            })
 
             map("n", "<Leader><tab>", "<Cmd>lua require('telescope.builtin').commands()<CR>", {
                 desc = "Search [C]ommands",
                 noremap = false,
             })
 
-            map("n", "<leader>ff", function()
-                require("telescope.builtin").find_files({
-                    previewer = true,
-                })
-            end)
-            map("n", "<leader>fg", "<cmd>Telescope egrepify<cr>", opts("Live Grep"))
-            map("n", "<leader>fh", function()
-                require("telescope.builtin").help_tags({})
-            end)
-            map("n", "<leader>ft", function()
-                require("telescope.builtin").tags({})
-            end)
-            map("n", "<leader><leader>", function()
-                require("telescope.builtin").oldfiles({})
-            end)
-            map("n", "<leader>fb", function()
-                require("telescope.builtin").buffers({
-                    sort_lastused = true,
-                })
-            end)
             -- TODO: commander
             -- require("commander").setup({
             -- 	integration = {
