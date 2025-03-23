@@ -12,13 +12,13 @@
 Clone the repository and install the plugins:
 
 ```sh
-git clone git@github.com:Stonelukas/neovim ~/.config/Stonelukas/neovim
+git clone git@github.com:Stonelukas/neovim ~/.config/nvim
 ```
 
 Open Neovim with this config:
 
 ```sh
-NVIM_APPNAME=Stonelukas/neovim/ nvim
+nvim
 ```
 
 ## Plugins
