@@ -119,6 +119,7 @@ end, { desc = "Toggle quote style" })
 map("n", "<leader>to", "<cmd>tabnew<cr>", opts("open a new tab"))
 map("n", "<leader>tc", "<cmd>tabclose<cr>", opts("close a new tab"))
 map("n", "<leader>tn", "<cmd>tabn<cr>", opts("next tab"))
+
 map("n", "<leader>tp", "<cmd>tabp<cr>", opts("previous tab"))
 
 -- Buffers
@@ -126,29 +127,29 @@ map("n", "<leader>bb", "<cmd>b#<cr>", { desc = "Switch to Last buffer" })
 
 -- nvchad tabufline
 map("n", "<leader>bo", "<cmd>TabuflineToggle<cr>", opts("Toggle nvchad tabline"))
-map("n", "<Tab>", function()
-    require("nvchad.tabufline").next()
-end, opts("Go to next buffer"))
-map("n", "<S-Tab>", function()
-    require("nvchad.tabufline").prev()
-end, opts("Go to previous buffer"))
-map("n", "<leader>bc", function()
-    require("nvchad.tabufline").close_buffer()
-end, opts("Close buffer"))
-map("n", "<leader>ba", function()
-    require("nvchad.tabufline").closeAllBufs(false)
-end, opts("Close all buffer"))
-map("n", "<leader>br", function()
-    require("nvchad.tabufline").move_buf(1)
-end, opts("Move buffer right"))
-map("n", "<leader>bl", function()
-    require("nvchad.tabufline").move_buf(-1)
-end, opts("Move buffer left"))
-for i = 1, 9, 1 do
-    vim.keymap.set("n", string.format("<A-%s>", i), function()
-        vim.api.nvim_set_current_buf(vim.t.bufs[i])
-    end)
-end
+-- map("n", "<Tab>", function()
+--     require("nvchad.tabufline").next()
+-- end, opts("Go to next buffer"))
+-- map("n", "<S-Tab>", function()
+--     require("nvchad.tabufline").prev()
+-- end, opts("Go to previous buffer"))
+-- map("n", "<leader>bc", function()
+--     require("nvchad.tabufline").close_buffer()
+-- end, opts("Close buffer"))
+-- map("n", "<leader>ba", function()
+--     require("nvchad.tabufline").closeAllBufs(false)
+-- end, opts("Close all buffer"))
+-- map("n", "<leader>br", function()
+--     require("nvchad.tabufline").move_buf(1)
+-- end, opts("Move buffer right"))
+-- map("n", "<leader>bl", function()
+--     require("nvchad.tabufline").move_buf(-1)
+-- end, opts("Move buffer left"))
+-- for i = 1, 9, 1 do
+--     vim.keymap.set("n", string.format("<A-%s>", i), function()
+--         vim.api.nvim_set_current_buf(vim.t.bufs[i])
+--     end)
+-- end
 
 -- nvchad term
 -- new terminals

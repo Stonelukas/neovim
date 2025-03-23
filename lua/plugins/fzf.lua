@@ -5,14 +5,62 @@ return {
 	},
 	{
 		"ibhagwan/fzf-lua",
-		cond = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			-- require("custom.fzf")
+			local fzf_lua = require("fzf-lua")
+
+			-- Configure fzf-lua options
+			fzf_lua.setup({
+				-- Global fzf-lua options
+				global_resume = true,
+				global_resume_query = true,
+				winopts = {
+					height = 0.85,
+					width = 0.80,
+					preview = {
+						scrollbar = "float",
+						layout = "vertical",
+						vertical = "down:45%",
+					},
+				},
+				keymap = {
+					fzf = {
+						["ctrl-q"] = "select-all+accept",
+					},
+				},
+			})
+
+			-- Set up keymappings
+
+			-- File finding
+			vim.keymap.set("n", "<leader>ff", fzf_lua.files, { desc = "FZF: Find files" })
+			vim.keymap.set("n", "<leader>fg", fzf_lua.git_files, { desc = "FZF: Find git files" })
+			vim.keymap.set("n", "<leader>fr", fzf_lua.oldfiles, { desc = "FZF: Recent files" })
+
+			-- Grep/Search
+			vim.keymap.set("n", "<leader>fs", fzf_lua.live_grep, { desc = "FZF: Live grep" })
+			vim.keymap.set("n", "<leader>fw", fzf_lua.grep_cword, { desc = "FZF: Grep current word" })
+
+			-- Buffer operations
+			vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "FZF: Buffers" })
+
+			-- Git operations
+			vim.keymap.set("n", "<leader>gcc", fzf_lua.git_commits, { desc = "FZF: Git commits" })
+			vim.keymap.set("n", "<leader>gb", fzf_lua.git_branches, { desc = "FZF: Git branches" })
+			vim.keymap.set("n", "<leader>gs", fzf_lua.git_status, { desc = "FZF: Git status" })
+
+			-- Command and search history
+			vim.keymap.set("n", "<leader>fc", fzf_lua.command_history, { desc = "FZF: Command history" })
+			vim.keymap.set("n", "<leader>fh", fzf_lua.search_history, { desc = "FZF: Search history" })
+
+			-- LSP
+			vim.keymap.set("n", "<leader>fd", fzf_lua.lsp_definitions, { desc = "FZF: LSP definitions" })
+			vim.keymap.set("n", "<leader>fr", fzf_lua.lsp_references, { desc = "FZF: LSP references" })
+			vim.keymap.set("n", "<leader>fi", fzf_lua.lsp_implementations, { desc = "FZF: LSP implementations" })
 		end,
 	},
 	{
-        -- TODO: look into replacing this with some of telescope
+		-- TODO: look into replacing this with some of telescope
 		"linrongbin16/fzfx.nvim",
 		cond = false,
 		dependencies = { "nvim-tree/nvim-web-devicons", "junegunn/fzf" },
